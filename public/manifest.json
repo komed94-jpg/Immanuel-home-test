@@ -1,0 +1,16 @@
+{
+  "name": "Immanuel Church",
+  "short_name": "Immanuel",
+  "description": "IMMANUEL CHURCH 빛의자녀 공동체",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fff9ef",
+  "theme_color": "#17233f",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
