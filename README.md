@@ -7,5 +7,12 @@
 - `DATABASE_URL`: Vercel Neon 연결 문자열
 - `IMMANUEL_ADMIN_PASSWORD`: 관리자 비밀번호
 - `IMMANUEL_ADMIN_SESSION_SECRET`: 32자 이상의 세션 서명 비밀값
+- `CRON_SECRET`: 32자 이상의 Vercel Cron 인증 비밀값
+
+`vercel.json`의 Cron은 매일 `19:30 UTC`, 한국시간으로 다음 날 오전 `04:30`에
+`/api/cron/daily-word`를 호출합니다. Vercel은 `CRON_SECRET`을 Bearer 인증값으로
+전달하며, 해당 값이 없거나 32자 미만이면 자동 게시 API는 실행되지 않습니다.
+
+홈페이지 왼쪽 위 배포 배지는 빌드 시각을 자동으로 한국시간으로 변환해 표시합니다.
 
 운영 저장소에는 테스트 검수와 승인 전 반영하지 않습니다.

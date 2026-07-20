@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { Layout } from "@/components/Layout";
+import { DeploymentBadge } from "@/components/DeploymentBadge";
 import { services, wayArticles } from "@/data/immanuel";
-
-const releaseVersion = "May24, am 07:33";
 
 const serviceIcons = [
   <svg key="word" viewBox="0 0 24 24" aria-hidden="true">
@@ -37,7 +36,7 @@ export default function Home() {
   return (
     <Layout>
       <section className="home-hero">
-        <div className="home-version-badge">{releaseVersion}</div>
+        <DeploymentBadge />
         <div className="home-hero-inner">
           <p className="eyebrow">WORD · WORSHIP · GROWTH · SENDING</p>
           <h1>

@@ -2,19 +2,11 @@ import { desc, eq, lte } from "drizzle-orm";
 import { isImmanuelAdminRequest } from "@/app/chatgpt-auth";
 import { getDb } from "@/db";
 import { dailyWords } from "@/db/schema";
-import { getDailyWordSeed, getPublishDateKst } from "@/lib/daily-word";
+import { getPublishDateKst } from "@/lib/daily-word";
+import { ensureAutomaticWord, prepareAutomaticWords } from "@/lib/daily-word-service";
 
 function clean(value: unknown, max: number) {
   return typeof value === "string" ? value.trim().slice(0, max) : "";
-}
-
-async function ensureAutomaticWord(publishedOn: string) {
-  const db = getDb();
-  const [existing] = await db.select({ id: dailyWords.id }).from(dailyWords).where(eq(dailyWords.publishedOn, publishedOn)).limit(1);
-  if (existing) return;
-
-  const seed = getDailyWordSeed(publishedOn);
-  await db.insert(dailyWords).values({ ...seed, publishedOn, source: "automatic" });
 }
 
 export async function GET(request: Request) {
@@ -43,16 +35,8 @@ export async function POST(request: Request) {
 
   const prepareDays = Number(new URL(request.url).searchParams.get("prepare"));
   if (Number.isInteger(prepareDays) && prepareDays > 0 && prepareDays <= 31) {
-    const start = getPublishDateKst();
-    let prepared = 0;
-    for (let offset = 0; offset < prepareDays; offset += 1) {
-      const date = new Date(`${start}T00:00:00+09:00`);
-      date.setUTCDate(date.getUTCDate() + offset);
-      const publishedOn = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul", year: "numeric", month: "2-digit", day: "2-digit" }).format(date);
-      const [existing] = await getDb().select({ id: dailyWords.id }).from(dailyWords).where(eq(dailyWords.publishedOn, publishedOn)).limit(1);
-      if (!existing) { await ensureAutomaticWord(publishedOn); prepared += 1; }
-    }
-    return Response.json({ ok: true, prepared, days: prepareDays });
+    const result = await prepareAutomaticWords(prepareDays);
+    return Response.json({ ok: true, ...result });
   }
 
   const body = (await request.json()) as Record<string, unknown>;

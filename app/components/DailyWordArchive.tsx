@@ -68,6 +68,7 @@ export function DailyWordArchive() {
               </section>
             ))}
           </div>
+          <p className="daily-word-translation-notice">성경 본문: 개역개정·새번역·NIV. 각 번역본의 저작권은 해당 출판사와 권리자에게 있습니다.</p>
           <div className="daily-word-section"><small>말씀 강해</small><p className="daily-word-message">{item.message}</p></div>
           {item.application && <div className="daily-word-section daily-word-application"><small>오늘의 적용</small><p>{item.application}</p></div>}
           {item.prayer && <div className="daily-word-prayer"><small>함께 드리는 기도</small><p>{item.prayer}</p></div>}

@@ -100,6 +100,14 @@ export function RequestInbox() {
     setNotice("내부 메모를 저장했습니다.");
   }
 
+  async function removeRequest(id: number) {
+    if (!window.confirm("이 접수 내용을 삭제하시겠습니까? 삭제 후에는 복구할 수 없습니다.")) return;
+    const response = await fetch(`/api/requests?id=${id}`, { method: "DELETE" });
+    if (!response.ok) { setNotice("접수 내용을 삭제하지 못했습니다."); return; }
+    setRequests((current) => current.filter((item) => item.id !== id));
+    setNotice("접수 내용을 삭제했습니다.");
+  }
+
   useEffect(() => {
     let active = true;
 
@@ -203,6 +211,7 @@ export function RequestInbox() {
                 >{statusLabels[status]}</button>)}
               </div>
               <form className="request-admin-note" onSubmit={(event) => { event.preventDefault(); const data = new FormData(event.currentTarget); void saveNote(item.id, String(data.get("adminNote") ?? "")); }}><label><span>관리자 내부 메모</span><textarea name="adminNote" rows={3} defaultValue={item.adminNote ?? ""} placeholder="담당자, 연락 결과, 후속 조치 등을 기록합니다." /></label><button type="submit">메모 저장</button></form>
+              <button className="request-delete-button" type="button" onClick={() => void removeRequest(item.id)}>접수 내용 삭제</button>
             </article>
           ))}
         </div>

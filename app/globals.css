@@ -111,7 +111,7 @@ p {
 .section-kicker {
   margin: 0 0 18px;
   color: var(--gold);
-  font-size: 0.78rem;
+  font-size: 0.95rem;
   font-weight: 950;
   letter-spacing: 0.24em;
   text-transform: uppercase;
@@ -132,7 +132,7 @@ p {
       rgba(4, 11, 23, 0.25) 78%,
       rgba(4, 11, 23, 0.08) 100%
     ),
-    url("/images/hero-city-cross.png") center / cover;
+    url("/images/hero-city-cross-original.webp") center / cover;
 }
 
 .home-hero::after,
@@ -465,7 +465,7 @@ p {
   background:
     linear-gradient(180deg, rgba(7, 20, 38, 0.18), rgba(7, 20, 38, 0.88)),
     linear-gradient(90deg, rgba(7, 20, 38, 0.82), rgba(7, 20, 38, 0.24)),
-    url("/images/hero-city-cross.png") center / cover;
+    url("/images/hero-city-cross-original.webp") center / cover;
 }
 
 .page-hero > div,
@@ -500,7 +500,7 @@ p {
   align-items: center;
   background:
     linear-gradient(180deg, rgba(7, 20, 38, 0.18), rgba(7, 20, 38, 0.9)),
-    url("/hero.png") center / cover;
+    url("/hero-original.webp") center / cover;
 }
 
 .why-visual {
@@ -610,8 +610,20 @@ p {
 .back-link,
 .article-hero-content span {
   color: var(--gold-soft);
-  font-size: 0.82rem;
+  font-size: 1.05rem;
   font-weight: 950;
+}
+
+@media (max-width: 520px) {
+  .back-link,
+  .article-hero-content span {
+    font-size: 0.96rem;
+  }
+
+  .eyebrow,
+  .section-kicker {
+    font-size: 0.88rem;
+  }
 }
 
 .article-hero h1 {
@@ -703,6 +715,7 @@ p {
 .daily-word-translation { border: 1px solid rgba(248, 243, 232, 0.14); padding: 18px; }
 .daily-word-translation h3 { margin: 0 0 10px; font-family: inherit; font-size: 0.92rem; font-weight: 850; color: var(--gold-soft); }
 .daily-word-translation p { margin: 0; white-space: pre-line; line-height: 1.8; }
+.daily-word-translation-notice { margin: -16px 0 28px; font-size: 0.76rem; color: rgba(248, 243, 232, 0.48) !important; }
 .daily-word-translation a { color: #f8f3e8; text-decoration: underline; text-underline-offset: 4px; }
 .daily-word-section { margin-top: 26px; }
 .daily-word-section > small { display: block; margin-bottom: 10px; color: var(--gold-soft); font-weight: 850; }
@@ -729,6 +742,7 @@ p {
 .admin-content-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 .word-edit-form { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--line); }
 .request-form input[type="url"], .request-form input[type="datetime-local"] { width: 100%; border: 1px solid rgba(7, 20, 38, 0.18); border-radius: 16px; background: #fff; padding: 14px 16px; color: var(--ink); font: inherit; }
+.request-delete-button { margin-top: 16px; border: 0; background: transparent; padding: 0; color: #a13f36; font: inherit; font-weight: 800; cursor: pointer; }
 .admin-content-list { display: grid; gap: 10px; margin-top: 18px; }
 .admin-content-list article { display: flex; align-items: center; justify-content: space-between; gap: 18px; border: 1px solid var(--line); border-radius: 18px; background: #fff; padding: 16px 18px; }
 .admin-content-list h3 { margin: 4px 0 0; font-size: 1rem; }
@@ -753,7 +767,7 @@ p {
   background:
     linear-gradient(180deg, rgba(7, 20, 38, 0.28), rgba(7, 20, 38, 0.9)),
     linear-gradient(90deg, rgba(7, 20, 38, 0.92), rgba(7, 20, 38, 0.48), rgba(7, 20, 38, 0.86)),
-    url("/images/hero-city-cross.png") center / cover;
+    url("/images/hero-city-cross-original.webp") center / cover;
 }
 
 .services-editorial::after {
