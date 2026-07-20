@@ -12,6 +12,7 @@ type SubmitState =
 export function NewFamilyRequestForm() {
   const [cardType, setCardType] = useState<CardType>("visit");
   const [faithStatus, setFaithStatus] = useState("");
+  const [ordinanceType, setOrdinanceType] = useState("");
   const [submitState, setSubmitState] = useState<SubmitState>({ status: "idle" });
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -63,6 +64,7 @@ export function NewFamilyRequestForm() {
       form.reset();
       setCardType("visit");
       setFaithStatus("");
+      setOrdinanceType("");
       setSubmitState({ status: "success", receipt: result.receipt ?? "received" });
     } catch (error) {
       setSubmitState({ status: "error", message: error instanceof Error ? error.message : "등록 중 오류가 발생했습니다." });
@@ -122,12 +124,12 @@ export function NewFamilyRequestForm() {
         </div>
       </>}
       <fieldset className="request-choice-group"><legend>세례·침례 여부</legend>
-        <label className="request-radio"><input type="radio" name="ordinanceType" value="유아세례" required /><span>유아세례</span></label>
-        <label className="request-radio"><input type="radio" name="ordinanceType" value="성인세례" /><span>성인세례</span></label>
-        <label className="request-radio"><input type="radio" name="ordinanceType" value="침례" /><span>침례</span></label>
-        <label className="request-radio"><input type="radio" name="ordinanceType" value="받지 않음" /><span>받지 않음</span></label>
+        <label className="request-radio"><input type="radio" name="ordinanceType" value="유아세례" required checked={ordinanceType === "유아세례"} onChange={(event) => setOrdinanceType(event.target.value)} /><span>유아세례</span></label>
+        <label className="request-radio"><input type="radio" name="ordinanceType" value="성인세례" checked={ordinanceType === "성인세례"} onChange={(event) => setOrdinanceType(event.target.value)} /><span>성인세례</span></label>
+        <label className="request-radio"><input type="radio" name="ordinanceType" value="침례" checked={ordinanceType === "침례"} onChange={(event) => setOrdinanceType(event.target.value)} /><span>침례</span></label>
+        <label className="request-radio"><input type="radio" name="ordinanceType" value="받지 않음" checked={ordinanceType === "받지 않음"} onChange={(event) => setOrdinanceType(event.target.value)} /><span>받지 않음</span></label>
       </fieldset>
-      <label><span>세례·침례 집례 교회</span><input name="ordinanceChurch" type="text" maxLength={240} required /></label>
+      {ordinanceType !== "받지 않음" && <label><span>세례·침례 집례 교회</span><input name="ordinanceChurch" type="text" maxLength={240} required={Boolean(ordinanceType)} /></label>}
       <fieldset className="request-choice-group"><legend>관심 있는 참여</legend>
         <label className="request-checkbox"><input type="checkbox" name="participation" value="봉사" /><span>봉사</span></label>
         <label className="request-checkbox"><input type="checkbox" name="participation" value="소그룹" /><span>소그룹</span></label>

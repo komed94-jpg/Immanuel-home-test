@@ -86,8 +86,9 @@ export async function POST(request: Request) {
     const previousChurchComplete = details?.faithStatus === "교회가 처음" || Boolean(
       details?.previousChurchName && details.faithHistory && details.churchPosition && details.serviceHistory
     );
+    const ordinanceComplete = details?.ordinanceType === "받지 않음" || Boolean(details?.ordinanceChurch);
     const registrationComplete = details?.cardType !== "registration" || Boolean(
-      details.faithStatus && details.faithYears && details.ordinanceType && details.ordinanceChurch && previousChurchComplete
+      details.faithStatus && details.faithYears && details.ordinanceType && ordinanceComplete && previousChurchComplete
     );
     if (requestType === "new-family" && (!name || !contact || !details?.cardType || !details.birthDate || !details.address || !details.email || !details.occupation || !details.familyInfo || !details.referral || !registrationComplete)) {
       return Response.json({ error: "새가족 등록 필수 항목을 확인해 주세요." }, { status: 400 });
@@ -166,4 +167,20 @@ export async function PATCH(request: Request) {
   const [updated] = await getDb().update(ministryRequests).set(changes).where(eq(ministryRequests.id, id)).returning();
   if (!updated) return Response.json({ error: "접수 내용을 찾을 수 없습니다." }, { status: 404 });
   return Response.json({ request: updated });
+}
+
+export async function DELETE(request: Request) {
+  if (!isImmanuelAdminRequest(request)) {
+    return Response.json({ error: "권한이 없습니다." }, { status: 403 });
+  }
+  const id = Number(new URL(request.url).searchParams.get("id"));
+  if (!Number.isInteger(id) || id < 1) {
+    return Response.json({ error: "삭제할 접수 내용을 확인해 주세요." }, { status: 400 });
+  }
+  const [removed] = await getDb()
+    .delete(ministryRequests)
+    .where(eq(ministryRequests.id, id))
+    .returning({ id: ministryRequests.id });
+  if (!removed) return Response.json({ error: "접수 내용을 찾을 수 없습니다." }, { status: 404 });
+  return Response.json({ ok: true });
 }

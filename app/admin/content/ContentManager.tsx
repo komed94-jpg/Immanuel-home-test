@@ -5,6 +5,7 @@ import { FormEvent, useCallback, useEffect, useState } from "react";
 type Sermon = { id: number; title: string; scripture: string | null; preacher: string | null; preachedOn: string; videoUrl: string; description: string | null };
 type ChurchEvent = { id: number; title: string; category: string | null; startsAt: string; endsAt: string | null; location: string | null; description: string | null };
 type Program = { id: number; title: string; summary: string; schedule: string | null; location: string | null; capacity: string | null; status: string; sortOrder: number };
+type Giving = { id?: number; bank: string; accountNumber: string; accountHolder: string; note: string | null };
 type DailyWord = {
   id: number;
   title: string;
@@ -24,6 +25,7 @@ export function ContentManager() {
   const [events, setEvents] = useState<ChurchEvent[]>([]);
   const [words, setWords] = useState<DailyWord[]>([]);
   const [programs, setPrograms] = useState<Program[]>([]);
+  const [giving, setGiving] = useState<Giving | null>(null);
   const [editingWordId, setEditingWordId] = useState<number | null>(null);
   const [editingSermonId, setEditingSermonId] = useState<number | null>(null);
   const [editingEventId, setEditingEventId] = useState<number | null>(null);
@@ -31,35 +33,40 @@ export function ContentManager() {
   const [notice, setNotice] = useState("");
 
   const load = useCallback(async () => {
-    const [sermonResponse, eventResponse, wordResponse, programResponse] = await Promise.all([
+    const [sermonResponse, eventResponse, wordResponse, programResponse, givingResponse] = await Promise.all([
       fetch("/api/sermons"),
       fetch("/api/events"),
       fetch("/api/word?all=1"),
-      fetch("/api/discipleship-programs")
+      fetch("/api/discipleship-programs"),
+      fetch("/api/giving")
     ]);
     const sermonData = (await sermonResponse.json()) as { sermons?: Sermon[] };
     const eventData = (await eventResponse.json()) as { events?: ChurchEvent[] };
     const wordData = (await wordResponse.json()) as { words?: DailyWord[] };
     const programData = (await programResponse.json()) as { programs?: Program[] };
+    const givingData = (await givingResponse.json()) as { information?: Giving };
     setSermons(sermonData.sermons ?? []);
     setEvents(eventData.events ?? []);
     setWords(wordData.words ?? []);
     setPrograms(programData.programs ?? []);
+    setGiving(givingData.information ?? null);
   }, []);
 
   useEffect(() => {
     let active = true;
-    Promise.all([fetch("/api/sermons"), fetch("/api/events"), fetch("/api/word?all=1"), fetch("/api/discipleship-programs")])
-      .then(async ([sermonResponse, eventResponse, wordResponse, programResponse]) => {
+    Promise.all([fetch("/api/sermons"), fetch("/api/events"), fetch("/api/word?all=1"), fetch("/api/discipleship-programs"), fetch("/api/giving")])
+      .then(async ([sermonResponse, eventResponse, wordResponse, programResponse, givingResponse]) => {
         const sermonData = (await sermonResponse.json()) as { sermons?: Sermon[] };
         const eventData = (await eventResponse.json()) as { events?: ChurchEvent[] };
         const wordData = (await wordResponse.json()) as { words?: DailyWord[] };
         const programData = (await programResponse.json()) as { programs?: Program[] };
+        const givingData = (await givingResponse.json()) as { information?: Giving };
         if (active) {
           setSermons(sermonData.sermons ?? []);
           setEvents(eventData.events ?? []);
           setWords(wordData.words ?? []);
           setPrograms(programData.programs ?? []);
+          setGiving(givingData.information ?? null);
         }
       })
       .catch(() => active && setNotice("목록을 불러오지 못했습니다."));
@@ -118,10 +125,11 @@ export function ContentManager() {
   async function submitGiving(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
-    const response = await fetch("/api/giving", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(Object.fromEntries(new FormData(form))) });
+    const payload = { ...Object.fromEntries(new FormData(form)), id: giving?.id };
+    const response = await fetch("/api/giving", { method: giving?.id ? "PATCH" : "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
     const result = (await response.json()) as { error?: string };
     setNotice(response.ok ? "헌금 안내가 저장되었습니다." : result.error ?? "저장하지 못했습니다.");
-    if (response.ok) form.reset();
+    if (response.ok) await load();
   }
 
   return <section className="content-manager">
@@ -191,12 +199,12 @@ export function ContentManager() {
       <div className="admin-content-list">{programs.map((item) => <article key={item.id}><div className="admin-editable-item"><div className="admin-content-heading"><div><small>{item.status === "recruiting" ? "모집 중" : item.status === "ongoing" ? "진행 중" : "마감"}</small><h3>{item.title}</h3></div><div className="admin-content-actions"><button type="button" onClick={() => setEditingProgramId(editingProgramId === item.id ? null : item.id)}>{editingProgramId === item.id ? "닫기" : "수정"}</button><button type="button" onClick={() => remove("/api/discipleship-programs", item.id)}>삭제</button></div></div>{editingProgramId === item.id && <form className="request-form word-edit-form" onSubmit={(event) => update(event, "/api/discipleship-programs", () => setEditingProgramId(null))}><input type="hidden" name="id" value={item.id} /><label><span>과정명</span><input name="title" required defaultValue={item.title} /></label><label><span>과정 소개</span><textarea name="summary" rows={5} required defaultValue={item.summary} /></label><div className="request-form-grid"><label><span>일정</span><input name="schedule" defaultValue={item.schedule ?? ""} /></label><label><span>장소</span><input name="location" defaultValue={item.location ?? ""} /></label></div><div className="request-form-grid"><label><span>정원</span><input name="capacity" defaultValue={item.capacity ?? ""} /></label><label><span>상태</span><select name="status" defaultValue={item.status}><option value="recruiting">모집 중</option><option value="ongoing">진행 중</option><option value="closed">마감</option></select></label></div><label><span>표시 순서</span><input name="sortOrder" type="number" defaultValue={item.sortOrder} /></label><button className="primary-link request-submit" type="submit">수정 내용 저장</button></form>}</div></article>)}</div>
     </div>
     <div className="giving-manager">
-      <h2>온라인 헌금 안내 등록</h2>
+      <h2>온라인 헌금 안내 관리</h2>
       <form className="request-form" onSubmit={submitGiving}>
-        <div className="request-form-grid"><label><span>은행</span><input name="bank" type="text" required /></label><label><span>예금주</span><input name="accountHolder" type="text" required /></label></div>
-        <label><span>계좌번호</span><input name="accountNumber" type="text" required /></label>
-        <label><span>추가 안내 <small>선택</small></span><textarea name="note" rows={4} placeholder="입금자명 작성 방법 등 확인된 안내만 입력" /></label>
-        <button className="primary-link request-submit" type="submit">헌금 안내 저장</button>
+        <div className="request-form-grid"><label><span>은행</span><input key={`bank-${giving?.id ?? "new"}`} name="bank" type="text" required defaultValue={giving?.bank ?? "기업은행"} /></label><label><span>예금주</span><input key={`holder-${giving?.id ?? "new"}`} name="accountHolder" type="text" required defaultValue={giving?.accountHolder ?? "백승건"} /></label></div>
+        <label><span>계좌번호</span><input key={`account-${giving?.id ?? "new"}`} name="accountNumber" type="text" required defaultValue={giving?.accountNumber ?? "01072454295"} /></label>
+        <label><span>추가 안내 <small>선택</small></span><textarea key={`note-${giving?.id ?? "new"}`} name="note" rows={4} defaultValue={giving?.note ?? ""} placeholder="입금자명 작성 방법 등 확인된 안내만 입력" /></label>
+        <button className="primary-link request-submit" type="submit">{giving?.id ? "헌금 안내 수정" : "헌금 안내 저장"}</button>
       </form>
     </div>
   </section>;
