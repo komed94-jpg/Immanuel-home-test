@@ -2,7 +2,7 @@ import { and, asc, desc, eq, inArray } from "drizzle-orm";
 import { isImmanuelAdminRequest } from "@/app/chatgpt-auth";
 import { getDb } from "@/db";
 import { discipleshipApplications, discipleshipAttendance, discipleshipPrograms, discipleshipSessions, memberApprovalLogs, members } from "@/db/schema";
-import { ensureDiscipleshipSessions, numericCapacity } from "@/lib/discipleship";
+import { ensureDiscipleshipSessions, numericCapacity, promoteWaitlistedApplicant } from "@/lib/discipleship";
 import { sameOrigin } from "@/lib/member-auth";
 
 const applicationStatuses = new Set(["pending", "approved", "waitlisted", "rejected", "cancelled"]);
@@ -59,7 +59,7 @@ export async function PATCH(request: Request) {
     await db.update(discipleshipApplications).set({ status, adminNote: adminNote || null, reviewedAt: now, completedAt: null, updatedAt: now }).where(eq(discipleshipApplications.id, id));
     await db.insert(memberApprovalLogs).values({ memberId: current.memberId, action: "discipleship-status", previousValue: current.status, newValue: status, note: adminNote || null });
     let promotedId: number | null = null;
-    if (current.status === "approved" && ["cancelled", "rejected"].includes(status)) promotedId = await promoteWaitlisted(current.programId);
+    if (current.status === "approved" && ["cancelled", "rejected"].includes(status)) promotedId = await promoteWaitlistedApplicant(current.programId);
     return Response.json({ ok: true, status, promotedId });
   }
 
@@ -91,13 +91,4 @@ export async function PATCH(request: Request) {
     return Response.json({ ok: true });
   }
   return Response.json({ error: "처리할 작업을 확인해 주세요." }, { status: 400 });
-}
-
-async function promoteWaitlisted(programId: number) {
-  const db = getDb();
-  const [next] = await db.select({ id: discipleshipApplications.id, memberId: discipleshipApplications.memberId }).from(discipleshipApplications).where(and(eq(discipleshipApplications.programId, programId), eq(discipleshipApplications.status, "waitlisted"))).orderBy(asc(discipleshipApplications.appliedAt)).limit(1);
-  if (!next) return null;
-  await db.update(discipleshipApplications).set({ status: "approved", reviewedAt: new Date(), updatedAt: new Date() }).where(eq(discipleshipApplications.id, next.id));
-  await db.insert(memberApprovalLogs).values({ memberId: next.memberId, action: "discipleship-auto-promote", previousValue: "waitlisted", newValue: "approved", note: "정원 발생에 따른 자동 승인" });
-  return next.id;
 }
