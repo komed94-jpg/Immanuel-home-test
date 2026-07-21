@@ -1,64 +1,19 @@
 "use client";
-
-import { FormEvent, useCallback, useEffect, useState } from "react";
-type AttendanceEvent = { id: number; title: string; eventType: string; heldOn: string; startsAt: string | null };
-type Member = { id: number; name: string; memberNumber: string | null };
-type RecordItem = { id: number; memberId: number; status: string; note: string | null };
-const typeLabels: Record<string, string> = { sunday: "주일예배", dawn: "새벽예배", friday: "금요기도회", "small-group": "목장 모임", discipleship: "제자훈련", special: "특별집회", event: "교회 행사" };
-
+import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
+type AttendanceEvent = { id: number; title: string; eventType: string; heldOn: string; startsAt: string | null; finalizedAt: string | null }; type Member = { id: number; name: string; memberNumber: string | null; membershipStatus: string }; type RecordItem = { id: number; memberId: number; status: string; note: string | null };
+type Stats = { summary: { present: number; late: number; excused: number; absent: number; unmarked: number; totalMembers: number }; monthly: Array<{ month: string; present: number; late: number; excused: number; absent: number; recorded: number; rate: number }>; consecutiveAbsentees: Array<{ id: number; name: string; memberNumber: string | null; consecutive: number }>; settlement: { recent: number; settled: number; rate: number } };
+const typeLabels: Record<string, string> = { sunday: "주일예배", dawn: "새벽예배", friday: "금요기도회", "small-group": "목장 모임", discipleship: "제자훈련", special: "특별집회", event: "교회 행사" }; const statusOptions = [["present", "출석"], ["late", "지각"], ["excused", "사유"], ["absent", "결석"]] as const;
 export function AttendanceManager() {
-  const [events, setEvents] = useState<AttendanceEvent[]>([]);
-  const [members, setMembers] = useState<Member[]>([]);
-  const [records, setRecords] = useState<RecordItem[]>([]);
-  const [selectedEvent, setSelectedEvent] = useState("");
-  const [query, setQuery] = useState("");
-  const [notice, setNotice] = useState("");
-
-  const load = useCallback(async (eventId = "") => {
-    const response = await fetch(`/api/admin/attendance${eventId ? `?eventId=${eventId}` : ""}`, { cache: "no-store" });
-    const result = (await response.json()) as { events?: AttendanceEvent[]; members?: Member[]; records?: RecordItem[] };
-    if (!response.ok) throw new Error();
-    setEvents(result.events ?? []); setMembers(result.members ?? []); setRecords(result.records ?? []);
-  }, []);
-  useEffect(() => {
-    fetch("/api/admin/attendance", { cache: "no-store" })
-      .then(async (response) => {
-        const result = (await response.json()) as { events?: AttendanceEvent[]; members?: Member[]; records?: RecordItem[] };
-        if (!response.ok) throw new Error();
-        setEvents(result.events ?? []);
-        setMembers(result.members ?? []);
-        setRecords(result.records ?? []);
-      })
-      .catch(() => setNotice("출석 정보를 불러오지 못했습니다."));
-  }, []);
-
-  function selectEvent(eventId: string) {
-    setSelectedEvent(eventId);
-    if (!eventId) { setRecords([]); return; }
-    load(eventId).catch(() => setNotice("출석 정보를 불러오지 못했습니다."));
-  }
-
-  async function createEvent(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault(); const form = event.currentTarget;
-    const response = await fetch("/api/admin/attendance", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "create-event", ...Object.fromEntries(new FormData(form)) }) });
-    const result = (await response.json()) as { error?: string; event?: AttendanceEvent };
-    setNotice(response.ok ? "출석 모임을 만들었습니다." : result.error ?? "저장하지 못했습니다.");
-    if (response.ok) { form.reset(); await load(""); if (result.event) setSelectedEvent(String(result.event.id)); }
-  }
-
-  async function mark(memberId: number, status: string) {
-    if (!selectedEvent) return;
-    const response = await fetch("/api/admin/attendance", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "mark", eventId: Number(selectedEvent), memberId, status }) });
-    if (!response.ok) { setNotice("출석을 저장하지 못했습니다."); return; }
-    setNotice("출석을 저장했습니다."); await load(selectedEvent);
-  }
-  const keyword = query.trim().toLowerCase();
-  const filtered = members.filter((item) => !keyword || [item.name, item.memberNumber].some((value) => value?.toLowerCase().includes(keyword)));
-  const recordMap = new Map(records.map((item) => [item.memberId, item.status]));
-  return <section className="attendance-manager">
-    {notice && <p className="content-manager-notice" role="status">{notice}</p>}
-    <div className="attendance-manager-grid"><form className="request-form" onSubmit={createEvent}><h2>출석 모임 만들기</h2><label><span>모임명</span><input name="title" required placeholder="예: 2026년 7월 넷째 주 주일예배" /></label><div className="request-form-grid"><label><span>구분</span><select name="eventType" defaultValue="sunday">{Object.entries(typeLabels).map(([value, label]) => <option value={value} key={value}>{label}</option>)}</select></label><label><span>날짜</span><input name="heldOn" type="date" required /></label></div><label><span>시작 시각 <small>선택</small></span><input name="startsAt" type="datetime-local" /></label><button className="primary-link request-submit" type="submit">출석 모임 저장</button></form>
-    <div className="attendance-event-list"><h2>출석 모임 선택</h2><select value={selectedEvent} onChange={(event) => selectEvent(event.target.value)}><option value="">모임을 선택하세요</option>{events.map((item) => <option value={item.id} key={item.id}>{item.heldOn} · {item.title}</option>)}</select></div></div>
-    {selectedEvent && <><div className="request-inbox-tools"><label><span>교인 검색</span><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="이름 또는 교인번호" /></label></div><div className="attendance-member-list">{filtered.map((item) => <article key={item.id}><div><strong>{item.name}</strong><small>{item.memberNumber}</small></div><div>{[["present", "출석"], ["late", "지각"], ["excused", "사유"], ["absent", "결석"]].map(([status, label]) => <button type="button" className={recordMap.get(item.id) === status ? "is-active" : ""} key={status} onClick={() => void mark(item.id, status)}>{label}</button>)}</div></article>)}</div></>}
-  </section>;
+  const [events, setEvents] = useState<AttendanceEvent[]>([]); const [members, setMembers] = useState<Member[]>([]); const [records, setRecords] = useState<RecordItem[]>([]); const [stats, setStats] = useState<Stats | null>(null); const [selectedEvent, setSelectedEvent] = useState(""); const [query, setQuery] = useState(""); const [notice, setNotice] = useState(""); const [selectedMembers, setSelectedMembers] = useState<Set<number>>(new Set()); const [bulkStatus, setBulkStatus] = useState("present"); const [saving, setSaving] = useState(false);
+  const load = useCallback(async (eventId = "") => { const response = await fetch(`/api/admin/attendance${eventId ? `?eventId=${eventId}` : ""}`, { cache: "no-store" }); const result = (await response.json()) as { events?: AttendanceEvent[]; members?: Member[]; records?: RecordItem[]; stats?: Stats }; if (!response.ok) throw new Error(); setEvents(result.events ?? []); setMembers(result.members ?? []); setRecords(result.records ?? []); setStats(result.stats ?? null); }, []);
+  useEffect(() => { fetch("/api/admin/attendance", { cache: "no-store" }).then(async (response) => { const result = (await response.json()) as { events?: AttendanceEvent[]; members?: Member[]; records?: RecordItem[]; stats?: Stats }; if (!response.ok) throw new Error(); setEvents(result.events ?? []); setMembers(result.members ?? []); setRecords(result.records ?? []); setStats(result.stats ?? null); }).catch(() => setNotice("출석 정보를 불러오지 못했습니다.")); }, []);
+  function selectEvent(eventId: string) { setSelectedEvent(eventId); setSelectedMembers(new Set()); if (!eventId) { setRecords([]); void load(""); return; } void load(eventId).catch(() => setNotice("출석 정보를 불러오지 못했습니다.")); }
+  async function createEvent(event: FormEvent<HTMLFormElement>) { event.preventDefault(); const form = event.currentTarget; const response = await fetch("/api/admin/attendance", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "create-event", ...Object.fromEntries(new FormData(form)) }) }); const result = (await response.json()) as { error?: string; event?: AttendanceEvent }; setNotice(response.ok ? "출석 모임을 만들었습니다." : result.error ?? "저장하지 못했습니다."); if (response.ok && result.event) { form.reset(); setSelectedEvent(String(result.event.id)); await load(String(result.event.id)); } }
+  async function mark(memberId: number, status: string) { if (!selectedEvent) return; setSaving(true); const response = await fetch("/api/admin/attendance", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "mark", eventId: Number(selectedEvent), memberId, status }) }); setNotice(response.ok ? "출석을 저장했습니다." : "출석을 저장하지 못했습니다."); if (response.ok) await load(selectedEvent); setSaving(false); }
+  async function bulkMark() { if (!selectedEvent || !selectedMembers.size) { setNotice("일괄 처리할 교인을 선택해 주세요."); return; } setSaving(true); const response = await fetch("/api/admin/attendance", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "bulk-mark", eventId: Number(selectedEvent), memberIds: [...selectedMembers], status: bulkStatus }) }); const result = (await response.json()) as { error?: string; count?: number }; setNotice(response.ok ? `${result.count ?? selectedMembers.size}명의 출석 상태를 일괄 저장했습니다.` : result.error ?? "일괄 저장하지 못했습니다."); if (response.ok) { setSelectedMembers(new Set()); await load(selectedEvent); } setSaving(false); }
+  async function finalize() { if (!selectedEvent || !window.confirm("미입력 교인을 결석으로 처리하고 이 모임의 출석을 마감하시겠습니까?")) return; setSaving(true); const response = await fetch("/api/admin/attendance", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "finalize", eventId: Number(selectedEvent) }) }); const result = (await response.json()) as { error?: string; absentAdded?: number }; setNotice(response.ok ? `출석을 마감했습니다. 미입력 ${result.absentAdded ?? 0}명을 결석으로 처리했습니다.` : result.error ?? "마감하지 못했습니다."); if (response.ok) await load(selectedEvent); setSaving(false); }
+  const keyword = query.trim().toLowerCase(); const filtered = members.filter((item) => !keyword || [item.name, item.memberNumber].some((value) => value?.toLowerCase().includes(keyword))); const recordMap = useMemo(() => new Map(records.map((item) => [item.memberId, item.status])), [records]); const currentEvent = events.find((item) => String(item.id) === selectedEvent); const toggle = (id: number) => setSelectedMembers((current) => { const next = new Set(current); if (next.has(id)) next.delete(id); else next.add(id); return next; });
+  return <section className="attendance-manager">{notice && <p className="content-manager-notice" role="status">{notice}</p>}<div className="attendance-manager-grid"><form className="request-form" onSubmit={createEvent}><h2>출석 모임 만들기</h2><p className="request-form-privacy">가장 가까운 주일 오전 11시 예배는 매주 자동으로 생성됩니다.</p><label><span>모임명</span><input name="title" required placeholder="예: 2026년 7월 넷째 주 주일예배" /></label><div className="request-form-grid"><label><span>구분</span><select name="eventType" defaultValue="sunday">{Object.entries(typeLabels).map(([value, label]) => <option value={value} key={value}>{label}</option>)}</select></label><label><span>날짜</span><input name="heldOn" type="date" required /></label></div><label><span>시작 시각 <small>선택</small></span><input name="startsAt" type="datetime-local" /></label><button className="primary-link request-submit" type="submit">출석 모임 저장</button></form><div className="attendance-event-list"><h2>출석 모임 선택</h2><select value={selectedEvent} onChange={(event) => selectEvent(event.target.value)}><option value="">모임을 선택하세요</option>{events.map((item) => <option value={item.id} key={item.id}>{item.heldOn} · {item.title}{item.finalizedAt ? " · 마감" : ""}</option>)}</select>{currentEvent && <p className="attendance-event-state">{currentEvent.finalizedAt ? `마감됨 · ${new Date(currentEvent.finalizedAt).toLocaleString("ko-KR")}` : "입력 중"}</p>}</div></div>
+    {selectedEvent && stats && <><div className="attendance-summary-grid">{[["출석", stats.summary.present], ["지각", stats.summary.late], ["사유", stats.summary.excused], ["결석", stats.summary.absent], ["미입력", stats.summary.unmarked]].map(([label, value]) => <article key={label}><small>{label}</small><strong>{value}명</strong></article>)}</div><div className="attendance-bulk-bar"><label><input type="checkbox" checked={filtered.length > 0 && filtered.every((item) => selectedMembers.has(item.id))} onChange={(event) => setSelectedMembers((current) => { const next = new Set(current); for (const item of filtered) event.target.checked ? next.add(item.id) : next.delete(item.id); return next; })} /> 검색 결과 전체 선택</label><span>{selectedMembers.size}명 선택</span><select value={bulkStatus} onChange={(event) => setBulkStatus(event.target.value)}>{statusOptions.map(([value, label]) => <option value={value} key={value}>{label}</option>)}</select><button type="button" onClick={() => void bulkMark()} disabled={saving}>선택 일괄 저장</button><button type="button" className="is-warning" onClick={() => void finalize()} disabled={saving || Boolean(currentEvent?.finalizedAt)}>미입력 결석 처리·마감</button></div><div className="request-inbox-tools"><label><span>교인 검색</span><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="이름 또는 교인번호" /></label></div><div className="attendance-member-list">{filtered.map((item) => <article key={item.id} className={selectedMembers.has(item.id) ? "is-selected" : ""}><label className="attendance-member-select"><input type="checkbox" checked={selectedMembers.has(item.id)} onChange={() => toggle(item.id)} /><span><strong>{item.name}</strong><small>{item.memberNumber}{item.membershipStatus === "long_absent" ? " · 장기 미출석" : ""}</small></span></label><div>{statusOptions.map(([status, label]) => <button type="button" disabled={saving} className={recordMap.get(item.id) === status ? "is-active" : ""} key={status} onClick={() => void mark(item.id, status)}>{label}</button>)}</div></article>)}</div></>}{stats && <AttendanceStats stats={stats} />}</section>;
 }
+function AttendanceStats({ stats }: { stats: Stats }) { return <section className="attendance-statistics"><div className="attendance-stat-heading"><div><p className="section-kicker">ATTENDANCE INSIGHT</p><h2>출석 통계와 돌봄 신호</h2></div><article><small>최근 90일 새 교인 정착</small><strong>{stats.settlement.settled}/{stats.settlement.recent}명 · {stats.settlement.rate}%</strong></article></div><div className="attendance-stat-grid"><div><h3>최근 6개월</h3>{stats.monthly.length ? <div className="attendance-monthly-list">{stats.monthly.map((item) => <article key={item.month}><time>{item.month}</time><span>출석·지각 {item.present + item.late}명</span><strong>{item.rate}%</strong></article>)}</div> : <p className="resource-empty">아직 집계할 기록이 없습니다.</p>}</div><div><h3>주일예배 연속 결석</h3>{stats.consecutiveAbsentees.length ? <ul className="attendance-absence-list">{stats.consecutiveAbsentees.map((item) => <li key={item.id}><span><strong>{item.name}</strong><small>{item.memberNumber}</small></span><b>{item.consecutive}회</b></li>)}</ul> : <p className="resource-empty">2회 이상 연속 결석자가 없습니다.</p>}</div></div></section>; }

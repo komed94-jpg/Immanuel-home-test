@@ -1,7 +1,7 @@
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, inArray } from "drizzle-orm";
 import { isImmanuelAdminRequest } from "@/app/chatgpt-auth";
 import { getDb } from "@/db";
-import { churchEvents, members, ministryRequests } from "@/db/schema";
+import { churchEvents, members, ministryRequests, newFamilyRegistrations } from "@/db/schema";
 import { getMemberFromRequest } from "@/lib/member-auth";
 
 const allowedRequestTypes = new Set([
@@ -66,6 +66,7 @@ export async function POST(request: Request) {
     const consented = payload.consented === true;
     const contactRequested = payload.contactRequested === true;
     const details = cleanDetails(payload.details);
+    const currentMember = await getMemberFromRequest(request);
 
     if (website) {
       return Response.json({ ok: true, receipt: "received" }, { status: 201 });
@@ -74,8 +75,7 @@ export async function POST(request: Request) {
       return Response.json({ error: "요청 유형을 확인해 주세요." }, { status: 400 });
     }
     if (requestType === "discipleship") {
-      const member = await getMemberFromRequest(request);
-      if (!member || member.membershipStatus !== "active") {
+      if (!currentMember || currentMember.membershipStatus !== "active") {
         return Response.json({ error: "제자훈련은 등록 교인만 신청할 수 있습니다." }, { status: 403 });
       }
     }
@@ -107,10 +107,15 @@ export async function POST(request: Request) {
     }
 
     const db = getDb();
+    if (requestType === "new-family" && details?.cardType === "registration" && currentMember) {
+      const [duplicate] = await db.select({ id: newFamilyRegistrations.id }).from(newFamilyRegistrations).where(and(eq(newFamilyRegistrations.memberId, currentMember.id), eq(newFamilyRegistrations.cardType, "registration"), inArray(newFamilyRegistrations.reviewStatus, ["received", "reviewing", "on_hold"]))).limit(1);
+      if (duplicate) return Response.json({ error: "이미 검토 중인 등록카드가 있습니다. 관리자 확인 후 수정할 수 있습니다." }, { status: 409 });
+    }
     const [saved] = await db
       .insert(ministryRequests)
       .values({
         requestType,
+        memberId: currentMember?.id ?? null,
         name: name || null,
         contact: contact || null,
         subject,
@@ -120,10 +125,10 @@ export async function POST(request: Request) {
       })
       .returning({ id: ministryRequests.id });
 
-    if (requestType === "new-family" && details?.cardType === "registration") {
-      const member = await getMemberFromRequest(request);
-      if (member && member.membershipStatus === "nonmember") {
-        await db.update(members).set({ membershipStatus: "pending", updatedAt: new Date() }).where(eq(members.id, member.id));
+    if (requestType === "new-family" && details) {
+      await db.insert(newFamilyRegistrations).values({ requestId: saved.id, memberId: currentMember?.id ?? null, cardType: details.cardType, birthDate: details.birthDate, address: details.address, email: details.email, occupation: details.occupation, familyInfo: details.familyInfo, referral: details.referral, guideName: details.guideName || null, guidePhone: details.guidePhone || null, guideRelation: details.guideRelation || null, faithStatus: details.faithStatus || null, faithYears: details.faithYears || null, previousChurchName: details.previousChurchName || null, faithHistory: details.faithHistory || null, churchPosition: details.churchPosition || null, serviceHistory: details.serviceHistory || null, ordinanceType: details.ordinanceType || null, ordinanceChurch: details.ordinanceChurch || null, participation: details.participation.join(", ") || null });
+      if (details.cardType === "registration" && currentMember) {
+        await db.update(members).set({ membershipStatus: currentMember.membershipStatus === "nonmember" ? "pending" : currentMember.membershipStatus, address: details.address, occupation: details.occupation, faithYears: details.faithYears || null, baptismType: details.ordinanceType || null, baptismChurch: details.ordinanceChurch || null, previousChurchName: details.previousChurchName || null, previousChurchPosition: details.churchPosition || null, serviceHistory: details.serviceHistory || null, updatedAt: new Date() }).where(eq(members.id, currentMember.id));
       }
     }
 

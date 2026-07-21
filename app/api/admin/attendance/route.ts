@@ -1,55 +1,31 @@
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq, inArray } from "drizzle-orm";
 import { isImmanuelAdminRequest } from "@/app/chatgpt-auth";
 import { getDb } from "@/db";
 import { attendanceEvents, attendanceRecords, members } from "@/db/schema";
-
-const eventTypes = new Set(["sunday", "dawn", "friday", "small-group", "discipleship", "special", "event"]);
-const attendanceStatuses = new Set(["present", "late", "excused", "absent"]);
+import { sameOrigin } from "@/lib/member-auth";
+const eventTypes = new Set(["sunday", "dawn", "friday", "small-group", "discipleship", "special", "event"]); const attendanceStatuses = new Set(["present", "late", "excused", "absent"]);
 function clean(value: unknown, max: number) { return typeof value === "string" ? value.trim().slice(0, max) : ""; }
-
 export async function GET(request: Request) {
-  if (!isImmanuelAdminRequest(request)) return Response.json({ error: "권한이 없습니다." }, { status: 403 });
-  const eventId = Number(new URL(request.url).searchParams.get("eventId"));
-  const db = getDb();
+  if (!isImmanuelAdminRequest(request)) return Response.json({ error: "권한이 없습니다." }, { status: 403 }); const eventId = Number(new URL(request.url).searchParams.get("eventId")); const db = getDb(); await ensureSundayEvent(db);
   const events = await db.select().from(attendanceEvents).orderBy(desc(attendanceEvents.heldOn), desc(attendanceEvents.id)).limit(200);
-  const activeMembers = await db.select({ id: members.id, name: members.name, memberNumber: members.memberNumber }).from(members).where(eq(members.membershipStatus, "active")).orderBy(members.name).limit(1000);
-  const records = Number.isInteger(eventId) && eventId > 0
-    ? await db.select({ id: attendanceRecords.id, memberId: attendanceRecords.memberId, status: attendanceRecords.status, method: attendanceRecords.method, note: attendanceRecords.note, checkedInAt: attendanceRecords.checkedInAt }).from(attendanceRecords).where(eq(attendanceRecords.eventId, eventId))
-    : [];
-  return Response.json({ events, members: activeMembers, records });
+  const activeMembers = await db.select({ id: members.id, name: members.name, memberNumber: members.memberNumber, approvedAt: members.approvedAt, membershipStatus: members.membershipStatus }).from(members).where(inArray(members.membershipStatus, ["active", "long_absent"])).orderBy(members.name).limit(1500);
+  const eventIds = events.map((item) => item.id); const allRecords = eventIds.length ? await db.select({ id: attendanceRecords.id, eventId: attendanceRecords.eventId, memberId: attendanceRecords.memberId, status: attendanceRecords.status, method: attendanceRecords.method, note: attendanceRecords.note, checkedInAt: attendanceRecords.checkedInAt }).from(attendanceRecords).where(inArray(attendanceRecords.eventId, eventIds)).limit(20000) : [];
+  const records = Number.isInteger(eventId) && eventId > 0 ? allRecords.filter((item) => item.eventId === eventId) : [];
+  return Response.json({ events, members: activeMembers, records, stats: buildStats(events, allRecords, activeMembers, eventId) });
 }
-
 export async function POST(request: Request) {
-  if (!isImmanuelAdminRequest(request)) return Response.json({ error: "권한이 없습니다." }, { status: 403 });
-  const body = (await request.json().catch(() => ({}))) as Record<string, unknown>;
-  const action = clean(body.action, 30);
-  const db = getDb();
-  if (action === "create-event") {
-    const title = clean(body.title, 200);
-    const eventType = clean(body.eventType, 40);
-    const heldOn = clean(body.heldOn, 20);
-    const startsAt = clean(body.startsAt, 30);
-    if (!title || !eventTypes.has(eventType) || !/^\d{4}-\d{2}-\d{2}$/.test(heldOn)) return Response.json({ error: "출석 모임 정보를 확인해 주세요." }, { status: 400 });
-    const [saved] = await db.insert(attendanceEvents).values({ title, eventType, heldOn, startsAt: startsAt || null }).returning();
-    return Response.json({ event: saved }, { status: 201 });
-  }
-  if (action === "mark") {
-    const eventId = Number(body.eventId);
-    const memberId = Number(body.memberId);
-    const status = clean(body.status, 20);
-    const note = clean(body.note, 500);
-    if (!Number.isInteger(eventId) || !Number.isInteger(memberId) || !attendanceStatuses.has(status)) return Response.json({ error: "출석 정보를 확인해 주세요." }, { status: 400 });
-    const [saved] = await db.insert(attendanceRecords).values({ eventId, memberId, status, method: "manual", note: note || null, checkedInAt: new Date() })
-      .onConflictDoUpdate({ target: [attendanceRecords.eventId, attendanceRecords.memberId], set: { status, note: note || null, method: "manual", checkedInAt: new Date() } }).returning();
-    return Response.json({ record: saved });
-  }
+  if (!isImmanuelAdminRequest(request)) return Response.json({ error: "권한이 없습니다." }, { status: 403 }); if (!sameOrigin(request)) return Response.json({ error: "올바르지 않은 요청입니다." }, { status: 403 }); const body = (await request.json().catch(() => ({}))) as Record<string, unknown>; const action = clean(body.action, 30); const db = getDb();
+  if (action === "create-event") { const title = clean(body.title, 200); const eventType = clean(body.eventType, 40); const heldOn = clean(body.heldOn, 20); const startsAt = clean(body.startsAt, 30); if (!title || !eventTypes.has(eventType) || !/^\d{4}-\d{2}-\d{2}$/.test(heldOn)) return Response.json({ error: "출석 모임 정보를 확인해 주세요." }, { status: 400 }); const [saved] = await db.insert(attendanceEvents).values({ title, eventType, heldOn, startsAt: startsAt || null }).returning(); return Response.json({ event: saved }, { status: 201 }); }
+  if (action === "mark") { const eventId = Number(body.eventId); const memberId = Number(body.memberId); const status = clean(body.status, 20); const note = clean(body.note, 500); if (!Number.isInteger(eventId) || !Number.isInteger(memberId) || !attendanceStatuses.has(status)) return Response.json({ error: "출석 정보를 확인해 주세요." }, { status: 400 }); const [saved] = await db.insert(attendanceRecords).values({ eventId, memberId, status, method: "manual", note: note || null, checkedInAt: new Date() }).onConflictDoUpdate({ target: [attendanceRecords.eventId, attendanceRecords.memberId], set: { status, note: note || null, method: "manual", checkedInAt: new Date() } }).returning(); return Response.json({ record: saved }); }
+  if (action === "bulk-mark") { const eventId = Number(body.eventId); const status = clean(body.status, 20); const memberIds = Array.isArray(body.memberIds) ? [...new Set(body.memberIds.map(Number).filter((id) => Number.isInteger(id) && id > 0))].slice(0, 1500) : []; if (!Number.isInteger(eventId) || !attendanceStatuses.has(status) || !memberIds.length) return Response.json({ error: "일괄 처리할 교인과 출석 상태를 확인해 주세요." }, { status: 400 }); const now = new Date(); await db.insert(attendanceRecords).values(memberIds.map((memberId) => ({ eventId, memberId, status, method: "bulk", checkedInAt: now }))).onConflictDoUpdate({ target: [attendanceRecords.eventId, attendanceRecords.memberId], set: { status, method: "bulk", checkedInAt: now } }); return Response.json({ ok: true, count: memberIds.length }); }
+  if (action === "finalize") { const eventId = Number(body.eventId); if (!Number.isInteger(eventId)) return Response.json({ error: "마감할 모임을 확인해 주세요." }, { status: 400 }); const [event] = await db.select({ id: attendanceEvents.id }).from(attendanceEvents).where(eq(attendanceEvents.id, eventId)).limit(1); if (!event) return Response.json({ error: "모임을 찾지 못했습니다." }, { status: 404 }); const active = await db.select({ id: members.id }).from(members).where(inArray(members.membershipStatus, ["active", "long_absent"])); const existing = await db.select({ memberId: attendanceRecords.memberId }).from(attendanceRecords).where(eq(attendanceRecords.eventId, eventId)); const existingIds = new Set(existing.map((item) => item.memberId)); const missing = active.filter((item) => !existingIds.has(item.id)); const now = new Date(); if (missing.length) await db.insert(attendanceRecords).values(missing.map((item) => ({ eventId, memberId: item.id, status: "absent", method: "finalize", checkedInAt: now }))).onConflictDoNothing(); await db.update(attendanceEvents).set({ finalizedAt: now }).where(eq(attendanceEvents.id, eventId)); return Response.json({ ok: true, absentAdded: missing.length }); }
   return Response.json({ error: "처리할 작업을 확인해 주세요." }, { status: 400 });
 }
-
-export async function DELETE(request: Request) {
-  if (!isImmanuelAdminRequest(request)) return Response.json({ error: "권한이 없습니다." }, { status: 403 });
-  const id = Number(new URL(request.url).searchParams.get("id"));
-  if (!Number.isInteger(id) || id < 1) return Response.json({ error: "모임을 확인해 주세요." }, { status: 400 });
-  await getDb().delete(attendanceEvents).where(eq(attendanceEvents.id, id));
-  return Response.json({ ok: true });
+export async function DELETE(request: Request) { if (!isImmanuelAdminRequest(request)) return Response.json({ error: "권한이 없습니다." }, { status: 403 }); if (!sameOrigin(request)) return Response.json({ error: "올바르지 않은 요청입니다." }, { status: 403 }); const id = Number(new URL(request.url).searchParams.get("id")); if (!Number.isInteger(id) || id < 1) return Response.json({ error: "모임을 확인해 주세요." }, { status: 400 }); await getDb().delete(attendanceEvents).where(eq(attendanceEvents.id, id)); return Response.json({ ok: true }); }
+type Database = ReturnType<typeof getDb>;
+async function ensureSundayEvent(db: Database) { const parts = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul", year: "numeric", month: "2-digit", day: "2-digit" }).formatToParts(new Date()); const value = (type: string) => parts.find((part) => part.type === type)?.value ?? ""; const today = `${value("year")}-${value("month")}-${value("day")}`; const date = new Date(`${today}T00:00:00Z`); const daysToSunday = (7 - date.getUTCDay()) % 7; date.setUTCDate(date.getUTCDate() + daysToSunday); const heldOn = date.toISOString().slice(0, 10); const [existing] = await db.select({ id: attendanceEvents.id }).from(attendanceEvents).where(and(eq(attendanceEvents.eventType, "sunday"), eq(attendanceEvents.heldOn, heldOn))).limit(1); if (!existing) await db.insert(attendanceEvents).values({ title: `${heldOn} 주일 오전 11시 예배`, eventType: "sunday", heldOn, startsAt: `${heldOn}T11:00` }); }
+function buildStats(events: Array<typeof attendanceEvents.$inferSelect>, records: Array<{ eventId: number; memberId: number; status: string }>, activeMembers: Array<{ id: number; name: string; memberNumber: string | null; approvedAt: Date | null; membershipStatus: string }>, selectedEventId: number) {
+  const selectedRecords = records.filter((item) => item.eventId === selectedEventId); const summary = { present: 0, late: 0, excused: 0, absent: 0, unmarked: Math.max(0, activeMembers.length - selectedRecords.length), totalMembers: activeMembers.length }; for (const item of selectedRecords) if (item.status in summary) summary[item.status as "present" | "late" | "excused" | "absent"] += 1;
+  const eventMap = new Map(events.map((item) => [item.id, item])); const monthlyMap = new Map<string, { month: string; present: number; late: number; excused: number; absent: number; recorded: number }>(); for (const record of records) { const event = eventMap.get(record.eventId); if (!event) continue; const month = event.heldOn.slice(0, 7); const current = monthlyMap.get(month) ?? { month, present: 0, late: 0, excused: 0, absent: 0, recorded: 0 }; if (record.status in current) current[record.status as "present" | "late" | "excused" | "absent"] += 1; current.recorded += 1; monthlyMap.set(month, current); }
+  const monthly = [...monthlyMap.values()].sort((a, b) => b.month.localeCompare(a.month)).slice(0, 6).map((item) => ({ ...item, rate: item.recorded ? Math.round(((item.present + item.late) / item.recorded) * 100) : 0 })); const sundayEvents = events.filter((item) => item.eventType === "sunday" && item.finalizedAt).sort((a, b) => b.heldOn.localeCompare(a.heldOn)).slice(0, 6); const statusByKey = new Map(records.map((item) => [`${item.eventId}:${item.memberId}`, item.status])); const consecutiveAbsentees = activeMembers.map((member) => { let consecutive = 0; for (const event of sundayEvents) { if (statusByKey.get(`${event.id}:${member.id}`) === "absent") consecutive += 1; else break; } return { id: member.id, name: member.name, memberNumber: member.memberNumber, consecutive }; }).filter((item) => item.consecutive >= 2).sort((a, b) => b.consecutive - a.consecutive); const ninetyDaysAgo = Date.now() - 90 * 24 * 60 * 60 * 1000; const recentMembers = activeMembers.filter((item) => item.approvedAt && item.approvedAt.getTime() >= ninetyDaysAgo); const settled = recentMembers.filter((member) => sundayEvents.filter((event) => ["present", "late"].includes(statusByKey.get(`${event.id}:${member.id}`) ?? "")).length >= 3).length; return { summary, monthly, consecutiveAbsentees, settlement: { recent: recentMembers.length, settled, rate: recentMembers.length ? Math.round((settled / recentMembers.length) * 100) : 0 } };
 }
