@@ -15,6 +15,7 @@ export default async function AdminPage() {
       <Link href="/admin/members"><small>MEMBERSHIP</small><h2>회원·교인 관리</h2><p>가입 계정을 확인하고 교인 등록 승인과 교인번호, 리더 권한을 관리합니다.</p></Link>
       <Link href="/admin/attendance"><small>ATTENDANCE</small><h2>출석 관리</h2><p>예배·목장·제자훈련·행사의 출석을 등록하고 확인합니다.</p></Link>
       <Link href="/admin/discipleship"><small>DISCIPLESHIP</small><h2>제자훈련 관리</h2><p>과정별 신청 승인, 대기자, 8단계 출석·진도와 수료 이력을 관리합니다.</p></Link>
+      <Link href="/admin/events"><small>EVENT REGISTRATION</small><h2>행사 신청 관리</h2><p>행사 공개 범위, 신청 기간·정원, 대기자, 출석과 참가 이력을 관리합니다.</p></Link>
     </section></>
   </Layout>;
 }

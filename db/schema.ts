@@ -56,9 +56,35 @@ export const churchEvents = pgTable("church_events", {
   endsAt: text("ends_at"),
   location: text("location"),
   description: text("description"),
+  isPublic: boolean("is_public").notNull().default(true),
   registrationOpen: boolean("registration_open").notNull().default(false),
+  registrationStartsAt: text("registration_starts_at"),
+  registrationEndsAt: text("registration_ends_at"),
+  capacity: integer("capacity"),
+  attendanceEventId: integer("attendance_event_id"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
+
+export const eventApplications = pgTable("event_applications", {
+  id: serial("id").primaryKey(),
+  eventId: integer("event_id").notNull().references(() => churchEvents.id, { onDelete: "cascade" }),
+  memberId: integer("member_id").references(() => members.id, { onDelete: "set null" }),
+  applicantType: text("applicant_type").notNull(),
+  applicantName: text("applicant_name").notNull(),
+  contact: text("contact").notNull(),
+  contactKey: text("contact_key").notNull(),
+  status: text("status").notNull().default("registered"),
+  attendanceStatus: text("attendance_status"),
+  note: text("note"),
+  adminNote: text("admin_note"),
+  cancelTokenHash: text("cancel_token_hash").notNull().unique(),
+  appliedAt: timestamp("applied_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  cancelledAt: timestamp("cancelled_at", { withTimezone: true }),
+}, (table) => [
+  uniqueIndex("event_application_contact_idx").on(table.eventId, table.contactKey),
+  uniqueIndex("event_application_member_idx").on(table.eventId, table.memberId),
+]);
 
 export const givingInformation = pgTable("giving_information", {
   id: serial("id").primaryKey(),
