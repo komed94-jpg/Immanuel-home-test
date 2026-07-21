@@ -1,5 +1,6 @@
 import { getDb } from "@/db";
-import { discipleshipSessions } from "@/db/schema";
+import { and, asc, eq } from "drizzle-orm";
+import { discipleshipApplications, discipleshipSessions, memberApprovalLogs } from "@/db/schema";
 
 export const transformationSteps = [
   { sessionNumber: 1, title: "인식", stageKey: "awareness" },
@@ -23,3 +24,25 @@ export async function ensureDiscipleshipSessions(programId: number) {
   ).onConflictDoNothing();
 }
 
+export async function promoteWaitlistedApplicant(programId: number) {
+  const db = getDb();
+  const [next] = await db.select({ id: discipleshipApplications.id, memberId: discipleshipApplications.memberId })
+    .from(discipleshipApplications)
+    .where(and(eq(discipleshipApplications.programId, programId), eq(discipleshipApplications.status, "waitlisted")))
+    .orderBy(asc(discipleshipApplications.appliedAt))
+    .limit(1);
+
+  if (!next) return null;
+
+  await db.update(discipleshipApplications)
+    .set({ status: "approved", reviewedAt: new Date(), updatedAt: new Date() })
+    .where(eq(discipleshipApplications.id, next.id));
+  await db.insert(memberApprovalLogs).values({
+    memberId: next.memberId,
+    action: "discipleship-auto-promote",
+    previousValue: "waitlisted",
+    newValue: "approved",
+    note: "정원 발생에 따른 자동 승인",
+  });
+  return next.id;
+}

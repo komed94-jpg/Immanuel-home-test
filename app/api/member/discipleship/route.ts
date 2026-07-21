@@ -1,7 +1,7 @@
 import { and, asc, desc, eq, inArray } from "drizzle-orm";
 import { getDb } from "@/db";
 import { discipleshipApplications, discipleshipAttendance, discipleshipPrograms, discipleshipSessions } from "@/db/schema";
-import { ensureDiscipleshipSessions } from "@/lib/discipleship";
+import { ensureDiscipleshipSessions, promoteWaitlistedApplicant } from "@/lib/discipleship";
 import { getMemberFromRequest, sameOrigin } from "@/lib/member-auth";
 
 function clean(value: unknown, max: number) {
@@ -65,8 +65,9 @@ export async function PATCH(request: Request) {
   const body = (await request.json().catch(() => ({}))) as Record<string, unknown>;
   const id = Number(body.id);
   if (!Number.isInteger(id) || id < 1 || body.action !== "cancel") return Response.json({ error: "취소할 신청을 확인해 주세요." }, { status: 400 });
-  const [current] = await getDb().select({ id: discipleshipApplications.id, status: discipleshipApplications.status }).from(discipleshipApplications).where(and(eq(discipleshipApplications.id, id), eq(discipleshipApplications.memberId, member.id))).limit(1);
+  const [current] = await getDb().select({ id: discipleshipApplications.id, programId: discipleshipApplications.programId, status: discipleshipApplications.status }).from(discipleshipApplications).where(and(eq(discipleshipApplications.id, id), eq(discipleshipApplications.memberId, member.id))).limit(1);
   if (!current || !["pending", "approved", "waitlisted"].includes(current.status)) return Response.json({ error: "취소할 수 없는 신청입니다." }, { status: 409 });
   await getDb().update(discipleshipApplications).set({ status: "cancelled", updatedAt: new Date() }).where(eq(discipleshipApplications.id, id));
-  return Response.json({ ok: true });
+  const promotedId = current.status === "approved" ? await promoteWaitlistedApplicant(current.programId) : null;
+  return Response.json({ ok: true, promotedId });
 }
