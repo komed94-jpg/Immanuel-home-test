@@ -34,6 +34,16 @@ const statements = [
     sort_order integer not null default 0,
     created_at timestamptz not null default now()
   )`,
+  `create table if not exists discipleship_sessions (
+    id serial primary key,
+    program_id integer not null references discipleship_programs(id) on delete cascade,
+    session_number integer not null,
+    title text not null,
+    stage_key text not null,
+    held_on text,
+    created_at timestamptz not null default now(),
+    unique (program_id, session_number)
+  )`,
   `create table if not exists sermons (
     id serial primary key,
     title text not null,
@@ -115,6 +125,28 @@ const statements = [
   `alter table members add column if not exists previous_church_position text`,
   `alter table members add column if not exists service_history text`,
   `alter table members add column if not exists pastoral_note text`,
+  `create table if not exists discipleship_applications (
+    id serial primary key,
+    program_id integer not null references discipleship_programs(id) on delete cascade,
+    member_id integer not null references members(id) on delete cascade,
+    motivation text,
+    status text not null default 'pending',
+    admin_note text,
+    applied_at timestamptz not null default now(),
+    reviewed_at timestamptz,
+    completed_at timestamptz,
+    updated_at timestamptz not null default now(),
+    unique (program_id, member_id)
+  )`,
+  `create table if not exists discipleship_attendance (
+    id serial primary key,
+    session_id integer not null references discipleship_sessions(id) on delete cascade,
+    application_id integer not null references discipleship_applications(id) on delete cascade,
+    status text not null default 'absent',
+    note text,
+    checked_at timestamptz not null default now(),
+    unique (session_id, application_id)
+  )`,
   `alter table ministry_requests add column if not exists member_id integer references members(id) on delete set null`,
   `create table if not exists member_sessions (
     id serial primary key,
@@ -234,6 +266,24 @@ const statements = [
   `create index if not exists household_member_household_idx on household_members (household_id, member_id)`,
   `create index if not exists attendance_events_held_on_idx on attendance_events (held_on desc)`,
   `create index if not exists attendance_records_member_idx on attendance_records (member_id, checked_in_at desc)`,
+  `create index if not exists discipleship_applications_member_idx on discipleship_applications (member_id, applied_at desc)`,
+  `create index if not exists discipleship_applications_program_status_idx on discipleship_applications (program_id, status, applied_at)`,
+  `create index if not exists discipleship_sessions_program_idx on discipleship_sessions (program_id, session_number)`,
+  `create index if not exists discipleship_attendance_application_idx on discipleship_attendance (application_id, session_id)`,
+  `insert into discipleship_sessions (program_id, session_number, title, stage_key)
+   select p.id, s.session_number, s.title, s.stage_key
+   from discipleship_programs p
+   cross join (values
+     (1, '인식', 'awareness'),
+     (2, '직면', 'confrontation'),
+     (3, '회개', 'repentance'),
+     (4, '치유', 'healing'),
+     (5, '재해석', 'reinterpretation'),
+     (6, '훈련', 'training'),
+     (7, '관계 변화', 'relationship'),
+     (8, '사명 회복', 'mission')
+   ) as s(session_number, title, stage_key)
+   on conflict (program_id, session_number) do nothing`,
   `insert into giving_information (bank, account_number, account_holder, note)
   select '기업은행', '01072454295', '백승건', '온라인 헌금 안내'
   where not exists (select 1 from giving_information)`,

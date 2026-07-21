@@ -2,6 +2,7 @@ import { asc, eq } from "drizzle-orm";
 import { isImmanuelAdminRequest } from "@/app/chatgpt-auth";
 import { getDb } from "@/db";
 import { discipleshipPrograms } from "@/db/schema";
+import { ensureDiscipleshipSessions } from "@/lib/discipleship";
 
 function clean(value: unknown, max: number) {
   return typeof value === "string" ? value.trim().slice(0, max) : "";
@@ -30,6 +31,7 @@ export async function POST(request: Request) {
     status,
     sortOrder: Number.isFinite(Number(body.sortOrder)) ? Number(body.sortOrder) : 0
   }).returning();
+  await ensureDiscipleshipSessions(program.id);
   return Response.json({ program }, { status: 201 });
 }
 
