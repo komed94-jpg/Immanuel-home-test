@@ -1,7 +1,3 @@
-import { ADMIN_COOKIE } from "@/app/chatgpt-auth";
-
 export async function POST() {
-  const response = Response.json({ ok: true });
-  response.headers.append("Set-Cookie", `${ADMIN_COOKIE}=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0`);
-  return response;
+  return Response.json({ error: "회원 로그아웃을 이용해 주세요." }, { status: 410 });
 }
