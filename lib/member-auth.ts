@@ -47,12 +47,16 @@ export function verifyPassword(password: string, stored: string) {
   return actual.length === expected.length && timingSafeEqual(actual, expected);
 }
 
-function tokenHash(token: string) {
+export function tokenHash(token: string) {
   return createHash("sha256").update(token).digest("hex");
 }
 
+export function createOpaqueToken() {
+  return randomBytes(32).toString("base64url");
+}
+
 export async function createMemberSession(memberId: number) {
-  const token = randomBytes(32).toString("base64url");
+  const token = createOpaqueToken();
   const expiresAt = new Date(Date.now() + SESSION_SECONDS * 1000);
   await getDb().insert(memberSessions).values({ memberId, tokenHash: tokenHash(token), expiresAt });
   return { token, expiresAt, maxAge: SESSION_SECONDS };

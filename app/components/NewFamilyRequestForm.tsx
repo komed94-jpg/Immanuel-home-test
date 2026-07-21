@@ -9,7 +9,8 @@ type SubmitState =
   | { status: "success"; receipt: string }
   | { status: "error"; message: string };
 
-export function NewFamilyRequestForm() {
+type InitialMember = { name: string; birthDate: string; email: string; phone: string } | null;
+export function NewFamilyRequestForm({ initialMember }: { initialMember: InitialMember }) {
   const [cardType, setCardType] = useState<CardType>("visit");
   const [faithStatus, setFaithStatus] = useState("");
   const [ordinanceType, setOrdinanceType] = useState("");
@@ -80,13 +81,13 @@ export function NewFamilyRequestForm() {
     </fieldset>
 
     <div className="request-form-grid">
-      <label><span>성명</span><input name="name" type="text" maxLength={80} autoComplete="name" required /></label>
-      <label><span>생년월일</span><input name="birthDate" type="date" required /></label>
+      <label><span>성명</span><input name="name" type="text" maxLength={80} autoComplete="name" defaultValue={initialMember?.name ?? ""} required /></label>
+      <label><span>생년월일</span><input name="birthDate" type="date" defaultValue={initialMember?.birthDate ?? ""} required /></label>
     </div>
     <label><span>주소</span><input name="address" type="text" maxLength={240} autoComplete="street-address" required /></label>
     <div className="request-form-grid">
-      <label><span>이메일</span><input name="email" type="email" maxLength={120} autoComplete="email" required /></label>
-      <label><span>전화번호</span><input name="phone" type="tel" maxLength={40} autoComplete="tel" required /></label>
+      <label><span>이메일</span><input name="email" type="email" maxLength={120} autoComplete="email" defaultValue={initialMember?.email ?? ""} required /></label>
+      <label><span>전화번호</span><input name="phone" type="tel" maxLength={40} autoComplete="tel" defaultValue={initialMember?.phone ?? ""} required /></label>
     </div>
     <label><span>직장 또는 하는 일</span><input name="occupation" type="text" maxLength={240} required /></label>
     <label><span>가족사항</span><textarea name="familyInfo" rows={3} maxLength={1000} required /></label>
@@ -138,7 +139,7 @@ export function NewFamilyRequestForm() {
 
     <label className="request-form-honeypot" aria-hidden="true"><span>웹사이트</span><input name="website" type="text" tabIndex={-1} autoComplete="off" /></label>
     <div className="request-form-options"><label className="request-checkbox"><input name="consented" type="checkbox" required /><span>새가족 안내와 공동체 연결을 위해 필요한 정보만 사용하며, 외부에 제공하지 않음에 동의합니다.</span></label></div>
-    <p className="request-form-privacy">작성한 정보는 새가족 안내와 목회적 돌봄을 위해 비공개로 보관합니다.</p>
+    <p className="request-form-privacy">{initialMember ? "로그인한 회원계정과 이 카드가 안전하게 연결됩니다. " : "회원가입 후 로그인하면 이름·연락처가 자동 입력되고 처리 상태를 확인할 수 있습니다. "}작성한 정보는 새가족 안내와 목회적 돌봄을 위해 비공개로 보관합니다.</p>
     <button className="primary-link request-submit" type="submit" disabled={submitState.status === "submitting"}>{submitState.status === "submitting" ? "접수 중…" : `${cardType === "visit" ? "방문카드" : "등록카드"} 보내기`}</button>
     <div className="request-form-status" role="status" aria-live="polite">
       {submitState.status === "success" && <p className="is-success">새가족 카드가 접수되었습니다. 접수번호는 {submitState.receipt}입니다.</p>}

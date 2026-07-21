@@ -57,6 +57,7 @@ export function MemberAuthForm({ mode, returnTo = "/member" }: { mode: "login" |
     <p className="request-form-privacy">회원가입 계정은 교인 등록과 별개입니다. 교인번호와 멤버 기능은 관리자 승인 후 활성화됩니다.</p>
     <button className="primary-link request-submit" type="submit" disabled={submitting}>{submitting ? "처리 중…" : mode === "login" ? "로그인" : "회원가입"}</button>
     {notice && <p className="member-auth-notice" role="alert">{notice}</p>}
+    {mode === "login" && <p className="member-auth-switch"><Link href="/forgot-password">비밀번호를 잊으셨나요?</Link></p>}
     <p className="member-auth-switch">{mode === "login" ? <>계정이 없으신가요? <Link href="/signup">회원가입</Link></> : <>이미 계정이 있으신가요? <Link href="/login">로그인</Link></>}</p>
   </form>;
 }

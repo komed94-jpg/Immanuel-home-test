@@ -2,6 +2,7 @@ import { boolean, integer, pgTable, serial, text, timestamp, uniqueIndex } from 
 
 export const ministryRequests = pgTable("ministry_requests", {
   id: serial("id").primaryKey(),
+  memberId: integer("member_id"),
   requestType: text("request_type").notNull(),
   name: text("name"),
   contact: text("contact"),
@@ -85,6 +86,16 @@ export const members = pgTable("members", {
   role: text("role").notNull().default("member"),
   memberNumber: text("member_number").unique(),
   registrationCategory: integer("registration_category"),
+  address: text("address"),
+  occupation: text("occupation"),
+  currentDepartment: text("current_department"),
+  faithYears: text("faith_years"),
+  baptismType: text("baptism_type"),
+  baptismChurch: text("baptism_church"),
+  previousChurchName: text("previous_church_name"),
+  previousChurchPosition: text("previous_church_position"),
+  serviceHistory: text("service_history"),
+  pastoralNote: text("pastoral_note"),
   privacyConsentedAt: timestamp("privacy_consented_at", { withTimezone: true }).notNull().defaultNow(),
   approvedAt: timestamp("approved_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
@@ -108,6 +119,73 @@ export const memberLoginAttempts = pgTable("member_login_attempts", {
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
+export const memberPasswordResetTokens = pgTable("member_password_reset_tokens", {
+  id: serial("id").primaryKey(),
+  memberId: integer("member_id").notNull().references(() => members.id, { onDelete: "cascade" }),
+  tokenHash: text("token_hash").notNull().unique(),
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  usedAt: timestamp("used_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const newFamilyRegistrations = pgTable("new_family_registrations", {
+  id: serial("id").primaryKey(),
+  requestId: integer("request_id").notNull().references(() => ministryRequests.id, { onDelete: "cascade" }).unique(),
+  memberId: integer("member_id").references(() => members.id, { onDelete: "set null" }),
+  cardType: text("card_type").notNull(),
+  birthDate: text("birth_date").notNull(),
+  address: text("address").notNull(),
+  email: text("email").notNull(),
+  occupation: text("occupation").notNull(),
+  familyInfo: text("family_info").notNull(),
+  referral: text("referral").notNull(),
+  guideName: text("guide_name"),
+  guidePhone: text("guide_phone"),
+  guideRelation: text("guide_relation"),
+  faithStatus: text("faith_status"),
+  faithYears: text("faith_years"),
+  previousChurchName: text("previous_church_name"),
+  faithHistory: text("faith_history"),
+  churchPosition: text("church_position"),
+  serviceHistory: text("service_history"),
+  ordinanceType: text("ordinance_type"),
+  ordinanceChurch: text("ordinance_church"),
+  participation: text("participation"),
+  reviewStatus: text("review_status").notNull().default("received"),
+  reviewNote: text("review_note"),
+  reviewedAt: timestamp("reviewed_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const memberApprovalLogs = pgTable("member_approval_logs", {
+  id: serial("id").primaryKey(),
+  memberId: integer("member_id").notNull().references(() => members.id, { onDelete: "cascade" }),
+  action: text("action").notNull(),
+  previousValue: text("previous_value"),
+  newValue: text("new_value"),
+  note: text("note"),
+  actor: text("actor").notNull().default("admin"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const households = pgTable("households", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  address: text("address"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const householdMembers = pgTable("household_members", {
+  id: serial("id").primaryKey(),
+  householdId: integer("household_id").notNull().references(() => households.id, { onDelete: "cascade" }),
+  memberId: integer("member_id").notNull().references(() => members.id, { onDelete: "cascade" }).unique(),
+  relationship: text("relationship").notNull().default("본인"),
+  isPrimary: boolean("is_primary").notNull().default(false),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
 export const memberNumberCounters = pgTable("member_number_counters", {
   id: serial("id").primaryKey(),
   registrationYear: integer("registration_year").notNull(),
@@ -121,6 +199,7 @@ export const attendanceEvents = pgTable("attendance_events", {
   eventType: text("event_type").notNull(),
   heldOn: text("held_on").notNull(),
   startsAt: text("starts_at"),
+  finalizedAt: timestamp("finalized_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
