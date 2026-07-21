@@ -500,7 +500,11 @@ p {
   align-items: center;
   background:
     linear-gradient(180deg, rgba(7, 20, 38, 0.18), rgba(7, 20, 38, 0.9)),
-    url("/hero-original.webp") center / cover;
+    url("/images/belief.jpg") center / cover;
+}
+
+.why-hero::after {
+  background: linear-gradient(180deg, rgba(7, 20, 38, 0), var(--navy));
 }
 
 .why-visual {
