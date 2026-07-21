@@ -6,6 +6,7 @@ import { getDb } from "@/db";
 import { members, memberSessions } from "@/db/schema";
 
 export const MEMBER_COOKIE = "immanuel_member_session";
+export const ADMIN_EMAIL = "komed94@gmail.com";
 const SESSION_SECONDS = 60 * 60 * 24 * 30;
 
 export type CurrentMember = {
@@ -23,6 +24,10 @@ export type CurrentMember = {
 
 export function normalizeEmail(value: unknown) {
   return typeof value === "string" ? value.trim().toLowerCase().slice(0, 200) : "";
+}
+
+export function isAdminMember(member: Pick<CurrentMember, "email"> | null | undefined) {
+  return normalizeEmail(member?.email) === ADMIN_EMAIL;
 }
 
 export function normalizePhone(value: unknown) {

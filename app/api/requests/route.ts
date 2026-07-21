@@ -155,7 +155,7 @@ export async function POST(request: Request) {
 }
 
 export async function GET(request: Request) {
-  if (!isImmanuelAdminRequest(request)) {
+  if (!await isImmanuelAdminRequest(request)) {
     return Response.json({ error: "권한이 없습니다." }, { status: 403 });
   }
 
@@ -174,7 +174,7 @@ export async function GET(request: Request) {
 }
 
 export async function PATCH(request: Request) {
-  if (!isImmanuelAdminRequest(request)) {
+  if (!await isImmanuelAdminRequest(request)) {
     return Response.json({ error: "권한이 없습니다." }, { status: 403 });
   }
   const body = (await request.json()) as Record<string, unknown>;
@@ -195,7 +195,7 @@ export async function PATCH(request: Request) {
 }
 
 export async function DELETE(request: Request) {
-  if (!isImmanuelAdminRequest(request)) {
+  if (!await isImmanuelAdminRequest(request)) {
     return Response.json({ error: "권한이 없습니다." }, { status: 403 });
   }
   const id = Number(new URL(request.url).searchParams.get("id"));

@@ -13,7 +13,7 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  if (!isImmanuelAdminRequest(request)) return Response.json({ error: "권한이 없습니다." }, { status: 403 });
+  if (!await isImmanuelAdminRequest(request)) return Response.json({ error: "권한이 없습니다." }, { status: 403 });
   const body = (await request.json()) as Record<string, unknown>;
   const title = clean(body.title, 200);
   const category = clean(body.category, 80);
@@ -30,7 +30,7 @@ export async function POST(request: Request) {
 }
 
 export async function PATCH(request: Request) {
-  if (!isImmanuelAdminRequest(request)) return Response.json({ error: "권한이 없습니다." }, { status: 403 });
+  if (!await isImmanuelAdminRequest(request)) return Response.json({ error: "권한이 없습니다." }, { status: 403 });
   const body = (await request.json()) as Record<string, unknown>;
   const id = Number(body.id);
   const title = clean(body.title, 200);
@@ -49,7 +49,7 @@ export async function PATCH(request: Request) {
 }
 
 export async function DELETE(request: Request) {
-  if (!isImmanuelAdminRequest(request)) return Response.json({ error: "권한이 없습니다." }, { status: 403 });
+  if (!await isImmanuelAdminRequest(request)) return Response.json({ error: "권한이 없습니다." }, { status: 403 });
   const id = Number(new URL(request.url).searchParams.get("id"));
   if (!Number.isInteger(id) || id < 1) return Response.json({ error: "대상을 확인해 주세요." }, { status: 400 });
   await getDb().delete(churchEvents).where(eq(churchEvents.id, id));
