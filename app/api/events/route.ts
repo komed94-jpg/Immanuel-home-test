@@ -21,10 +21,11 @@ export async function POST(request: Request) {
   const endsAt = clean(body.endsAt, 30);
   const location = clean(body.location, 240);
   const description = clean(body.description, 2000);
+  const registrationOpen = body.registrationOpen === true || body.registrationOpen === "on";
   if (!title || !startsAt || Number.isNaN(Date.parse(startsAt)) || (endsAt && Number.isNaN(Date.parse(endsAt)))) {
     return Response.json({ error: "행사명과 일시를 확인해 주세요." }, { status: 400 });
   }
-  const [saved] = await getDb().insert(churchEvents).values({ title, category: category || null, startsAt, endsAt: endsAt || null, location: location || null, description: description || null }).returning();
+  const [saved] = await getDb().insert(churchEvents).values({ title, category: category || null, startsAt, endsAt: endsAt || null, location: location || null, description: description || null, registrationOpen }).returning();
   return Response.json({ event: saved }, { status: 201 });
 }
 
@@ -38,10 +39,11 @@ export async function PATCH(request: Request) {
   const endsAt = clean(body.endsAt, 30);
   const location = clean(body.location, 240);
   const description = clean(body.description, 2000);
+  const registrationOpen = body.registrationOpen === true || body.registrationOpen === "on";
   if (!Number.isInteger(id) || id < 1 || !title || !startsAt || Number.isNaN(Date.parse(startsAt)) || (endsAt && Number.isNaN(Date.parse(endsAt)))) {
     return Response.json({ error: "행사 정보를 확인해 주세요." }, { status: 400 });
   }
-  const [saved] = await getDb().update(churchEvents).set({ title, category: category || null, startsAt, endsAt: endsAt || null, location: location || null, description: description || null }).where(eq(churchEvents.id, id)).returning();
+  const [saved] = await getDb().update(churchEvents).set({ title, category: category || null, startsAt, endsAt: endsAt || null, location: location || null, description: description || null, registrationOpen }).where(eq(churchEvents.id, id)).returning();
   if (!saved) return Response.json({ error: "행사를 찾지 못했습니다." }, { status: 404 });
   return Response.json({ event: saved });
 }

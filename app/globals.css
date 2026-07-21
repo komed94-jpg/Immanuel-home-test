@@ -925,6 +925,9 @@ p {
 .request-form input[type="email"],
 .request-form input[type="tel"],
 .request-form input[type="date"],
+.request-form input[type="password"],
+.request-form input[type="search"],
+.request-form select,
 .request-form textarea {
   width: 100%;
   border: 1px solid rgba(7, 20, 38, 0.18);
@@ -941,6 +944,7 @@ p {
 }
 
 .request-form input:focus,
+.request-form select:focus,
 .request-form textarea:focus {
   border-color: var(--gold);
   outline: 3px solid rgba(185, 139, 61, 0.14);
@@ -1078,6 +1082,140 @@ p {
   height: 1px !important;
   overflow: hidden !important;
 }
+
+.member-auth-page,
+.member-dashboard,
+.member-manager,
+.attendance-manager {
+  width: min(1160px, calc(100% - 44px));
+  margin: 0 auto;
+  padding: 144px 0 120px;
+}
+
+.member-auth-page {
+  display: grid;
+  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+  gap: clamp(36px, 7vw, 92px);
+  align-items: start;
+}
+
+.member-auth-page .request-intro h1,
+.member-dashboard-heading h1 {
+  margin: 12px 0 18px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(3.1rem, 7vw, 6.2rem);
+  font-weight: 500;
+  line-height: 0.98;
+}
+
+.member-auth-form { max-width: 720px; }
+.member-auth-notice { margin: 0; color: #a13f36; font-weight: 800; }
+.member-auth-switch { margin: 0; color: var(--muted); }
+.member-auth-switch a { color: var(--ink); font-weight: 900; text-decoration: underline; text-underline-offset: 4px; }
+.member-consent span { font-weight: 700 !important; }
+
+.member-dashboard-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: flex-end;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 34px;
+}
+
+.member-dashboard-heading p:last-child { margin: 0; color: var(--muted); font-weight: 800; }
+.member-logout-button,
+.member-admin-controls button,
+.member-approval-actions button,
+.attendance-member-list button {
+  border: 1px solid rgba(7, 20, 38, 0.18);
+  border-radius: 999px;
+  background: #fff;
+  padding: 10px 16px;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.member-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 34px 0;
+}
+
+.member-summary-grid article,
+.member-approval-note,
+.member-dashboard-section,
+.member-admin-card,
+.attendance-event-list,
+.attendance-member-list article {
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.78);
+  padding: 24px;
+  box-shadow: 0 18px 54px rgba(7, 20, 38, 0.07);
+}
+
+.member-summary-grid small { display: block; margin-bottom: 10px; color: var(--muted); font-weight: 800; }
+.member-summary-grid strong { font-size: clamp(1.15rem, 2vw, 1.45rem); }
+.member-approval-note { margin-bottom: 34px; border-left: 4px solid var(--gold); }
+.member-approval-note h2,
+.member-dashboard-section > h2,
+.attendance-manager h2 { margin: 0 0 16px; font-family: Georgia, "Times New Roman", serif; font-weight: 500; }
+.member-approval-note p { max-width: 760px; color: var(--muted); line-height: 1.8; }
+.member-dashboard-section { margin-top: 24px; }
+.member-profile-form { box-shadow: none; }
+
+.member-attendance-list { display: grid; gap: 10px; }
+.member-attendance-list article { display: grid; grid-template-columns: 130px 1fr; gap: 20px; border-top: 1px solid var(--line); padding: 16px 0; }
+.member-attendance-list time { color: var(--muted); font-weight: 800; }
+.member-attendance-list div { display: flex; justify-content: space-between; gap: 16px; }
+.member-attendance-list small { color: var(--gold-deep); font-weight: 900; }
+
+.member-only-notice {
+  width: min(900px, calc(100% - 44px));
+  margin: 0 auto 80px;
+  border-left: 3px solid var(--gold);
+  background: rgba(255, 255, 255, 0.76);
+  padding: 24px 28px;
+}
+.member-only-notice h2 { margin-top: 0; }
+.member-only-notice p { color: var(--muted); line-height: 1.75; }
+
+.member-admin-list { display: grid; gap: 18px; margin-top: 24px; }
+.member-admin-heading { display: flex; justify-content: space-between; gap: 20px; align-items: start; }
+.member-admin-heading small { color: var(--gold-deep); font-weight: 900; }
+.member-admin-heading h2 { margin: 6px 0 0; font-family: Georgia, "Times New Roman", serif; font-size: 2rem; font-weight: 500; }
+.member-admin-heading strong { color: var(--navy); }
+.member-admin-card dl { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin: 22px 0; }
+.member-admin-card dt { color: var(--muted); font-size: 0.76rem; font-weight: 900; }
+.member-admin-card dd { margin: 6px 0 0; overflow-wrap: anywhere; }
+.member-approval-actions,
+.member-admin-controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; border-top: 1px solid var(--line); padding-top: 18px; }
+.member-approval-actions { margin-bottom: 18px; }
+.member-approval-actions > span { width: 100%; font-size: 0.82rem; font-weight: 900; }
+.member-admin-controls label { display: grid; gap: 7px; }
+.member-admin-controls label span { font-size: 0.74rem; font-weight: 900; }
+.member-admin-controls select,
+.attendance-event-list select { border: 1px solid rgba(7, 20, 38, 0.18); border-radius: 14px; background: #fff; padding: 10px 14px; color: var(--ink); font: inherit; }
+
+.attendance-manager-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr); gap: 24px; align-items: start; }
+.attendance-event-list select { width: 100%; }
+.attendance-member-list { display: grid; gap: 10px; margin-top: 24px; }
+.attendance-member-list article { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+.attendance-member-list article > div { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.attendance-member-list article > div:first-child { display: grid; gap: 4px; }
+.attendance-member-list small { color: var(--muted); }
+.attendance-member-list button.is-active { border-color: var(--gold); background: var(--gold); color: var(--navy); }
+
+.event-application { grid-column: 2; margin-top: 18px; border-top: 1px solid var(--line); padding-top: 18px; }
+.event-application summary { color: var(--gold-deep); font-weight: 900; cursor: pointer; }
+.event-application .request-form { margin-top: 18px; box-shadow: none; }
+.member-nav-mobile { display: none; }
+.member-nav-mobile a { color: #f8f3e8; font-size: 0.88rem; font-weight: 850; }
 
 .admin-hero {
   background: var(--navy);
@@ -1469,6 +1607,8 @@ p {
     display: none;
   }
 
+  .member-nav-mobile { display: block; margin-left: auto; }
+
   .home-hero {
     min-height: 88svh;
     background:
@@ -1653,8 +1793,16 @@ p {
   .discipleship-flow ol { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .discipleship-apply { grid-template-columns: 1fr; }
   .request-inbox-tools, .resource-tools { display: grid; align-items: stretch; }
+  .member-auth-page { grid-template-columns: 1fr; padding-top: 112px; }
+  .member-dashboard, .member-manager, .attendance-manager { padding-top: 112px; }
+  .member-dashboard-heading { align-items: start; }
+  .member-summary-grid, .member-admin-card dl, .attendance-manager-grid { grid-template-columns: 1fr; }
+  .attendance-member-list article { align-items: flex-start; }
+  .event-application { grid-column: 1; }
 }
 
 @media (max-width: 520px) {
   .discipleship-flow ol { grid-template-columns: 1fr; }
+  .member-dashboard-heading, .member-admin-heading, .attendance-member-list article { display: grid; }
+  .member-attendance-list article { grid-template-columns: 1fr; gap: 8px; }
 }

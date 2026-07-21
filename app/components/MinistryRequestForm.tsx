@@ -9,7 +9,7 @@ type SubmitState =
   | { status: "error"; message: string };
 
 type MinistryRequestFormProps = {
-  requestType: "prayer" | "counseling" | "new-family" | "spirit-ministry" | "bible-conference" | "discipleship" | "community";
+  requestType: "prayer" | "counseling" | "new-family" | "spirit-ministry" | "bible-conference" | "discipleship" | "community" | "event";
   subjectLabel: string;
   messageLabel: string;
   submitLabel: string;

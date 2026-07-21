@@ -1,7 +1,8 @@
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 import { isImmanuelAdminRequest } from "@/app/chatgpt-auth";
 import { getDb } from "@/db";
-import { ministryRequests } from "@/db/schema";
+import { churchEvents, members, ministryRequests } from "@/db/schema";
+import { getMemberFromRequest } from "@/lib/member-auth";
 
 const allowedRequestTypes = new Set([
   "prayer",
@@ -10,7 +11,8 @@ const allowedRequestTypes = new Set([
   "spirit-ministry",
   "bible-conference",
   "discipleship",
-  "community"
+  "community",
+  "event"
 ]);
 
 function cleanText(value: unknown, maxLength: number) {
@@ -71,6 +73,12 @@ export async function POST(request: Request) {
     if (!allowedRequestTypes.has(requestType)) {
       return Response.json({ error: "요청 유형을 확인해 주세요." }, { status: 400 });
     }
+    if (requestType === "discipleship") {
+      const member = await getMemberFromRequest(request);
+      if (!member || member.membershipStatus !== "active") {
+        return Response.json({ error: "제자훈련은 등록 교인만 신청할 수 있습니다." }, { status: 403 });
+      }
+    }
     if (!subject || !message) {
       return Response.json({ error: "제목과 요청 내용을 입력해 주세요." }, { status: 400 });
     }
@@ -82,6 +90,10 @@ export async function POST(request: Request) {
     }
     if (requestType === "community" && (!name || !contact)) {
       return Response.json({ error: "공동체 연결을 위해 이름과 연락처를 입력해 주세요." }, { status: 400 });
+    }
+    if (requestType === "event") {
+      const [openEvent] = await getDb().select({ id: churchEvents.id }).from(churchEvents).where(and(eq(churchEvents.title, subject), eq(churchEvents.registrationOpen, true))).limit(1);
+      if (!openEvent) return Response.json({ error: "현재 신청을 받는 행사가 아닙니다." }, { status: 403 });
     }
     const previousChurchComplete = details?.faithStatus === "교회가 처음" || Boolean(
       details?.previousChurchName && details.faithHistory && details.churchPosition && details.serviceHistory
@@ -108,6 +120,13 @@ export async function POST(request: Request) {
       })
       .returning({ id: ministryRequests.id });
 
+    if (requestType === "new-family" && details?.cardType === "registration") {
+      const member = await getMemberFromRequest(request);
+      if (member && member.membershipStatus === "nonmember") {
+        await db.update(members).set({ membershipStatus: "pending", updatedAt: new Date() }).where(eq(members.id, member.id));
+      }
+    }
+
     const receiptPrefixes: Record<string, string> = {
       prayer: "PR",
       counseling: "CO",
@@ -115,7 +134,8 @@ export async function POST(request: Request) {
       "spirit-ministry": "SM",
       "bible-conference": "BC",
       discipleship: "DT",
-      community: "CM"
+      community: "CM",
+      event: "EV"
     };
     const receiptPrefix = receiptPrefixes[requestType];
     return Response.json({ ok: true, receipt: `${receiptPrefix}-${saved.id}` }, { status: 201 });

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { MemberNavLink } from "@/app/components/MemberNavLink";
 
 const navItems = [
   { href: "/", label: "홈" },
@@ -25,7 +26,9 @@ export function Nav() {
             {item.label}
           </Link>
         ))}
+        <MemberNavLink />
       </nav>
+      <div className="member-nav-mobile"><MemberNavLink /></div>
     </header>
   );
 }
