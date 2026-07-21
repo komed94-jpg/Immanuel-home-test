@@ -13,7 +13,7 @@ export async function GET(request: Request) {
   const publishDate = getPublishDateKst();
   await ensureAutomaticWord(publishDate);
 
-  const showAll = new URL(request.url).searchParams.get("all") === "1" && isImmanuelAdminRequest(request);
+  const showAll = new URL(request.url).searchParams.get("all") === "1" && await isImmanuelAdminRequest(request);
   const query = getDb()
     .select()
     .from(dailyWords)
@@ -29,7 +29,7 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  if (!isImmanuelAdminRequest(request)) {
+  if (!await isImmanuelAdminRequest(request)) {
     return Response.json({ error: "권한이 없습니다." }, { status: 403 });
   }
 
@@ -74,7 +74,7 @@ export async function POST(request: Request) {
 }
 
 export async function PATCH(request: Request) {
-  if (!isImmanuelAdminRequest(request)) {
+  if (!await isImmanuelAdminRequest(request)) {
     return Response.json({ error: "권한이 없습니다." }, { status: 403 });
   }
 
@@ -110,7 +110,7 @@ export async function PATCH(request: Request) {
 }
 
 export async function DELETE(request: Request) {
-  if (!isImmanuelAdminRequest(request)) {
+  if (!await isImmanuelAdminRequest(request)) {
     return Response.json({ error: "권한이 없습니다." }, { status: 403 });
   }
 
