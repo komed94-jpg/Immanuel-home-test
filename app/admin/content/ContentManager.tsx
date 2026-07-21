@@ -3,7 +3,7 @@
 import { FormEvent, useCallback, useEffect, useState } from "react";
 
 type Sermon = { id: number; title: string; scripture: string | null; preacher: string | null; preachedOn: string; videoUrl: string; description: string | null };
-type ChurchEvent = { id: number; title: string; category: string | null; startsAt: string; endsAt: string | null; location: string | null; description: string | null };
+type ChurchEvent = { id: number; title: string; category: string | null; startsAt: string; endsAt: string | null; location: string | null; description: string | null; registrationOpen: boolean };
 type Program = { id: number; title: string; summary: string; schedule: string | null; location: string | null; capacity: string | null; status: string; sortOrder: number };
 type Giving = { id?: number; bank: string; accountNumber: string; accountHolder: string; note: string | null };
 type DailyWord = {
@@ -184,10 +184,11 @@ export function ContentManager() {
           <div className="request-form-grid"><label><span>시작</span><input name="startsAt" type="datetime-local" required /></label><label><span>종료 <small>선택</small></span><input name="endsAt" type="datetime-local" /></label></div>
           <label><span>장소 <small>선택</small></span><input name="location" type="text" /></label>
           <label><span>설명 <small>선택</small></span><textarea name="description" rows={4} /></label>
+          <label className="request-checkbox"><input name="registrationOpen" type="checkbox" /><span>홈페이지에서 행사 신청 받기 · 비멤버도 신청 가능</span></label>
           <button className="primary-link request-submit" type="submit">행사 저장</button>
         </form>
         <div className="admin-content-list">{events.map((item) => <article key={item.id}><div className="admin-editable-item"><div className="admin-content-heading"><div><small>{new Date(item.startsAt).toLocaleString("ko-KR")}</small><h3>{item.title}</h3></div><div className="admin-content-actions"><button type="button" onClick={() => setEditingEventId(editingEventId === item.id ? null : item.id)}>{editingEventId === item.id ? "닫기" : "수정"}</button><button type="button" onClick={() => remove("/api/events", item.id)}>삭제</button></div></div>{editingEventId === item.id && <form className="request-form word-edit-form" onSubmit={(event) => update(event, "/api/events", () => setEditingEventId(null))}>
-          <input type="hidden" name="id" value={item.id} /><label><span>행사명</span><input name="title" required defaultValue={item.title} /></label><label><span>구분</span><input name="category" defaultValue={item.category ?? ""} /></label><div className="request-form-grid"><label><span>시작</span><input name="startsAt" type="datetime-local" required defaultValue={item.startsAt.slice(0, 16)} /></label><label><span>종료</span><input name="endsAt" type="datetime-local" defaultValue={item.endsAt?.slice(0, 16) ?? ""} /></label></div><label><span>장소</span><input name="location" defaultValue={item.location ?? ""} /></label><label><span>설명</span><textarea name="description" rows={4} defaultValue={item.description ?? ""} /></label><button className="primary-link request-submit" type="submit">수정 내용 저장</button>
+          <input type="hidden" name="id" value={item.id} /><label><span>행사명</span><input name="title" required defaultValue={item.title} /></label><label><span>구분</span><input name="category" defaultValue={item.category ?? ""} /></label><div className="request-form-grid"><label><span>시작</span><input name="startsAt" type="datetime-local" required defaultValue={item.startsAt.slice(0, 16)} /></label><label><span>종료</span><input name="endsAt" type="datetime-local" defaultValue={item.endsAt?.slice(0, 16) ?? ""} /></label></div><label><span>장소</span><input name="location" defaultValue={item.location ?? ""} /></label><label><span>설명</span><textarea name="description" rows={4} defaultValue={item.description ?? ""} /></label><label className="request-checkbox"><input name="registrationOpen" type="checkbox" defaultChecked={item.registrationOpen} /><span>홈페이지에서 행사 신청 받기 · 비멤버도 신청 가능</span></label><button className="primary-link request-submit" type="submit">수정 내용 저장</button>
         </form>}</div></article>)}</div>
       </div>
     </div>

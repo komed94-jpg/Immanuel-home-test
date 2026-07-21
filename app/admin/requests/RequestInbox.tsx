@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-type RequestType = "prayer" | "counseling" | "new-family" | "spirit-ministry" | "bible-conference" | "discipleship" | "community";
+type RequestType = "prayer" | "counseling" | "new-family" | "spirit-ministry" | "bible-conference" | "discipleship" | "community" | "event";
 
 type MinistryRequest = {
   id: number;
@@ -56,7 +56,8 @@ const requestLabels: Record<RequestType, string> = {
   "spirit-ministry": "성령사역 요청",
   "bible-conference": "사경회 요청",
   discipleship: "제자훈련 신청",
-  community: "공동체 연결"
+  community: "공동체 연결",
+  event: "행사 신청"
 };
 
 const receiptPrefixes: Record<RequestType, string> = {
@@ -66,7 +67,8 @@ const receiptPrefixes: Record<RequestType, string> = {
   "spirit-ministry": "SM",
   "bible-conference": "BC",
   discipleship: "DT",
-  community: "CM"
+  community: "CM",
+  event: "EV"
 };
 
 const statusLabels: Record<string, string> = {

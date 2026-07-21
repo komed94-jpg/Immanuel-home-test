@@ -4,6 +4,7 @@ import { Layout } from "@/components/Layout";
 import { wayArticles } from "@/data/immanuel";
 import { DiscipleshipRequestForm } from "@/app/components/DiscipleshipRequestForm";
 import { DiscipleshipPrograms } from "@/app/components/DiscipleshipPrograms";
+import { getCurrentMember } from "@/lib/member-auth";
 
 export const metadata: Metadata = {
   title: "사람이 어떻게 변화되는가 I | 임마누엘교회",
@@ -13,7 +14,9 @@ export const metadata: Metadata = {
 const article = wayArticles.find((item) => item.slug === "growth");
 const transformationFlow = ["인식", "직면", "회개", "치유", "재해석", "훈련", "관계 변화", "사명 회복"];
 
-export default function DiscipleshipPage() {
+export default async function DiscipleshipPage() {
+  const member = await getCurrentMember();
+  const activeMember = member?.membershipStatus === "active";
   return <Layout><div className="way-detail-page">
     <section className="article-hero" style={{ backgroundImage: `url(${article?.image.url})` }}>
       <div className="article-hero-overlay" /><div className="article-hero-content">
@@ -33,7 +36,7 @@ export default function DiscipleshipPage() {
     <DiscipleshipPrograms />
     <section className="discipleship-apply">
       <div className="request-intro"><p className="section-kicker">DISCIPLESHIP APPLICATION</p><h2>제자훈련 신청</h2><p>「사람이 어떻게 변화되는가 I」 훈련 참여를 신청합니다.</p></div>
-      <DiscipleshipRequestForm />
+      {activeMember ? <DiscipleshipRequestForm /> : <div className="member-only-notice"><strong>등록 교인 전용 신청</strong><p>제자훈련은 교인번호가 발급된 멤버만 신청할 수 있습니다.</p><Link className="primary-link" href={member ? "/member" : "/login?returnTo=/discipleship"}>{member ? "내 승인 상태 확인" : "로그인"}</Link></div>}
     </section>
   </div></Layout>;
 }
