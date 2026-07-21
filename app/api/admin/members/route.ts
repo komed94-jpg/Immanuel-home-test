@@ -11,7 +11,7 @@ const allowedRelationships = new Set(["본인", "배우자", "자녀", "부모",
 function clean(value: unknown, max: number) { return typeof value === "string" ? value.trim().slice(0, max) : ""; }
 
 export async function GET(request: Request) {
-  if (!isImmanuelAdminRequest(request)) return Response.json({ error: "권한이 없습니다." }, { status: 403 });
+  if (!await isImmanuelAdminRequest(request)) return Response.json({ error: "권한이 없습니다." }, { status: 403 });
   const db = getDb();
   const [rows, registrations, familyRows, logs, unlinked] = await Promise.all([
     db.select({ id: members.id, name: members.name, email: members.email, phone: members.phone, birthDate: members.birthDate, accountStatus: members.accountStatus, membershipStatus: members.membershipStatus, role: members.role, memberNumber: members.memberNumber, registrationCategory: members.registrationCategory, address: members.address, occupation: members.occupation, currentDepartment: members.currentDepartment, faithYears: members.faithYears, baptismType: members.baptismType, baptismChurch: members.baptismChurch, previousChurchName: members.previousChurchName, previousChurchPosition: members.previousChurchPosition, serviceHistory: members.serviceHistory, pastoralNote: members.pastoralNote, approvedAt: members.approvedAt, createdAt: members.createdAt }).from(members).orderBy(desc(members.createdAt), desc(members.id)).limit(1000),
@@ -30,7 +30,7 @@ export async function GET(request: Request) {
 }
 
 export async function PATCH(request: Request) {
-  if (!isImmanuelAdminRequest(request)) return Response.json({ error: "권한이 없습니다." }, { status: 403 });
+  if (!await isImmanuelAdminRequest(request)) return Response.json({ error: "권한이 없습니다." }, { status: 403 });
   if (!sameOrigin(request)) return Response.json({ error: "올바르지 않은 요청입니다." }, { status: 403 });
   const body = (await request.json().catch(() => ({}))) as Record<string, unknown>; const id = Number(body.id); const action = clean(body.action, 40);
   if (!Number.isInteger(id) || id < 1) return Response.json({ error: "회원을 확인해 주세요." }, { status: 400 });
