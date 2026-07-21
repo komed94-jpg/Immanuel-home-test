@@ -1520,6 +1520,66 @@ p {
 .discipleship-programs dt { color: var(--gold-soft); font-size: 0.78rem; font-weight: 850; }
 .discipleship-programs dd { margin: 0; }
 
+.discipleship-program-card { display: flex; flex-direction: column; justify-content: space-between; gap: 24px; }
+.discipleship-program-card > .primary-link { align-self: flex-start; cursor: pointer; }
+.discipleship-inline-form { display: grid; gap: 14px; border-top: 1px solid rgba(248, 243, 232, 0.14); padding-top: 20px; }
+.discipleship-inline-form label { display: grid; gap: 8px; color: var(--gold-soft); font-size: 0.82rem; font-weight: 850; }
+.discipleship-inline-form textarea { width: 100%; border: 1px solid rgba(248, 243, 232, 0.22); border-radius: 14px; background: rgba(255, 255, 255, 0.08); padding: 14px; color: #fff; font: inherit; resize: vertical; }
+.discipleship-inline-form > div, .applicant-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.discipleship-inline-form button:not(.primary-link), .applicant-actions button:not(.primary-link), .text-action { border: 1px solid currentColor; border-radius: 999px; background: transparent; padding: 10px 16px; color: inherit; font: inherit; font-size: 0.82rem; font-weight: 900; cursor: pointer; }
+.discipleship-status { display: flex; justify-content: space-between; gap: 14px; align-items: center; border-radius: 14px; background: rgba(216, 170, 69, 0.12); padding: 12px 14px; color: var(--gold-soft); font-size: 0.86rem; font-weight: 900; }
+.discipleship-status a { text-decoration: underline; text-underline-offset: 3px; }
+
+.member-empty-panel { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; }
+.member-empty-panel p { color: var(--muted); }
+.member-discipleship-list { display: grid; gap: 18px; }
+.member-training-card { border-top: 1px solid var(--line); padding-top: 22px; }
+.member-training-card:first-of-type { border-top: 0; padding-top: 0; }
+.member-training-heading, .applicant-heading { display: flex; justify-content: space-between; gap: 22px; align-items: flex-start; }
+.member-training-heading small, .applicant-heading small { color: var(--gold-deep); font-weight: 900; }
+.member-training-heading h3, .applicant-heading h3 { margin: 7px 0; font-family: Georgia, "Times New Roman", serif; font-size: 1.45rem; font-weight: 500; }
+.member-training-heading p, .applicant-heading p { margin: 0; color: var(--muted); font-size: 0.88rem; }
+.member-training-heading > strong, .applicant-heading > strong { color: var(--gold-deep); font-size: 1.4rem; }
+.member-training-note { border-left: 3px solid var(--gold); padding-left: 12px; color: var(--muted); }
+.training-progress { height: 8px; overflow: hidden; border-radius: 999px; background: rgba(7, 20, 38, 0.1); margin: 22px 0; }
+.training-progress span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--gold), #bd842a); }
+.training-step-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 0 0 18px; padding: 0; list-style: none; }
+.training-step-list li { display: grid; grid-template-columns: 30px 1fr; gap: 9px; border: 1px solid var(--line); border-radius: 14px; padding: 12px; }
+.training-step-list li > span { color: var(--gold-deep); font-weight: 950; }
+.training-step-list li div { display: grid; gap: 4px; }
+.training-step-list li small { color: var(--muted); }
+.training-step-list li em { grid-column: 2; color: var(--muted); font-size: 0.76rem; font-style: normal; font-weight: 850; }
+.training-step-list li.attendance-present, .training-step-list li.attendance-late { border-color: rgba(58, 124, 85, 0.3); background: rgba(58, 124, 85, 0.06); }
+.text-action { color: var(--muted); }
+.training-completed-date { color: #285f40; font-weight: 850; }
+
+.admin-manager { width: min(1160px, calc(100% - 44px)); margin: 0 auto; padding: 64px 0 120px; }
+.admin-toolbar { display: flex; justify-content: space-between; gap: 18px; align-items: end; margin-bottom: 28px; }
+.admin-toolbar label { display: grid; min-width: min(520px, 70vw); gap: 8px; color: var(--muted); font-size: 0.8rem; font-weight: 900; }
+.admin-toolbar select, .session-date-grid input, .admin-attendance-grid select { border: 1px solid rgba(7, 20, 38, 0.18); border-radius: 12px; background: #fff; padding: 11px 13px; color: var(--ink); font: inherit; }
+.secondary-admin-action { border: 1px solid rgba(7, 20, 38, 0.18); border-radius: 999px; padding: 11px 18px; font-size: 0.84rem; font-weight: 900; }
+.discipleship-admin-summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-bottom: 24px; }
+.discipleship-admin-summary article { border: 1px solid var(--line); border-radius: 20px; background: #fff; padding: 20px; }
+.discipleship-admin-summary small { display: block; margin-bottom: 8px; color: var(--muted); font-weight: 850; }
+.discipleship-admin-summary strong { font-size: 1.4rem; }
+.discipleship-session-editor, .discipleship-applicant-section { margin-top: 24px; border: 1px solid var(--line); border-radius: 24px; background: rgba(255, 255, 255, 0.82); padding: 24px; box-shadow: 0 18px 54px rgba(7, 20, 38, 0.07); }
+.discipleship-session-editor h2, .discipleship-applicant-section > h2 { margin: 0 0 8px; font-family: Georgia, "Times New Roman", serif; font-weight: 500; }
+.discipleship-session-editor > div > p { margin: 0 0 20px; color: var(--muted); }
+.session-date-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.session-date-grid label { display: grid; gap: 7px; color: var(--muted); font-size: 0.78rem; font-weight: 850; }
+.discipleship-applicant-list { display: grid; gap: 18px; margin-top: 22px; }
+.discipleship-applicant-card { border: 1px solid var(--line); border-radius: 20px; background: #fff; padding: 22px; }
+.applicant-heading h3 span { color: var(--muted); font-family: inherit; font-size: 0.76rem; }
+.discipleship-applicant-card details { margin: 18px 0; color: var(--muted); }
+.discipleship-applicant-card summary { color: var(--gold-deep); font-weight: 900; cursor: pointer; }
+.discipleship-applicant-card details p { line-height: 1.7; }
+.applicant-actions { margin-top: 18px; }
+.applicant-actions .primary-link { min-height: 40px; padding: 0 18px; cursor: pointer; }
+.admin-attendance-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.admin-attendance-grid label { display: grid; gap: 7px; border: 1px solid var(--line); border-radius: 14px; padding: 12px; }
+.admin-attendance-grid label > span { display: grid; gap: 3px; font-size: 0.84rem; font-weight: 850; }
+.admin-attendance-grid small { color: var(--muted); font-size: 0.72rem; font-weight: 600; }
+
 .admin-home-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1870,6 +1930,9 @@ p {
   .attendance-stat-heading article { text-align: left; }
   .attendance-member-list article { align-items: flex-start; }
   .event-application { grid-column: 1; }
+  .admin-toolbar { display: grid; align-items: stretch; }
+  .admin-toolbar label { min-width: 0; }
+  .discipleship-admin-summary, .session-date-grid, .admin-attendance-grid, .training-step-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 520px) {
@@ -1881,4 +1944,6 @@ p {
   .attendance-bulk-bar { display: grid; }
   .attendance-bulk-bar button.is-warning { margin-left: 0; }
   .attendance-monthly-list article { grid-template-columns: 72px 1fr auto; }
+  .member-training-heading, .applicant-heading { display: grid; }
+  .discipleship-admin-summary, .session-date-grid, .admin-attendance-grid, .training-step-list { grid-template-columns: 1fr; }
 }

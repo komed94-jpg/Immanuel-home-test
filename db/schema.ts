@@ -27,6 +27,16 @@ export const discipleshipPrograms = pgTable("discipleship_programs", {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
+export const discipleshipSessions = pgTable("discipleship_sessions", {
+  id: serial("id").primaryKey(),
+  programId: integer("program_id").notNull().references(() => discipleshipPrograms.id, { onDelete: "cascade" }),
+  sessionNumber: integer("session_number").notNull(),
+  title: text("title").notNull(),
+  stageKey: text("stage_key").notNull(),
+  heldOn: text("held_on"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+}, (table) => [uniqueIndex("discipleship_program_session_idx").on(table.programId, table.sessionNumber)]);
+
 export const sermons = pgTable("sermons", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
@@ -101,6 +111,28 @@ export const members = pgTable("members", {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 });
+
+export const discipleshipApplications = pgTable("discipleship_applications", {
+  id: serial("id").primaryKey(),
+  programId: integer("program_id").notNull().references(() => discipleshipPrograms.id, { onDelete: "cascade" }),
+  memberId: integer("member_id").notNull().references(() => members.id, { onDelete: "cascade" }),
+  motivation: text("motivation"),
+  status: text("status").notNull().default("pending"),
+  adminNote: text("admin_note"),
+  appliedAt: timestamp("applied_at", { withTimezone: true }).notNull().defaultNow(),
+  reviewedAt: timestamp("reviewed_at", { withTimezone: true }),
+  completedAt: timestamp("completed_at", { withTimezone: true }),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+}, (table) => [uniqueIndex("discipleship_program_member_idx").on(table.programId, table.memberId)]);
+
+export const discipleshipAttendance = pgTable("discipleship_attendance", {
+  id: serial("id").primaryKey(),
+  sessionId: integer("session_id").notNull().references(() => discipleshipSessions.id, { onDelete: "cascade" }),
+  applicationId: integer("application_id").notNull().references(() => discipleshipApplications.id, { onDelete: "cascade" }),
+  status: text("status").notNull().default("absent"),
+  note: text("note"),
+  checkedAt: timestamp("checked_at", { withTimezone: true }).notNull().defaultNow(),
+}, (table) => [uniqueIndex("discipleship_session_application_idx").on(table.sessionId, table.applicationId)]);
 
 export const memberSessions = pgTable("member_sessions", {
   id: serial("id").primaryKey(),
