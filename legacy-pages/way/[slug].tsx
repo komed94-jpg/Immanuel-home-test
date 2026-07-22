@@ -33,6 +33,9 @@ const slugAliasMap: Record<string, string> = {
 };
 
 export default function ArticlePage({ article }: ArticlePageProps) {
+  const lessonNumber = wayArticles.findIndex((item) => item.slug === article.slug) + 1;
+  const lessonLabel = String(lessonNumber).padStart(2, "0");
+
   return (
     <Layout>
       <article className="way-detail-page way-article-page">
@@ -56,11 +59,15 @@ export default function ArticlePage({ article }: ArticlePageProps) {
             <p key={`${article.slug}-${index}`}>{paragraph}</p>
           ))}
         </section>
-        <section className="growth-study-bridge" aria-label={`${article.title} 성경공부 연결`}>
-          <p className="section-kicker">BIBLE STUDY · {article.title}</p>
-          <h2>이 내용을 성경으로 확인해 보십시오.</h2>
-          <p>핵심 본문과 참조 말씀을 먼저 읽고, 본문 관찰·성경적 해설·삶의 적용과 기도로 이어 갑니다.</p>
-          <Link href={`/bible-study/immanuel-way?lesson=${article.slug}`} className="primary-link">이 과 성경공부 시작</Link>
+        <section className="way-lesson-bridge" aria-label={`${article.title} ${lessonNumber}과 성경공부 연결`}>
+          <div>
+            <p className="section-kicker">IMMANUEL WAY · LESSON {lessonLabel}</p>
+            <h2>{lessonNumber}과 성경공부로 이어갑니다.</h2>
+            <p>핵심 본문과 참조 말씀을 읽고, 이 내용을 성경을 기준으로 확인하고 적용합니다.</p>
+          </div>
+          <Link href={`/bible-study/immanuel-way?lesson=${article.slug}`} className="primary-link">
+            {lessonLabel}과 성경공부 시작
+          </Link>
         </section>
       </article>
     </Layout>
