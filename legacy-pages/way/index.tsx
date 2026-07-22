@@ -15,10 +15,11 @@ export default function WayPage() {
           <div className="way-study-callout">
             <div>
               <p className="section-kicker">WEB BIBLE STUDY</p>
-              <h2>읽은 말씀을 내 삶의 답으로 남깁니다.</h2>
-              <p>1권과 2권을 웹에서 읽고, 로그인하면 답변·공부 날짜·진도와 수료를 기록할 수 있습니다.</p>
+              <h2>11개의 길을 성경으로 공부합니다.</h2>
+              <p>핵심 본문과 참조 말씀을 먼저 읽고, 본문 관찰·성경적 해설·분별·실천·기도로 이어 갑니다. 로그인하면 답변·공부 날짜·진도와 수료를 기록할 수 있습니다.</p>
             </div>
             <div className="way-study-actions">
+              <Link className="primary-link" href="/bible-study/immanuel-way">임마누엘의 길 11과 시작</Link>
               <Link className="primary-link" href="/bible-study/immanuel-basic">1권 성경공부 열기</Link>
               <Link className="primary-link" href="/bible-study/immanuel-basic-2">2권 성경공부 열기</Link>
             </div>

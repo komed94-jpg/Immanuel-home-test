@@ -1,9 +1,11 @@
 import { immanuelBasicBookTwoCourse } from "@/lib/bible-study-book-two";
+import { immanuelWayCourse } from "@/lib/bible-study-immanuel-way";
 
 export type BibleStudyQuestion = {
   key: string;
   label: string;
   prompt: string;
+  visibility?: "private" | "leader";
 };
 
 export type BibleStudySection = {
@@ -14,6 +16,7 @@ export type BibleStudySection = {
 
 export type BibleStudyPage = {
   key: string;
+  unit?: number;
   lesson: string;
   title: string;
   eyebrow: string;
@@ -29,6 +32,7 @@ export type BibleStudyCourse = {
   subtitle: string;
   lessonSlug: string;
   overview: string;
+  totalLessons?: number;
   pages: BibleStudyPage[];
 };
 
@@ -256,9 +260,9 @@ export const immanuelBasicCourse: BibleStudyCourse = {
   ]
 };
 
-export { immanuelBasicBookTwoCourse };
+export { immanuelBasicBookTwoCourse, immanuelWayCourse };
 
-export const bibleStudyCourses = [immanuelBasicCourse, immanuelBasicBookTwoCourse];
+export const bibleStudyCourses = [immanuelWayCourse, immanuelBasicCourse, immanuelBasicBookTwoCourse];
 
 export function getBibleStudyCourse(slug: string) {
   return bibleStudyCourses.find((course) => course.slug === slug) ?? null;
@@ -266,4 +270,9 @@ export function getBibleStudyCourse(slug: string) {
 
 export function totalPages(course: BibleStudyCourse) {
   return course.pages.length;
+}
+
+export function isLeaderVisibleQuestion(course: BibleStudyCourse, pageKey: string, questionKey: string) {
+  const question = course.pages.find((page) => page.key === pageKey)?.questions.find((item) => item.key === questionKey);
+  return question?.visibility !== "private";
 }

@@ -1,14 +1,16 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { BibleStudyCourse } from "@/lib/bible-study";
 
 type SavedResponse = { pageKey: string; questionKey: string; answer: string; studiedOn: string; updatedAt: string };
 type SavedProgress = { pageKey: string; studiedOn: string; completedAt: string };
 type StudyState = { responses: SavedResponse[]; progress: SavedProgress[]; completion: { status: string; certifiedAt: string | null } | null; totalPages: number };
 
-export function StudyWorkbook({ course }: { course: BibleStudyCourse }) {
-  const [pageIndex, setPageIndex] = useState(0);
+export function StudyWorkbook({ course, startPageKey }: { course: BibleStudyCourse; startPageKey?: string }) {
+  const requestedIndex = startPageKey ? course.pages.findIndex((item) => item.key === startPageKey) : -1;
+  const [pageIndex, setPageIndex] = useState(requestedIndex >= 0 ? requestedIndex : 0);
+  const didSetResume = useRef(requestedIndex >= 0);
   const [data, setData] = useState<StudyState | null>(null);
   const [needsLogin, setNeedsLogin] = useState(false);
   const [answers, setAnswers] = useState<Record<string, string>>({});
@@ -18,6 +20,13 @@ export function StudyWorkbook({ course }: { course: BibleStudyCourse }) {
   const progressKeys = useMemo(() => new Set((data?.progress ?? []).filter((item) => coursePageKeys.has(item.pageKey)).map((item) => item.pageKey)), [coursePageKeys, data]);
   const completed = progressKeys.size;
   const percent = Math.round((completed / course.pages.length) * 100);
+  const completedLessons = useMemo(() => {
+    if (!course.totalLessons) return null;
+    return Array.from({ length: course.totalLessons }, (_, index) => index + 1).filter((unit) => {
+      const unitPages = course.pages.filter((item) => item.unit === unit);
+      return unitPages.length > 0 && unitPages.every((item) => progressKeys.has(item.key));
+    }).length;
+  }, [course.pages, course.totalLessons, progressKeys]);
 
   async function load() {
     const response = await fetch(`/api/member/study?course=${course.slug}`, { cache: "no-store" });
@@ -38,9 +47,15 @@ export function StudyWorkbook({ course }: { course: BibleStudyCourse }) {
         setNeedsLogin(false);
         setData(result);
         setAnswers(Object.fromEntries(result.responses.map((item) => [`${item.pageKey}:${item.questionKey}`, item.answer])));
+        if (!didSetResume.current) {
+          const savedKeys = new Set(result.progress.map((item) => item.pageKey));
+          const nextPage = course.pages.findIndex((item) => !savedKeys.has(item.key));
+          setPageIndex(nextPage >= 0 ? nextPage : course.pages.length - 1);
+          didSetResume.current = true;
+        }
       })
       .catch(() => setNotice("학습 기록을 불러오지 못했습니다."));
-  }, [course.pages.length, course.slug]);
+  }, [course.pages, course.pages.length, course.slug]);
 
   async function saveAnswer(questionKey: string, answer: string) {
     if (needsLogin) return;
@@ -62,7 +77,7 @@ export function StudyWorkbook({ course }: { course: BibleStudyCourse }) {
       <p className="section-kicker">WEB WORKBOOK</p>
       <h2>{course.title}</h2>
       <div className="web-study-progress"><span style={{ width: `${percent}%` }} /></div>
-      <strong>{needsLogin ? `총 ${course.pages.length}쪽 · 로그인 후 진도 저장` : `${completed}/${course.pages.length}쪽 완료 · ${percent}%`}</strong>
+      <strong>{needsLogin ? `총 ${course.totalLessons ? `${course.totalLessons}과 · ` : ""}${course.pages.length}쪽 · 로그인 후 진도 저장` : course.totalLessons && completedLessons !== null ? `${completedLessons}/${course.totalLessons}과 · ${completed}/${course.pages.length}쪽 · ${percent}%` : `${completed}/${course.pages.length}쪽 완료 · ${percent}%`}</strong>
       <ol>{course.pages.map((item, index) => <li key={item.key}>
         <button type="button" className={index === pageIndex ? "is-active" : ""} onClick={() => setPageIndex(index)}>
           <span>{index + 1}</span><em><small>{item.lesson}</small>{item.title}</em>{progressKeys.has(item.key) && <small>완료</small>}
@@ -80,7 +95,7 @@ export function StudyWorkbook({ course }: { course: BibleStudyCourse }) {
       {needsLogin && <div className="web-study-login-callout"><strong>읽기는 누구나 할 수 있습니다.</strong><p>답변 저장, 공부 날짜 기록, 진도와 수료 관리는 로그인한 교인에게 열립니다.</p><a className="primary-link" href={`/login?returnTo=${encodeURIComponent(`/bible-study/${course.slug}`)}`}>로그인하여 답변 기록하기</a></div>}
       <div className="web-study-questions">{page.questions.map((question) => {
         const key = `${page.key}:${question.key}`;
-        return <label key={question.key}><span>{question.label}</span><strong>{question.prompt}</strong><textarea rows={5} value={answers[key] ?? ""} disabled={needsLogin} onChange={(event) => setAnswers((current) => ({ ...current, [key]: event.target.value }))} onBlur={(event) => void saveAnswer(question.key, event.target.value)} placeholder={needsLogin ? "로그인하면 이곳에 답을 기록할 수 있습니다." : "여기에 답을 적으면 자동 저장됩니다."} /></label>;
+        return <label key={question.key}><span>{question.label}</span><strong>{question.prompt}</strong>{question.visibility === "private" && <small className="web-study-private-note">이 답변은 관리자 화면에 표시되지 않고 본인에게만 보입니다.</small>}<textarea rows={5} value={answers[key] ?? ""} disabled={needsLogin} onChange={(event) => setAnswers((current) => ({ ...current, [key]: event.target.value }))} onBlur={(event) => void saveAnswer(question.key, event.target.value)} placeholder={needsLogin ? "로그인하면 이곳에 답을 기록할 수 있습니다." : "여기에 답을 적으면 자동 저장됩니다."} /></label>;
       })}</div>
       {notice && <p className="content-manager-notice" role="status">{notice}</p>}
       <div className="web-study-actions">
