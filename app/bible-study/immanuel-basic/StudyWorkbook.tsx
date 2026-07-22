@@ -77,7 +77,7 @@ export function StudyWorkbook({ course }: { course: BibleStudyCourse }) {
       {page.body && <div className="web-study-body">{page.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>}
       {page.sections && <div className="web-study-sections">{page.sections.map((section) => <section className="web-study-section" key={`${section.label}:${section.title}`}>
         <p className="web-study-section-label">{section.label}</p><h3>{section.title}</h3>{section.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>)}</div>}
-      {needsLogin && <div className="web-study-login-callout"><strong>읽기는 누구나 할 수 있습니다.</strong><p>답변 저장, 공부 날짜 기록, 진도와 수료 관리는 로그인한 교인에게 열립니다.</p><a className="primary-link" href={`/login?returnTo=${encodeURIComponent("/bible-study/immanuel-basic")}`}>로그인하여 답변 기록하기</a></div>}
+      {needsLogin && <div className="web-study-login-callout"><strong>읽기는 누구나 할 수 있습니다.</strong><p>답변 저장, 공부 날짜 기록, 진도와 수료 관리는 로그인한 교인에게 열립니다.</p><a className="primary-link" href={`/login?returnTo=${encodeURIComponent(`/bible-study/${course.slug}`)}`}>로그인하여 답변 기록하기</a></div>}
       <div className="web-study-questions">{page.questions.map((question) => {
         const key = `${page.key}:${question.key}`;
         return <label key={question.key}><span>{question.label}</span><strong>{question.prompt}</strong><textarea rows={5} value={answers[key] ?? ""} disabled={needsLogin} onChange={(event) => setAnswers((current) => ({ ...current, [key]: event.target.value }))} onBlur={(event) => void saveAnswer(question.key, event.target.value)} placeholder={needsLogin ? "로그인하면 이곳에 답을 기록할 수 있습니다." : "여기에 답을 적으면 자동 저장됩니다."} /></label>;
