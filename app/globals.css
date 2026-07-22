@@ -2222,3 +2222,21 @@ p {
   .member-training-heading, .applicant-heading { display: grid; }
   .discipleship-admin-summary, .session-date-grid, .admin-attendance-grid, .training-step-list, .event-admin-summary { grid-template-columns: 1fr; }
 }
+
+
+.way-study-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.way-study-actions .primary-link {
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .way-study-actions {
+    justify-content: flex-start;
+  }
+}
