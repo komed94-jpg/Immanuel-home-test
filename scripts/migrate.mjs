@@ -322,6 +322,43 @@ const statements = [
   `create index if not exists discipleship_applications_program_status_idx on discipleship_applications (program_id, status, applied_at)`,
   `create index if not exists discipleship_sessions_program_idx on discipleship_sessions (program_id, session_number)`,
   `create index if not exists discipleship_attendance_application_idx on discipleship_attendance (application_id, session_id)`,
+  `create table if not exists bible_study_responses (
+    id serial primary key,
+    member_id integer not null references members(id) on delete cascade,
+    course_slug text not null,
+    lesson_slug text not null,
+    page_key text not null,
+    question_key text not null,
+    answer text not null default '',
+    studied_on text not null,
+    updated_at timestamptz not null default now(),
+    unique (member_id, course_slug, lesson_slug, page_key, question_key)
+  )`,
+  `create table if not exists bible_study_page_progress (
+    id serial primary key,
+    member_id integer not null references members(id) on delete cascade,
+    course_slug text not null,
+    lesson_slug text not null,
+    page_key text not null,
+    studied_on text not null,
+    completed_at timestamptz not null default now(),
+    updated_at timestamptz not null default now(),
+    unique (member_id, course_slug, lesson_slug, page_key)
+  )`,
+  `create table if not exists bible_study_completions (
+    id serial primary key,
+    member_id integer not null references members(id) on delete cascade,
+    course_slug text not null,
+    status text not null default 'ready',
+    admin_note text,
+    completed_at timestamptz not null default now(),
+    certified_at timestamptz,
+    updated_at timestamptz not null default now(),
+    unique (member_id, course_slug)
+  )`,
+  `create index if not exists bible_study_responses_member_idx on bible_study_responses (member_id, course_slug, updated_at desc)`,
+  `create index if not exists bible_study_progress_member_idx on bible_study_page_progress (member_id, course_slug, completed_at desc)`,
+  `create index if not exists bible_study_completions_status_idx on bible_study_completions (course_slug, status, completed_at desc)`,
   `insert into discipleship_sessions (program_id, session_number, title, stage_key)
    select p.id, s.session_number, s.title, s.stage_key
    from discipleship_programs p

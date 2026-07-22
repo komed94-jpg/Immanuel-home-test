@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 const materials = [
-  { category: "새가족", title: "임마누엘 베이직", description: "처음 교회에 온 분이 복음과 교회 생활의 기초를 편안하게 알아 가는 성경공부입니다.", status: "교재 준비 중" },
+  { category: "새가족", title: "임마누엘 베이직", description: "처음 교회에 온 분이 복음과 교회 생활의 기초를 편안하게 알아 가는 성경공부입니다.", href: "/bible-study/immanuel-basic", status: "웹 교재 시작" },
   { category: "기초", title: "임마누엘의 길", description: "하나님의 사랑에서 시작해 회개·치유·훈련·사명으로 이어지는 변화의 여정을 함께 배웁니다.", href: "/way", status: "읽기" },
   { category: "성장", title: "사람이 어떻게 변화되는가", description: "말씀과 성령 안에서 삶 전체가 새로워지는 변화의 흐름을 배우는 훈련 자료입니다.", href: "/discipleship", status: "훈련 보기" }
 ];

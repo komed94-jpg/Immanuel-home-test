@@ -270,3 +270,37 @@ export const attendanceRecords = pgTable("attendance_records", {
   note: text("note"),
   checkedInAt: timestamp("checked_in_at", { withTimezone: true }).notNull().defaultNow(),
 }, (table) => [uniqueIndex("attendance_event_member_idx").on(table.eventId, table.memberId)]);
+
+export const bibleStudyResponses = pgTable("bible_study_responses", {
+  id: serial("id").primaryKey(),
+  memberId: integer("member_id").notNull().references(() => members.id, { onDelete: "cascade" }),
+  courseSlug: text("course_slug").notNull(),
+  lessonSlug: text("lesson_slug").notNull(),
+  pageKey: text("page_key").notNull(),
+  questionKey: text("question_key").notNull(),
+  answer: text("answer").notNull().default(""),
+  studiedOn: text("studied_on").notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+}, (table) => [uniqueIndex("bible_study_response_member_question_idx").on(table.memberId, table.courseSlug, table.lessonSlug, table.pageKey, table.questionKey)]);
+
+export const bibleStudyPageProgress = pgTable("bible_study_page_progress", {
+  id: serial("id").primaryKey(),
+  memberId: integer("member_id").notNull().references(() => members.id, { onDelete: "cascade" }),
+  courseSlug: text("course_slug").notNull(),
+  lessonSlug: text("lesson_slug").notNull(),
+  pageKey: text("page_key").notNull(),
+  studiedOn: text("studied_on").notNull(),
+  completedAt: timestamp("completed_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+}, (table) => [uniqueIndex("bible_study_progress_member_page_idx").on(table.memberId, table.courseSlug, table.lessonSlug, table.pageKey)]);
+
+export const bibleStudyCompletions = pgTable("bible_study_completions", {
+  id: serial("id").primaryKey(),
+  memberId: integer("member_id").notNull().references(() => members.id, { onDelete: "cascade" }),
+  courseSlug: text("course_slug").notNull(),
+  status: text("status").notNull().default("ready"),
+  adminNote: text("admin_note"),
+  completedAt: timestamp("completed_at", { withTimezone: true }).notNull().defaultNow(),
+  certifiedAt: timestamp("certified_at", { withTimezone: true }),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+}, (table) => [uniqueIndex("bible_study_completion_member_course_idx").on(table.memberId, table.courseSlug)]);
