@@ -6,19 +6,21 @@ type Member = { id: number; name: string; email: string; phone: string; memberNu
 type Progress = { memberId: number; pageKey: string; studiedOn: string; completedAt: string };
 type Completion = { id: number; memberId: number; status: string; adminNote: string | null; completedAt: string; certifiedAt: string | null };
 type ResponseItem = { memberId: number; pageKey: string; questionKey: string; answer: string; studiedOn: string; updatedAt: string };
-type Payload = { course: { slug: string; title: string; totalPages: number }; members: Member[]; progress: Progress[]; completions: Completion[]; responses: ResponseItem[] };
+type CourseOption = { slug: string; title: string; totalPages: number };
+type Payload = { courses: CourseOption[]; course: CourseOption; members: Member[]; progress: Progress[]; completions: Completion[]; responses: ResponseItem[] };
 
 export function StudyAdmin() {
   const [data, setData] = useState<Payload | null>(null);
   const [notice, setNotice] = useState("");
-  async function load() {
-    const response = await fetch("/api/admin/study", { cache: "no-store" });
+  async function load(courseSlug?: string) {
+    const target = courseSlug ?? data?.course.slug ?? "immanuel-basic";
+    const response = await fetch(`/api/admin/study?course=${encodeURIComponent(target)}`, { cache: "no-store" });
     const result = await response.json() as Payload & { error?: string };
     if (!response.ok) { setNotice(result.error ?? "학습 현황을 불러오지 못했습니다."); return; }
     setData(result);
   }
   useEffect(() => {
-    fetch("/api/admin/study", { cache: "no-store" })
+    fetch("/api/admin/study?course=immanuel-basic", { cache: "no-store" })
       .then(async (response) => ({ response, result: await response.json() as Payload & { error?: string } }))
       .then(({ response, result }) => response.ok ? setData(result) : setNotice(result.error ?? "학습 현황을 불러오지 못했습니다."))
       .catch(() => setNotice("학습 현황을 불러오지 못했습니다."));
@@ -45,6 +47,7 @@ export function StudyAdmin() {
   if (!data) return <section className="admin-manager"><p>{notice || "성경공부 학습 현황을 불러오는 중입니다…"}</p></section>;
   return <section className="admin-manager study-admin">
     {notice && <p className="content-manager-notice" role="status">{notice}</p>}
+    <div className="admin-toolbar"><label>관리할 웹 교재<select value={data.course.slug} onChange={(event) => void load(event.target.value)}>{data.courses.map((course) => <option key={course.slug} value={course.slug}>{course.title}</option>)}</select></label></div>
     <div className="discipleship-admin-summary"><article><small>교재</small><strong>{data.course.title}</strong></article><article><small>학습자</small><strong>{rows.length}명</strong></article><article><small>수료 대기</small><strong>{rows.filter((item) => item.completion?.status === "ready").length}명</strong></article><article><small>수료 완료</small><strong>{rows.filter((item) => item.completion?.status === "certified").length}명</strong></article></div>
     <div className="study-admin-list">{rows.length ? rows.map((row) => {
       const percent = Math.round((row.progressCount / data.course.totalPages) * 100);
