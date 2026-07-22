@@ -16,9 +16,12 @@ export default function WayPage() {
             <div>
               <p className="section-kicker">WEB BIBLE STUDY</p>
               <h2>읽은 말씀을 내 삶의 답으로 남깁니다.</h2>
-              <p>〈그럼에도 불구하고, 여전히 하나님은 나를 사랑하신다〉를 웹에서 읽고, 로그인하면 답변·공부 날짜·진도와 수료를 기록할 수 있습니다.</p>
+              <p>1권과 2권을 웹에서 읽고, 로그인하면 답변·공부 날짜·진도와 수료를 기록할 수 있습니다.</p>
             </div>
-            <Link className="primary-link" href="/bible-study/immanuel-basic">1권 성경공부 열기</Link>
+            <div className="way-study-actions">
+              <Link className="primary-link" href="/bible-study/immanuel-basic">1권 성경공부 열기</Link>
+              <Link className="primary-link" href="/bible-study/immanuel-basic-2">2권 성경공부 열기</Link>
+            </div>
           </div>
           <div className="poster-grid">
             {wayArticles.map((article, index) => (
