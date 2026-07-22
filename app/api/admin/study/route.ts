@@ -2,7 +2,7 @@ import { desc, eq, inArray } from "drizzle-orm";
 import { isImmanuelAdminRequest } from "@/app/chatgpt-auth";
 import { getDb } from "@/db";
 import { bibleStudyCompletions, bibleStudyPageProgress, bibleStudyResponses, members } from "@/db/schema";
-import { getBibleStudyCourse, immanuelBasicCourse, totalPages } from "@/lib/bible-study";
+import { bibleStudyCourses, getBibleStudyCourse, immanuelBasicCourse, totalPages } from "@/lib/bible-study";
 import { sameOrigin } from "@/lib/member-auth";
 
 function clean(value: unknown, max: number) {
@@ -11,7 +11,8 @@ function clean(value: unknown, max: number) {
 
 export async function GET(request: Request) {
   if (!await isImmanuelAdminRequest(request)) return Response.json({ error: "권한이 없습니다." }, { status: 403 });
-  const course = immanuelBasicCourse;
+  const requestedCourse = clean(new URL(request.url).searchParams.get("course"), 80);
+  const course = getBibleStudyCourse(requestedCourse) ?? immanuelBasicCourse;
   const db = getDb();
   const [progress, completions] = await Promise.all([
     db.select({ memberId: bibleStudyPageProgress.memberId, pageKey: bibleStudyPageProgress.pageKey, studiedOn: bibleStudyPageProgress.studiedOn, completedAt: bibleStudyPageProgress.completedAt })
@@ -23,7 +24,7 @@ export async function GET(request: Request) {
   const memberRows = memberIds.length ? await db.select({ id: members.id, name: members.name, email: members.email, phone: members.phone, memberNumber: members.memberNumber }).from(members).where(inArray(members.id, memberIds)) : [];
   const responses = memberIds.length ? await db.select({ memberId: bibleStudyResponses.memberId, pageKey: bibleStudyResponses.pageKey, questionKey: bibleStudyResponses.questionKey, answer: bibleStudyResponses.answer, studiedOn: bibleStudyResponses.studiedOn, updatedAt: bibleStudyResponses.updatedAt })
     .from(bibleStudyResponses).where(eq(bibleStudyResponses.courseSlug, course.slug)).orderBy(desc(bibleStudyResponses.updatedAt)).limit(8000) : [];
-  return Response.json({ course: { slug: course.slug, title: course.title, totalPages: totalPages(course) }, members: memberRows, progress, completions, responses });
+  return Response.json({ courses: bibleStudyCourses.map((item) => ({ slug: item.slug, title: item.title, totalPages: totalPages(item) })), course: { slug: course.slug, title: course.title, totalPages: totalPages(course) }, members: memberRows, progress, completions, responses });
 }
 
 export async function PATCH(request: Request) {

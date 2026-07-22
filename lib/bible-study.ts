@@ -1,3 +1,5 @@
+import { immanuelBasicBookTwoCourse } from "@/lib/bible-study-book-two";
+
 export type BibleStudyQuestion = {
   key: string;
   label: string;
@@ -254,7 +256,9 @@ export const immanuelBasicCourse: BibleStudyCourse = {
   ]
 };
 
-export const bibleStudyCourses = [immanuelBasicCourse];
+export { immanuelBasicBookTwoCourse };
+
+export const bibleStudyCourses = [immanuelBasicCourse, immanuelBasicBookTwoCourse];
 
 export function getBibleStudyCourse(slug: string) {
   return bibleStudyCourses.find((course) => course.slug === slug) ?? null;
