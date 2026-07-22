@@ -131,6 +131,10 @@ export default function ShepherdBiblePage() {
           <h3>서로를 말씀으로 세웁니다</h3>
           <p>목원들이 삶을 나누고 서로 격려하도록 인도합니다.</p>
         </div>
+        <a className="bible-app-scroll-cue" href="#shepherd-features-title">
+          <span>기능 살펴보기</span>
+          <span className="bible-app-scroll-arrow" aria-hidden="true">↓</span>
+        </a>
       </section>
 
       <section className="shepherd-features" aria-labelledby="shepherd-features-title">
