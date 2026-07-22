@@ -56,6 +56,14 @@ export default function ArticlePage({ article }: ArticlePageProps) {
             <p key={`${article.slug}-${index}`}>{paragraph}</p>
           ))}
         </section>
+        {article.slug === "growth" && (
+          <section className="growth-study-bridge" aria-label="성장트랙 성경공부 연결">
+            <p className="section-kicker">GROWTH TRACK</p>
+            <h2>성장은 말씀에서 시작됩니다.</h2>
+            <p>성장트랙의 교재와 묵상·목장 나눔 도구는 성경공부 페이지에서 이어서 사용할 수 있습니다.</p>
+            <Link href="/bible-study" className="primary-link">성경공부로 가기</Link>
+          </section>
+        )}
       </article>
     </Layout>
   );
