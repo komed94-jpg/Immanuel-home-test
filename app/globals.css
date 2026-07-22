@@ -630,6 +630,48 @@ p {
   }
 }
 
+/* Bible study hub and embedded study apps */
+.study-hero, .bible-app-hero { min-height: 500px; display: flex; align-items: end; padding: 132px max(48px, calc((100vw - 1120px) / 2)) 80px; color: #fff; background: linear-gradient(115deg, rgba(3, 11, 22, .98), rgba(8, 26, 45, .72)), url("/images/growth.jpg") center / cover; }
+.study-hero > div, .bible-app-hero > div { width: min(720px, 100%); }
+.study-hero h1, .bible-app-hero h1 { margin: 0 0 22px; font-family: Georgia, "Times New Roman", serif; font-size: clamp(3rem, 5.8vw, 5.2rem); font-weight: 500; line-height: 1.04; }
+.study-hero > div > p:last-child, .bible-app-hero > div > p:last-child { margin: 0; color: rgba(255, 255, 255, .82); font-size: 1.12rem; line-height: 1.85; }
+.shepherd-app-hero { background-image: linear-gradient(115deg, rgba(3, 11, 22, .98), rgba(8, 26, 45, .72)), url("/images/community.jpg"); }
+.study-section, .study-tools, .bible-app-note { width: min(1120px, calc(100% - 96px)); margin: 0 auto; padding: 104px 0; }
+.study-section-heading { max-width: 690px; margin-bottom: 38px; }
+.study-section-heading h2, .bible-app-note h2 { margin: 0 0 14px; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2.2rem, 4vw, 3.65rem); font-weight: 500; line-height: 1.12; }
+.study-section-heading > p:last-child { margin: 0; color: var(--muted); line-height: 1.8; }
+.study-material-grid, .study-tool-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.study-material-card { display: flex; min-height: 285px; flex-direction: column; align-items: flex-start; border: 1px solid var(--line); border-radius: 24px; background: #fff; padding: 28px; box-shadow: 0 18px 52px rgba(7, 20, 38, .07); }
+.study-material-card small, .study-tool-grid span { color: var(--gold-deep); font-size: .78rem; font-weight: 950; letter-spacing: .12em; text-transform: uppercase; }
+.study-material-card h3, .study-tool-grid h3 { margin: 14px 0 12px; font-size: 1.48rem; }
+.study-material-card p { margin: 0 0 22px; color: var(--muted); line-height: 1.75; }
+.study-material-card .text-action, .study-coming { margin-top: auto; color: var(--gold-deep); font-size: .87rem; font-weight: 900; }
+.study-tools { width: 100%; max-width: none; background: var(--navy); color: var(--ivory); padding-left: max(48px, calc((100vw - 1120px) / 2)); padding-right: max(48px, calc((100vw - 1120px) / 2)); }
+.study-tools .study-section-heading { margin-left: auto; margin-right: auto; width: min(1120px, 100%); }
+.study-tools .study-section-heading > p:last-child { color: rgba(248, 243, 232, .68); }
+.study-tool-grid { width: min(1120px, 100%); margin: 0 auto; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.study-tool-grid article { border: 1px solid rgba(248, 243, 232, .16); border-radius: 26px; background: rgba(255, 255, 255, .06); padding: 34px; }
+.study-tool-grid span { color: var(--gold-soft); }
+.study-tool-grid h3 { font-family: Georgia, "Times New Roman", serif; font-size: 2rem; font-weight: 500; }
+.study-tool-grid p { min-height: 58px; margin: 0 0 26px; color: rgba(248, 243, 232, .72); line-height: 1.8; }
+.discipleship-study-bridge { display: flex; width: min(1120px, calc(100% - 96px)); align-items: end; justify-content: space-between; gap: 36px; margin: 0 auto; padding: 82px 0; }
+.discipleship-study-bridge > div:first-child { max-width: 660px; }
+.discipleship-study-bridge h2 { margin: 0 0 14px; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2rem, 3.5vw, 3.2rem); font-weight: 500; }
+.discipleship-study-bridge p:last-child { margin: 0; color: var(--muted); line-height: 1.75; }
+.discipleship-study-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: end; }
+.growth-study-bridge { width: min(760px, calc(100% - 96px)); margin: -46px auto 96px; border-top: 1px solid rgba(216, 170, 69, .38); padding-top: 46px; text-align: center; }
+.growth-study-bridge h2 { margin: 0 0 14px; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2rem, 3.4vw, 3.1rem); font-weight: 500; }
+.growth-study-bridge p:not(.section-kicker) { margin: 0 auto 28px; color: var(--muted); line-height: 1.75; }
+.bible-app-frame-wrap, .bible-app-pending { width: min(1320px, calc(100% - 64px)); min-height: 650px; margin: -36px auto 0; position: relative; z-index: 2; overflow: hidden; border: 1px solid rgba(248, 243, 232, .28); border-radius: 26px; background: #fff; box-shadow: 0 24px 70px rgba(3, 11, 22, .24); }
+.bible-app-frame { display: block; width: 100%; min-height: 650px; border: 0; background: #fff; }
+.bible-app-loading { position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); font-weight: 800; }
+.bible-app-pending { display: grid; min-height: 330px; place-content: center; padding: 44px; text-align: center; }
+.bible-app-pending h2 { margin: 0 0 14px; font-family: Georgia, "Times New Roman", serif; font-size: 2.2rem; font-weight: 500; }
+.bible-app-pending p:last-child { max-width: 480px; margin: 0; color: var(--muted); line-height: 1.75; }
+.bible-app-note { max-width: 760px; padding-top: 76px; }
+.bible-app-note ol { display: grid; gap: 14px; margin: 26px 0 0; padding-left: 22px; color: var(--muted); line-height: 1.75; }
+@media (max-width: 800px) { .study-hero, .bible-app-hero { min-height: 470px; padding: 118px 22px 56px; } .study-section, .bible-app-note { width: calc(100% - 44px); padding: 72px 0; } .study-material-grid, .study-tool-grid { grid-template-columns: 1fr; } .study-tools { padding: 72px 22px; } .discipleship-study-bridge { width: calc(100% - 44px); display: grid; align-items: start; padding: 62px 0; } .discipleship-study-actions { justify-content: start; } .bible-app-frame-wrap, .bible-app-pending { width: calc(100% - 28px); min-height: 520px; margin-top: -22px; border-radius: 18px; } .bible-app-frame { min-height: 520px; } }
+
 .article-hero h1 {
   margin: 18px 0;
   font-family: Georgia, "Times New Roman", serif;
