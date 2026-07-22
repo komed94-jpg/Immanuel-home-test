@@ -8,6 +8,12 @@ const serviceIcons = [
     <path d="M5 5.5A3.5 3.5 0 0 1 8.5 2H20v17H8.5A3.5 3.5 0 0 0 5 22V5.5Z" />
     <path d="M5 5.5A3.5 3.5 0 0 0 1.5 2H1v17h.5A3.5 3.5 0 0 1 5 22V5.5Z" />
   </svg>,
+  <svg key="study" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M5 4.5A3.5 3.5 0 0 1 8.5 2H20v17H8.5A3.5 3.5 0 0 0 5 22V4.5Z" />
+    <path d="M8 7h8" />
+    <path d="M8 11h8" />
+    <path d="M8 15h5" />
+  </svg>,
   <svg key="worship" viewBox="0 0 24 24" aria-hidden="true">
     <path d="M12 2v20" />
     <path d="M7 7h10" />
@@ -51,6 +57,9 @@ export default function Home() {
           <div className="hero-actions">
             <Link className="primary-link" href="/way">
               임마누엘의 길
+            </Link>
+            <Link className="secondary-link" href="/bible-study">
+              성경공부 시작하기
             </Link>
             <Link className="secondary-link" href="/services">
               교회 서비스

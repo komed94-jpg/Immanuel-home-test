@@ -36,10 +36,11 @@ export default async function DiscipleshipPage() {
       <div>
         <p className="section-kicker">STUDY TOOLS</p>
         <h2 id="discipleship-study-title">훈련의 말씀은 성경공부에서 이어집니다.</h2>
-        <p>교재는 한곳에서 읽고, 개인 묵상은 공감성경으로, 목장 나눔 준비는 목자성경으로 이어 갑니다.</p>
+        <p>첫 교재 〈그럼에도 불구하고, 여전히 하나님은 나를 사랑하신다〉를 웹에서 읽고 답하며, 개인 묵상은 공감성경으로, 목장 나눔 준비는 목자성경으로 이어 갑니다.</p>
       </div>
       <div className="discipleship-study-actions">
-        <Link className="primary-link" href="/bible-study">성경공부 자료 보기</Link>
+        <Link className="primary-link" href="/bible-study/immanuel-basic">1권 성경공부 시작</Link>
+        <Link className="text-action" href="/bible-study">전체 교재 보기</Link>
         <Link className="text-action" href="/empathy-bible">공감성경</Link>
         <Link className="text-action" href="/shepherd-bible">목자성경</Link>
       </div>

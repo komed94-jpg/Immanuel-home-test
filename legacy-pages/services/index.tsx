@@ -6,6 +6,10 @@ const serviceDetails: Record<string, { label: string; body: string }> = {
     label: "말씀",
     body: "하루를 말씀으로 시작하고, 오늘의 마음과 선택을 하나님 앞에서 다시 정렬합니다."
   },
+  study: {
+    label: "성경공부",
+    body: "교재를 읽고 답을 기록하며, 공부 날짜·진도·수료까지 한 흐름으로 이어 갑니다."
+  },
   worship: {
     label: "예배",
     body: "예배 시간과 장소를 확인하고, 공동체가 함께 하나님께 나아가는 흐름을 안내합니다."
@@ -72,6 +76,12 @@ const icons = [
   <svg key="word" viewBox="0 0 24 24" aria-hidden="true">
     <path d="M5 5.5A3.5 3.5 0 0 1 8.5 2H20v17H8.5A3.5 3.5 0 0 0 5 22V5.5Z" />
     <path d="M5 5.5A3.5 3.5 0 0 0 1.5 2H1v17h.5A3.5 3.5 0 0 1 5 22V5.5Z" />
+  </svg>,
+  <svg key="study" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M5 4.5A3.5 3.5 0 0 1 8.5 2H20v17H8.5A3.5 3.5 0 0 0 5 22V4.5Z" />
+    <path d="M8 7h8" />
+    <path d="M8 11h8" />
+    <path d="M8 15h5" />
   </svg>,
   <svg key="worship" viewBox="0 0 24 24" aria-hidden="true">
     <path d="M12 2v20" />

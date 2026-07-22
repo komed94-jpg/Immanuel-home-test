@@ -12,6 +12,14 @@ export default function WayPage() {
             11개의 길은 단순한 메뉴가 아니라, 임마누엘교회가 믿고 예배하고
             기도하고 성장하며 세상으로 나아가는 신앙의 고백입니다.
           </p>
+          <div className="way-study-callout">
+            <div>
+              <p className="section-kicker">WEB BIBLE STUDY</p>
+              <h2>읽은 말씀을 내 삶의 답으로 남깁니다.</h2>
+              <p>〈그럼에도 불구하고, 여전히 하나님은 나를 사랑하신다〉를 웹에서 읽고, 로그인하면 답변·공부 날짜·진도와 수료를 기록할 수 있습니다.</p>
+            </div>
+            <Link className="primary-link" href="/bible-study/immanuel-basic">1권 성경공부 열기</Link>
+          </div>
           <div className="poster-grid">
             {wayArticles.map((article, index) => (
               <Link

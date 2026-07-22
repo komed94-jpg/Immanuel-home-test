@@ -3,6 +3,12 @@ import { Layout } from "@/components/Layout";
 
 const contentCards = [
   {
+    title: "웹 성경공부",
+    label: "WEB WORKBOOK",
+    body: "교재를 한 장씩 읽고 답변·공부 날짜·진도를 기록하는 디지털 성경공부입니다.",
+    href: "/bible-study"
+  },
+  {
     title: "설교 아카이브",
     label: "WORD ARCHIVE",
     body: "지나간 말씀을 다시 붙들고 삶의 자리에서 들을 수 있도록 정리합니다.",
@@ -49,6 +55,9 @@ export default function ContentPage() {
           <h1>콘텐츠</h1>
           <p>말씀과 예배, 공동체의 기록이 이곳에 연결됩니다.</p>
           <div className="hero-actions">
+            <Link href="/bible-study" className="primary-link">
+              성경공부 시작하기
+            </Link>
             <Link href="/way" className="primary-link">
               임마누엘의 길
             </Link>
