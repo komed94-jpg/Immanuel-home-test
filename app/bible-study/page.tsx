@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 const materials = [
-  { category: "새가족", title: "임마누엘 베이직", description: "처음 교회에 온 분이 복음과 교회 생활의 기초를 편안하게 알아 가는 성경공부입니다.", href: "/bible-study/immanuel-basic", status: "웹 교재 시작" },
+  { category: "제자훈련", title: "그럼에도 불구하고, 여전히 하나님은 나를 사랑하신다", description: "행위가 아니라 사랑 위에 서는 법. 8과·24쪽의 웹 교재를 읽고, 로그인하면 답변·공부 날짜·진도·수료를 기록할 수 있습니다.", href: "/bible-study/immanuel-basic", status: "웹 교재 열기" },
   { category: "기초", title: "임마누엘의 길", description: "하나님의 사랑에서 시작해 회개·치유·훈련·사명으로 이어지는 변화의 여정을 함께 배웁니다.", href: "/way", status: "읽기" },
   { category: "성장", title: "사람이 어떻게 변화되는가", description: "말씀과 성령 안에서 삶 전체가 새로워지는 변화의 흐름을 배우는 훈련 자료입니다.", href: "/discipleship", status: "훈련 보기" }
 ];
@@ -23,7 +23,7 @@ export default function BibleStudyPage() {
       </div>
     </section>
     <section className="study-section" aria-labelledby="study-materials-title">
-      <div className="study-section-heading"><p className="section-kicker">STUDY MATERIALS</p><h2 id="study-materials-title">성경공부 교재</h2><p>교재의 원본은 이곳에 모으고, 성장트랙과 제자훈련에서는 각 단계에 맞는 교재로 연결합니다.</p></div>
+      <div className="study-section-heading"><p className="section-kicker">STUDY MATERIALS</p><h2 id="study-materials-title">성경공부 교재</h2><p>교재는 웹에서 누구나 읽을 수 있습니다. 로그인한 교인은 답변과 공부 날짜를 남기고, 과정을 모두 마치면 수료 관리로 이어집니다.</p></div>
       <div className="study-material-grid">
         {materials.map((item) => <article className="study-material-card" key={item.title}>
           <small>{item.category}</small><h3>{item.title}</h3><p>{item.description}</p>
