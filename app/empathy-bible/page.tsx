@@ -84,6 +84,10 @@ export default function EmpathyBiblePage() {
           <h3>삶으로 응답합니다</h3>
           <p>기도와 작은 순종으로 오늘의 하루를 살아갑니다.</p>
         </div>
+        <a className="bible-app-scroll-cue" href="#empathy-features-title">
+          <span>기능 살펴보기</span>
+          <span className="bible-app-scroll-arrow" aria-hidden="true">↓</span>
+        </a>
       </section>
 
       <section className="empathy-features" aria-labelledby="empathy-features-title">
