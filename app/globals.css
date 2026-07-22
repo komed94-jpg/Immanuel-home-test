@@ -662,6 +662,12 @@ p {
 .growth-study-bridge { width: min(760px, calc(100% - 96px)); margin: -46px auto 96px; border-top: 1px solid rgba(216, 170, 69, .38); padding-top: 46px; text-align: center; }
 .growth-study-bridge h2 { margin: 0 0 14px; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2rem, 3.4vw, 3.1rem); font-weight: 500; }
 .growth-study-bridge p:not(.section-kicker) { margin: 0 auto 28px; color: var(--muted); line-height: 1.75; }
+.way-lesson-bridge { display: flex; width: min(880px, calc(100% - 96px)); align-items: end; justify-content: space-between; gap: 36px; margin: -46px auto 96px; border-top: 1px solid rgba(216, 170, 69, .38); padding-top: 38px; }
+.way-lesson-bridge > div { max-width: 610px; }
+.way-lesson-bridge .section-kicker { margin-bottom: 10px; color: var(--gold-deep); }
+.way-lesson-bridge h2 { margin: 0 0 10px; font-family: Georgia, "Times New Roman", serif; font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 500; }
+.way-lesson-bridge p:not(.section-kicker) { margin: 0; color: var(--muted); line-height: 1.75; }
+.way-lesson-bridge .primary-link { flex: 0 0 auto; white-space: nowrap; }
 .bible-app-frame-wrap, .bible-app-pending { width: min(1320px, calc(100% - 64px)); min-height: 650px; margin: -36px auto 0; position: relative; z-index: 2; overflow: hidden; border: 1px solid rgba(248, 243, 232, .28); border-radius: 26px; background: #fff; box-shadow: 0 24px 70px rgba(3, 11, 22, .24); }
 .bible-app-frame { display: block; width: 100%; min-height: 650px; border: 0; background: #fff; }
 .bible-app-loading { position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); font-weight: 800; }
@@ -2208,6 +2214,8 @@ p {
   .web-study-bible-principle { display: grid; width: calc(100% - 44px); margin: 34px auto -8px; padding: 20px; }
   .member-bible-study-list { grid-template-columns: 1fr; }
   .web-study-page-heading { display: grid; }
+  .way-lesson-bridge { display: grid; width: calc(100% - 44px); gap: 24px; margin: -26px auto 72px; padding-top: 32px; }
+  .way-lesson-bridge .primary-link { justify-self: start; }
   .event-applicant-card { display: grid; }
 }
 
