@@ -4,7 +4,11 @@ import { Layout } from "@/components/Layout";
 import { immanuelBasicCourse } from "@/lib/bible-study";
 import { StudyWorkbook } from "./StudyWorkbook";
 
-export const metadata: Metadata = { title: "임마누엘 베이직 | 임마누엘교회", robots: { index: false, follow: false } };
+export const metadata: Metadata = {
+  title: "그럼에도 불구하고, 여전히 하나님은 나를 사랑하신다 | 임마누엘교회",
+  description: "행위가 아니라 사랑 위에 서는 법 · 임마누엘의 길 01 웹 성경공부",
+  robots: { index: false, follow: false }
+};
 
 export default async function ImmanuelBasicStudyPage() {
   return <Layout>
