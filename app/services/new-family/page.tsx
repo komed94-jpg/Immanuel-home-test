@@ -23,7 +23,7 @@ export default async function NewFamilyPage() {
       <div className="new-family-study-link">
         <strong>새가족의 첫 성경공부</strong>
         <p>등록 전에도 웹 교재를 읽어 보실 수 있습니다. 로그인하면 답변과 학습 기록도 남길 수 있습니다.</p>
-        <Link className="text-action" href="/bible-study/immanuel-basic">성경공부 열기</Link>
+        <Link className="text-action" href="/bible-study/immanuel-way">임마누엘의 길 11과 시작</Link>
       </div>
     </div><NewFamilyRequestForm initialMember={member ? { name: member.name, birthDate: member.birthDate, email: member.email, phone: member.phone } : null} /></section>
   </Layout>;

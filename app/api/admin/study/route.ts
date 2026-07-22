@@ -2,7 +2,7 @@ import { desc, eq, inArray } from "drizzle-orm";
 import { isImmanuelAdminRequest } from "@/app/chatgpt-auth";
 import { getDb } from "@/db";
 import { bibleStudyCompletions, bibleStudyPageProgress, bibleStudyResponses, members } from "@/db/schema";
-import { bibleStudyCourses, getBibleStudyCourse, immanuelBasicCourse, totalPages } from "@/lib/bible-study";
+import { bibleStudyCourses, getBibleStudyCourse, immanuelBasicCourse, isLeaderVisibleQuestion, totalPages } from "@/lib/bible-study";
 import { sameOrigin } from "@/lib/member-auth";
 
 function clean(value: unknown, max: number) {
@@ -22,8 +22,13 @@ export async function GET(request: Request) {
   ]);
   const memberIds = [...new Set([...progress.map((item) => item.memberId), ...completions.map((item) => item.memberId)])];
   const memberRows = memberIds.length ? await db.select({ id: members.id, name: members.name, email: members.email, phone: members.phone, memberNumber: members.memberNumber }).from(members).where(inArray(members.id, memberIds)) : [];
-  const responses = memberIds.length ? await db.select({ memberId: bibleStudyResponses.memberId, pageKey: bibleStudyResponses.pageKey, questionKey: bibleStudyResponses.questionKey, answer: bibleStudyResponses.answer, studiedOn: bibleStudyResponses.studiedOn, updatedAt: bibleStudyResponses.updatedAt })
+  const allResponses = memberIds.length ? await db.select({ memberId: bibleStudyResponses.memberId, pageKey: bibleStudyResponses.pageKey, questionKey: bibleStudyResponses.questionKey, answer: bibleStudyResponses.answer, studiedOn: bibleStudyResponses.studiedOn, updatedAt: bibleStudyResponses.updatedAt })
     .from(bibleStudyResponses).where(eq(bibleStudyResponses.courseSlug, course.slug)).orderBy(desc(bibleStudyResponses.updatedAt)).limit(8000) : [];
+  const responses = allResponses.filter((response) => isLeaderVisibleQuestion(course, response.pageKey, response.questionKey)).map((response) => {
+    const page = course.pages.find((item) => item.key === response.pageKey);
+    const question = page?.questions.find((item) => item.key === response.questionKey);
+    return { ...response, lesson: page?.lesson ?? response.pageKey, pageTitle: page?.title ?? response.pageKey, questionLabel: question?.label ?? response.questionKey, prompt: question?.prompt ?? "" };
+  });
   return Response.json({ courses: bibleStudyCourses.map((item) => ({ slug: item.slug, title: item.title, totalPages: totalPages(item) })), course: { slug: course.slug, title: course.title, totalPages: totalPages(course) }, members: memberRows, progress, completions, responses });
 }
 

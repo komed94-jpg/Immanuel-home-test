@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 type Member = { id: number; name: string; email: string; phone: string; memberNumber: string | null };
 type Progress = { memberId: number; pageKey: string; studiedOn: string; completedAt: string };
 type Completion = { id: number; memberId: number; status: string; adminNote: string | null; completedAt: string; certifiedAt: string | null };
-type ResponseItem = { memberId: number; pageKey: string; questionKey: string; answer: string; studiedOn: string; updatedAt: string };
+type ResponseItem = { memberId: number; pageKey: string; questionKey: string; answer: string; studiedOn: string; updatedAt: string; lesson?: string; pageTitle?: string; questionLabel?: string; prompt?: string };
 type CourseOption = { slug: string; title: string; totalPages: number };
 type Payload = { courses: CourseOption[]; course: CourseOption; members: Member[]; progress: Progress[]; completions: Completion[]; responses: ResponseItem[] };
 
@@ -55,7 +55,7 @@ export function StudyAdmin() {
       return <article key={row.member.id} className="study-admin-card">
         <div className="applicant-heading"><div><small>{row.completion?.status === "certified" ? "수료 완료" : row.completion ? "수료 대기" : "진행 중"}</small><h3>{row.member.name} <span>{row.member.memberNumber ?? "교인번호 없음"}</span></h3><p>{row.member.phone} · 마지막 공부 {row.last?.studiedOn ?? "기록 없음"}</p></div><strong>{percent}%</strong></div>
         <div className="training-progress"><span style={{ width: `${percent}%` }} /></div>
-        <details><summary>답변 보기</summary>{answers.length ? <div className="study-answer-list">{answers.map((answer) => <section key={`${answer.pageKey}:${answer.questionKey}`}><small>{answer.pageKey} · {answer.questionKey} · {answer.studiedOn}</small><p>{answer.answer || "답변 없음"}</p></section>)}</div> : <p className="resource-empty">아직 저장된 답변이 없습니다.</p>}</details>
+        <details><summary>담당자 제출 답변 보기</summary>{answers.length ? <div className="study-answer-list">{answers.map((answer) => <section key={`${answer.pageKey}:${answer.questionKey}`}><small>{answer.lesson ?? answer.pageKey} · {answer.questionLabel ?? answer.questionKey} · {answer.studiedOn}</small>{answer.prompt && <strong>{answer.prompt}</strong>}<p>{answer.answer || "답변 없음"}</p></section>)}</div> : <p className="resource-empty">아직 담당자에게 제출된 답변이 없습니다. 개인 묵상 답변은 관리자에게 표시되지 않습니다.</p>}</details>
         <div className="applicant-actions">{row.completion?.status === "certified" ? <button type="button" onClick={() => void certify(row.member.id, "ready")}>수료 대기로 변경</button> : <button type="button" className="primary-link" disabled={row.progressCount < data.course.totalPages} onClick={() => void certify(row.member.id, "certified")}>수료 처리</button>}</div>
       </article>;
     }) : <p className="resource-empty">아직 학습 기록이 없습니다.</p>}</div>

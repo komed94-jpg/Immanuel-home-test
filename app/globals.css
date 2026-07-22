@@ -723,7 +723,7 @@ p {
 .web-study-hero p:last-child { margin: 0; color: rgba(255, 255, 255, .78); font-size: 1.08rem; line-height: 1.8; }
 .web-study-shell { display: grid; grid-template-columns: 310px minmax(0, 1fr); gap: 28px; width: min(1160px, calc(100% - 96px)); margin: 0 auto; padding: 72px 0 120px; align-items: start; }
 .web-study-sidebar, .web-study-page, .study-admin-card { border: 1px solid var(--line); border-radius: 24px; background: rgba(255, 255, 255, .88); box-shadow: 0 18px 54px rgba(7, 20, 38, .07); }
-.web-study-sidebar { position: sticky; top: 94px; padding: 24px; }
+.web-study-sidebar { position: sticky; top: 94px; max-height: calc(100vh - 118px); overflow-y: auto; padding: 24px; }
 .web-study-sidebar h2 { margin: 8px 0 18px; font-family: Georgia, "Times New Roman", serif; font-size: 1.45rem; font-weight: 500; line-height: 1.25; }
 .web-study-progress { height: 8px; overflow: hidden; border-radius: 999px; background: rgba(7, 20, 38, .08); }
 .web-study-progress span, .training-progress span { display: block; height: 100%; border-radius: inherit; background: var(--gold); }
@@ -755,10 +755,19 @@ p {
 .web-study-questions label { display: grid; gap: 9px; border: 1px solid var(--line); border-radius: 18px; background: #fff; padding: 18px; }
 .web-study-questions label > span { color: var(--gold-deep); font-size: .78rem; font-weight: 950; letter-spacing: .08em; }
 .web-study-questions strong { font-size: 1.02rem; }
+.web-study-private-note { color: var(--muted); font-size: .8rem; line-height: 1.55; }
 .web-study-questions textarea { width: 100%; border: 1px solid rgba(7, 20, 38, .16); border-radius: 14px; padding: 14px; resize: vertical; color: var(--ink); font: inherit; line-height: 1.7; }
 .web-study-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 24px; }
 .web-study-actions button:disabled { opacity: .45; cursor: not-allowed; }
 .web-study-completion { margin: 22px 0 0; border-left: 4px solid var(--gold); padding-left: 14px; color: var(--muted); font-weight: 850; }
+.web-study-hero-way { background: linear-gradient(115deg, rgba(3, 11, 22, .96), rgba(31, 55, 68, .76)), url("/images/belief.jpg") center / cover; }
+.web-study-bible-principle { display: flex; width: min(1160px, calc(100% - 96px)); gap: 22px; align-items: baseline; margin: 54px auto -18px; border-left: 4px solid var(--gold); background: rgba(216, 170, 69, .1); padding: 22px 26px; }
+.web-study-bible-principle strong { flex: 0 0 auto; color: var(--gold-deep); font-size: 1.05rem; }
+.web-study-bible-principle p { margin: 0; color: var(--muted); line-height: 1.75; }
+.study-answer-list section > strong { display: block; margin: 8px 0; font-size: .9rem; line-height: 1.55; }
+.member-bible-study-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.member-bible-study-list .member-training-card { display: flex; flex-direction: column; }
+.member-bible-study-list .text-action { margin-top: 18px; align-self: flex-start; }
 .study-admin-list { display: grid; gap: 16px; }
 .study-admin-card { padding: 22px; }
 .study-admin-card details { margin-top: 18px; border-top: 1px solid var(--line); padding-top: 16px; }
@@ -2195,7 +2204,9 @@ p {
   .discipleship-admin-summary, .session-date-grid, .admin-attendance-grid, .training-step-list, .event-admin-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .web-study-hero { min-height: 360px; padding: 112px 22px 52px; }
   .web-study-shell { width: calc(100% - 44px); grid-template-columns: 1fr; padding: 46px 0 86px; }
-  .web-study-sidebar { position: static; }
+  .web-study-sidebar { position: static; max-height: 420px; }
+  .web-study-bible-principle { display: grid; width: calc(100% - 44px); margin: 34px auto -8px; padding: 20px; }
+  .member-bible-study-list { grid-template-columns: 1fr; }
   .web-study-page-heading { display: grid; }
   .event-applicant-card { display: grid; }
 }
