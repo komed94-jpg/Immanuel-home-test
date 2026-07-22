@@ -71,6 +71,32 @@ const statements = [
   `alter table church_events add column if not exists registration_ends_at text`,
   `alter table church_events add column if not exists capacity integer`,
   `alter table church_events add column if not exists attendance_event_id integer`,
+  // 테스트 홈페이지 캘린더 확인용 기본 일정입니다. 같은 제목·시작 일시는 다시 넣지 않습니다.
+  `insert into church_events (title, category, starts_at, ends_at, location, description, is_public, registration_open)
+   select item.title, item.category, item.starts_at, item.ends_at, item.location, item.description, true, false
+   from (values
+     ('주일예배', '예배', '2026-07-26T11:00', '2026-07-26T12:20', '본당', '캘린더 기능 확인용 가상 일정입니다.'),
+     ('금요철야', '예배', '2026-07-24T21:00', '2026-07-24T23:00', '본당', '캘린더 기능 확인용 가상 일정입니다.'),
+     ('제자훈련 1', '훈련', '2026-07-28T19:30', '2026-07-28T21:00', '제1교육관', '캘린더 기능 확인용 가상 일정입니다.'),
+     ('제자훈련 2', '훈련', '2026-07-22T19:30', '2026-07-22T21:00', '제2교육관', '캘린더 기능 확인용 가상 일정입니다.'),
+     ('주일예배', '예배', '2026-08-02T11:00', '2026-08-02T12:20', '본당', '캘린더 기능 확인용 가상 일정입니다.'),
+     ('금요철야', '예배', '2026-07-31T21:00', '2026-07-31T23:00', '본당', '캘린더 기능 확인용 가상 일정입니다.'),
+     ('제자훈련 1', '훈련', '2026-08-04T19:30', '2026-08-04T21:00', '제1교육관', '캘린더 기능 확인용 가상 일정입니다.'),
+     ('제자훈련 2', '훈련', '2026-07-29T19:30', '2026-07-29T21:00', '제2교육관', '캘린더 기능 확인용 가상 일정입니다.'),
+     ('주일예배', '예배', '2026-08-09T11:00', '2026-08-09T12:20', '본당', '캘린더 기능 확인용 가상 일정입니다.'),
+     ('금요철야', '예배', '2026-08-07T21:00', '2026-08-07T23:00', '본당', '캘린더 기능 확인용 가상 일정입니다.'),
+     ('제자훈련 1', '훈련', '2026-08-11T19:30', '2026-08-11T21:00', '제1교육관', '캘린더 기능 확인용 가상 일정입니다.'),
+     ('제자훈련 2', '훈련', '2026-08-05T19:30', '2026-08-05T21:00', '제2교육관', '캘린더 기능 확인용 가상 일정입니다.'),
+     ('주일예배', '예배', '2026-08-16T11:00', '2026-08-16T12:20', '본당', '캘린더 기능 확인용 가상 일정입니다.'),
+     ('금요철야', '예배', '2026-08-14T21:00', '2026-08-14T23:00', '본당', '캘린더 기능 확인용 가상 일정입니다.'),
+     ('제자훈련 1', '훈련', '2026-08-18T19:30', '2026-08-18T21:00', '제1교육관', '캘린더 기능 확인용 가상 일정입니다.'),
+     ('제자훈련 2', '훈련', '2026-08-12T19:30', '2026-08-12T21:00', '제2교육관', '캘린더 기능 확인용 가상 일정입니다.'),
+     ('제자훈련 2', '훈련', '2026-08-19T19:30', '2026-08-19T21:00', '제2교육관', '캘린더 기능 확인용 가상 일정입니다.')
+   ) as item(title, category, starts_at, ends_at, location, description)
+   where not exists (
+     select 1 from church_events existing
+     where existing.title = item.title and existing.starts_at = item.starts_at
+   )`,
   `create table if not exists giving_information (
     id serial primary key,
     bank text not null,
