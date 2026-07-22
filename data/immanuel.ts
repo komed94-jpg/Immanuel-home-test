@@ -242,6 +242,11 @@ export const services = [
     href: "/word"
   },
   {
+    title: "성경공부",
+    description: "읽고 답하며 삶으로 이어 가는 웹 성경공부",
+    href: "/bible-study"
+  },
+  {
     title: "예배 안내",
     description: "가장 귀한 것을 가장 귀하신 하나님께 드리는 자리",
     href: "/services/worship"
