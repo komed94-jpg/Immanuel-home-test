@@ -216,6 +216,38 @@ export const newFamilyRegistrations = pgTable("new_family_registrations", {
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
+export const newFamilyJourneys = pgTable("new_family_journeys", {
+  id: serial("id").primaryKey(),
+  registrationId: integer("registration_id").notNull().references(() => newFamilyRegistrations.id, { onDelete: "cascade" }).unique(),
+  memberId: integer("member_id").references(() => members.id, { onDelete: "set null" }),
+  stage: text("stage").notNull().default("received"),
+  journeyStatus: text("journey_status").notNull().default("active"),
+  assignee: text("assignee"),
+  firstVisitedOn: text("first_visited_on"),
+  visitCount: integer("visit_count").notNull().default(1),
+  lastContactOn: text("last_contact_on"),
+  lastContactResult: text("last_contact_result"),
+  nextActionOn: text("next_action_on"),
+  consultationNote: text("consultation_note"),
+  smallGroupName: text("small_group_name"),
+  educationProgress: integer("education_progress").notNull().default(0),
+  settledAt: timestamp("settled_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const newFamilyFollowups = pgTable("new_family_followups", {
+  id: serial("id").primaryKey(),
+  journeyId: integer("journey_id").notNull().references(() => newFamilyJourneys.id, { onDelete: "cascade" }),
+  actionType: text("action_type").notNull(),
+  happenedOn: text("happened_on").notNull(),
+  result: text("result").notNull(),
+  nextActionOn: text("next_action_on"),
+  note: text("note"),
+  actor: text("actor").notNull().default("admin"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
 export const memberApprovalLogs = pgTable("member_approval_logs", {
   id: serial("id").primaryKey(),
   memberId: integer("member_id").notNull().references(() => members.id, { onDelete: "cascade" }),

@@ -1,7 +1,7 @@
 import { and, desc, eq, inArray } from "drizzle-orm";
 import { isImmanuelAdminRequest } from "@/app/chatgpt-auth";
 import { getDb } from "@/db";
-import { churchEvents, members, ministryRequests, newFamilyRegistrations } from "@/db/schema";
+import { churchEvents, members, ministryRequests, newFamilyJourneys, newFamilyRegistrations } from "@/db/schema";
 import { getMemberFromRequest } from "@/lib/member-auth";
 
 const allowedRequestTypes = new Set([
@@ -17,6 +17,10 @@ const allowedRequestTypes = new Set([
 
 function cleanText(value: unknown, maxLength: number) {
   return typeof value === "string" ? value.trim().slice(0, maxLength) : "";
+}
+
+function koreaDate(date = new Date()) {
+  return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul", year: "numeric", month: "2-digit", day: "2-digit" }).format(date);
 }
 
 function cleanDetails(value: unknown) {
@@ -126,7 +130,8 @@ export async function POST(request: Request) {
       .returning({ id: ministryRequests.id });
 
     if (requestType === "new-family" && details) {
-      await db.insert(newFamilyRegistrations).values({ requestId: saved.id, memberId: currentMember?.id ?? null, cardType: details.cardType, birthDate: details.birthDate, address: details.address, email: details.email, occupation: details.occupation, familyInfo: details.familyInfo, referral: details.referral, guideName: details.guideName || null, guidePhone: details.guidePhone || null, guideRelation: details.guideRelation || null, faithStatus: details.faithStatus || null, faithYears: details.faithYears || null, previousChurchName: details.previousChurchName || null, faithHistory: details.faithHistory || null, churchPosition: details.churchPosition || null, serviceHistory: details.serviceHistory || null, ordinanceType: details.ordinanceType || null, ordinanceChurch: details.ordinanceChurch || null, participation: details.participation.join(", ") || null });
+      const [registration] = await db.insert(newFamilyRegistrations).values({ requestId: saved.id, memberId: currentMember?.id ?? null, cardType: details.cardType, birthDate: details.birthDate, address: details.address, email: details.email, occupation: details.occupation, familyInfo: details.familyInfo, referral: details.referral, guideName: details.guideName || null, guidePhone: details.guidePhone || null, guideRelation: details.guideRelation || null, faithStatus: details.faithStatus || null, faithYears: details.faithYears || null, previousChurchName: details.previousChurchName || null, faithHistory: details.faithHistory || null, churchPosition: details.churchPosition || null, serviceHistory: details.serviceHistory || null, ordinanceType: details.ordinanceType || null, ordinanceChurch: details.ordinanceChurch || null, participation: details.participation.join(", ") || null }).returning({ id: newFamilyRegistrations.id });
+      await db.insert(newFamilyJourneys).values({ registrationId: registration.id, memberId: currentMember?.id ?? null, firstVisitedOn: koreaDate() });
       if (details.cardType === "registration" && currentMember) {
         await db.update(members).set({ membershipStatus: currentMember.membershipStatus === "nonmember" ? "pending" : currentMember.membershipStatus, address: details.address, occupation: details.occupation, faithYears: details.faithYears || null, baptismType: details.ordinanceType || null, baptismChurch: details.ordinanceChurch || null, previousChurchName: details.previousChurchName || null, previousChurchPosition: details.churchPosition || null, serviceHistory: details.serviceHistory || null, updatedAt: new Date() }).where(eq(members.id, currentMember.id));
       }

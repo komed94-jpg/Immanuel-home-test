@@ -231,6 +231,40 @@ const statements = [
     created_at timestamptz not null default now(),
     updated_at timestamptz not null default now()
   )`,
+  `create table if not exists new_family_journeys (
+    id serial primary key,
+    registration_id integer not null unique references new_family_registrations(id) on delete cascade,
+    member_id integer references members(id) on delete set null,
+    stage text not null default 'received',
+    journey_status text not null default 'active',
+    assignee text,
+    first_visited_on text,
+    visit_count integer not null default 1,
+    last_contact_on text,
+    last_contact_result text,
+    next_action_on text,
+    consultation_note text,
+    small_group_name text,
+    education_progress integer not null default 0,
+    settled_at timestamptz,
+    created_at timestamptz not null default now(),
+    updated_at timestamptz not null default now()
+  )`,
+  `create table if not exists new_family_followups (
+    id serial primary key,
+    journey_id integer not null references new_family_journeys(id) on delete cascade,
+    action_type text not null,
+    happened_on text not null,
+    result text not null,
+    next_action_on text,
+    note text,
+    actor text not null default 'admin',
+    created_at timestamptz not null default now()
+  )`,
+  `insert into new_family_journeys (registration_id, member_id, first_visited_on, visit_count)
+   select registration.id, registration.member_id, registration.created_at::date::text, 1
+   from new_family_registrations registration
+   on conflict (registration_id) do nothing`,
   `create table if not exists member_approval_logs (
     id serial primary key,
     member_id integer not null references members(id) on delete cascade,
@@ -314,6 +348,9 @@ const statements = [
   `create index if not exists member_password_reset_member_idx on member_password_reset_tokens (member_id, created_at desc)`,
   `create index if not exists new_family_registration_member_idx on new_family_registrations (member_id, created_at desc)`,
   `create index if not exists new_family_registration_status_idx on new_family_registrations (review_status, created_at desc)`,
+  `create index if not exists new_family_journey_stage_idx on new_family_journeys (journey_status, stage, next_action_on)`,
+  `create index if not exists new_family_journey_member_idx on new_family_journeys (member_id, updated_at desc)`,
+  `create index if not exists new_family_followup_journey_idx on new_family_followups (journey_id, happened_on desc, created_at desc)`,
   `create index if not exists member_approval_log_member_idx on member_approval_logs (member_id, created_at desc)`,
   `create index if not exists household_member_household_idx on household_members (household_id, member_id)`,
   `create index if not exists attendance_events_held_on_idx on attendance_events (held_on desc)`,

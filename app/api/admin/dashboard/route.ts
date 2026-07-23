@@ -11,6 +11,7 @@ import {
   memberApprovalLogs,
   members,
   ministryRequests,
+  newFamilyJourneys,
   newFamilyRegistrations,
 } from "@/db/schema";
 
@@ -35,9 +36,10 @@ export async function GET(request: Request) {
   const db = getDb();
   const today = koreaDate();
   const week = weekRange(today);
-  const [memberRows, cards, requests, programs, applications, events, eventRows, attendance, allAttendanceRecords, logs] = await Promise.all([
+  const [memberRows, cards, journeys, requests, programs, applications, events, eventRows, attendance, allAttendanceRecords, logs] = await Promise.all([
     db.select({ id: members.id, name: members.name, membershipStatus: members.membershipStatus, createdAt: members.createdAt }).from(members).orderBy(desc(members.createdAt)).limit(1500),
     db.select({ id: newFamilyRegistrations.id, reviewStatus: newFamilyRegistrations.reviewStatus, cardType: newFamilyRegistrations.cardType, createdAt: newFamilyRegistrations.createdAt, name: ministryRequests.name }).from(newFamilyRegistrations).innerJoin(ministryRequests, eq(newFamilyRegistrations.requestId, ministryRequests.id)).orderBy(desc(newFamilyRegistrations.createdAt)).limit(500),
+    db.select({ id: newFamilyJourneys.id, journeyStatus: newFamilyJourneys.journeyStatus, assignee: newFamilyJourneys.assignee, nextActionOn: newFamilyJourneys.nextActionOn }).from(newFamilyJourneys).limit(1500),
     db.select({ id: ministryRequests.id, requestType: ministryRequests.requestType, subject: ministryRequests.subject, name: ministryRequests.name, status: ministryRequests.status, submittedAt: ministryRequests.submittedAt }).from(ministryRequests).orderBy(desc(ministryRequests.submittedAt)).limit(300),
     db.select({ id: discipleshipPrograms.id, title: discipleshipPrograms.title }).from(discipleshipPrograms).limit(100),
     db.select({ id: discipleshipApplications.id, programId: discipleshipApplications.programId, status: discipleshipApplications.status, appliedAt: discipleshipApplications.appliedAt, memberName: members.name }).from(discipleshipApplications).innerJoin(members, eq(discipleshipApplications.memberId, members.id)).orderBy(desc(discipleshipApplications.appliedAt)).limit(1000),
@@ -51,6 +53,12 @@ export async function GET(request: Request) {
   const newMembers = memberRows.filter((item) => koreaDate(item.createdAt) === today).slice(0, 8);
   const pendingMembers = memberRows.filter((item) => item.membershipStatus === "pending");
   const pendingCards = cards.filter((item) => ["received", "reviewing", "needs_update", "on_hold"].includes(item.reviewStatus));
+  const newFamily = {
+    active: journeys.filter((item) => item.journeyStatus === "active").length,
+    overdue: journeys.filter((item) => item.journeyStatus === "active" && item.nextActionOn && item.nextActionOn < today).length,
+    unassigned: journeys.filter((item) => item.journeyStatus === "active" && !item.assignee).length,
+    completed: journeys.filter((item) => item.journeyStatus === "completed").length,
+  };
   const pendingRequests = requests.filter((item) => item.status !== "completed");
   const programMap = new Map(programs.map((item) => [item.id, item.title]));
   const pendingApplications = applications.filter((item) => ["pending", "waitlisted"].includes(item.status));
@@ -75,7 +83,7 @@ export async function GET(request: Request) {
 
   return Response.json({
     generatedAt: new Date().toISOString(), today, newMembers, pendingMembers: pendingMembers.slice(0, 8), pendingMemberCount: pendingMembers.length,
-    pendingCards: pendingCards.slice(0, 8), pendingCardCount: pendingCards.length,
+    pendingCards: pendingCards.slice(0, 8), pendingCardCount: pendingCards.length, newFamily,
     weeklyAttendance, absentees, pendingApplications: pendingApplications.slice(0, 8).map((item) => ({ ...item, programTitle: programMap.get(item.programId) ?? "제자훈련" })), pendingApplicationCount: pendingApplications.length,
     events: eventSummaries, pendingRequests: pendingRequests.slice(0, 8), pendingRequestCount: pendingRequests.length, logs,
   });

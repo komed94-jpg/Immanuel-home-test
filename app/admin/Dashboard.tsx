@@ -8,6 +8,7 @@ type DashboardData = {
   newMembers: Array<{ id: number; name: string; membershipStatus: string }>;
   pendingMembers: Array<{ id: number; name: string }>; pendingMemberCount: number;
   pendingCards: Array<{ id: number; name: string | null; cardType: string; reviewStatus: string }>; pendingCardCount: number;
+  newFamily: { active: number; overdue: number; unassigned: number; completed: number };
   weeklyAttendance: { events: number; present: number; absent: number; pending: number };
   absentees: Array<{ id: number; name: string; consecutive: number }>;
   pendingApplications: Array<{ id: number; memberName: string; status: string; programTitle: string }>; pendingApplicationCount: number;
@@ -30,7 +31,7 @@ export function Dashboard() {
     <section className="dashboard-stat-grid">
       <Stat href="/admin/members" label="오늘의 신규 회원" value={`${data.newMembers.length}명`} note={data.newMembers.length ? data.newMembers.map((item) => item.name).join(" · ") : "오늘 가입한 회원이 없습니다."} tone="gold" />
       <Stat href="/admin/members" label="승인 대기 회원" value={`${data.pendingMemberCount}명`} note={data.pendingMembers.length ? data.pendingMembers.map((item) => item.name).join(" · ") : "승인 대기 회원이 없습니다."} />
-      <Stat href="/admin/members" label="새가족 등록카드" value={`${data.pendingCardCount}건`} note={data.pendingCards.length ? data.pendingCards.map((item) => item.name ?? "이름 미입력").join(" · ") : "검토할 등록카드가 없습니다."} />
+      <Stat href="/admin/new-family" label="새가족 정착 관리" value={`${data.newFamily.active}명`} note={`후속 조치 지연 ${data.newFamily.overdue} · 담당 미배정 ${data.newFamily.unassigned} · 카드 검토 ${data.pendingCardCount}`} />
       <Stat href="/admin/attendance" label="이번 주 출석" value={`${data.weeklyAttendance.present}명`} note={`출석 모임 ${data.weeklyAttendance.events}회 · 결석 ${data.weeklyAttendance.absent}명 · 미마감 ${data.weeklyAttendance.pending}회`} />
     </section>
     <section className="dashboard-panels">

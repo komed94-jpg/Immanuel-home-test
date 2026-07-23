@@ -1,7 +1,7 @@
 import { and, desc, eq, isNull, sql } from "drizzle-orm";
 import { isImmanuelAdminRequest } from "@/app/chatgpt-auth";
 import { getDb } from "@/db";
-import { householdMembers, households, memberApprovalLogs, memberNumberCounters, memberSessions, members, ministryRequests, newFamilyRegistrations } from "@/db/schema";
+import { householdMembers, households, memberApprovalLogs, memberNumberCounters, memberSessions, members, ministryRequests, newFamilyJourneys, newFamilyRegistrations } from "@/db/schema";
 import { sameOrigin } from "@/lib/member-auth";
 
 const allowedRoles = new Set(["member", "leader", "staff"]);
@@ -49,7 +49,10 @@ export async function PATCH(request: Request) {
     const memberNumber = `${year}-${category}-${String(counter.lastNumber).padStart(4, "0")}`; const now = new Date();
     const [updated] = await db.update(members).set({ membershipStatus: "active", memberNumber, registrationCategory: category, approvedAt: now, updatedAt: now }).where(and(eq(members.id, id), isNull(members.memberNumber))).returning({ id: members.id, memberNumber: members.memberNumber });
     if (!updated) return Response.json({ error: "다른 요청에서 이미 교인번호가 발급되었습니다. 목록을 새로 확인해 주세요." }, { status: 409 });
-    if (registration) await db.update(newFamilyRegistrations).set({ reviewStatus: "approved", reviewNote: approvalNote || null, reviewedAt: now, updatedAt: now }).where(eq(newFamilyRegistrations.id, registration.id));
+    if (registration) {
+      await db.update(newFamilyRegistrations).set({ reviewStatus: "approved", reviewNote: approvalNote || null, reviewedAt: now, updatedAt: now }).where(eq(newFamilyRegistrations.id, registration.id));
+      await db.update(newFamilyJourneys).set({ memberId: id, stage: "approved", updatedAt: now }).where(eq(newFamilyJourneys.registrationId, registration.id));
+    }
     await db.insert(memberApprovalLogs).values({ memberId: id, action: "approve", previousValue: current.membershipStatus, newValue: `active:${memberNumber}`, note: approvalNote || null });
     return Response.json({ member: updated });
   }
@@ -59,6 +62,7 @@ export async function PATCH(request: Request) {
     const [registration] = await db.select({ memberId: newFamilyRegistrations.memberId, cardType: newFamilyRegistrations.cardType, requestId: newFamilyRegistrations.requestId, address: newFamilyRegistrations.address, occupation: newFamilyRegistrations.occupation, faithYears: newFamilyRegistrations.faithYears, ordinanceType: newFamilyRegistrations.ordinanceType, ordinanceChurch: newFamilyRegistrations.ordinanceChurch, previousChurchName: newFamilyRegistrations.previousChurchName, churchPosition: newFamilyRegistrations.churchPosition, serviceHistory: newFamilyRegistrations.serviceHistory }).from(newFamilyRegistrations).where(eq(newFamilyRegistrations.id, registrationId)).limit(1);
     if (!registration || registration.memberId) return Response.json({ error: "이미 연결되었거나 찾을 수 없는 등록카드입니다." }, { status: 409 });
     await db.update(newFamilyRegistrations).set({ memberId: id, updatedAt: new Date() }).where(eq(newFamilyRegistrations.id, registrationId)); await db.update(ministryRequests).set({ memberId: id }).where(eq(ministryRequests.id, registration.requestId));
+    await db.update(newFamilyJourneys).set({ memberId: id, updatedAt: new Date() }).where(eq(newFamilyJourneys.registrationId, registrationId));
     if (registration.cardType === "registration") await db.update(members).set({ membershipStatus: current.membershipStatus === "nonmember" ? "pending" : current.membershipStatus, address: registration.address, occupation: registration.occupation, faithYears: registration.faithYears, baptismType: registration.ordinanceType, baptismChurch: registration.ordinanceChurch, previousChurchName: registration.previousChurchName, previousChurchPosition: registration.churchPosition, serviceHistory: registration.serviceHistory, updatedAt: new Date() }).where(eq(members.id, id));
     await db.insert(memberApprovalLogs).values({ memberId: id, action: "link-registration", newValue: String(registrationId) }); return Response.json({ ok: true });
   }
