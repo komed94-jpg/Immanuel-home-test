@@ -6,6 +6,7 @@ import {
   ministryRequests,
   newFamilyFollowups,
   newFamilyJourneys,
+  newFamilyMessages,
   newFamilyRegistrations,
 } from "@/db/schema";
 import { sameOrigin } from "@/lib/member-auth";
@@ -21,7 +22,7 @@ function clean(value: unknown, max: number) {
 export async function GET(request: Request) {
   if (!await isImmanuelAdminRequest(request)) return Response.json({ error: "권한이 없습니다." }, { status: 403 });
   const db = getDb();
-  const [journeys, followups] = await Promise.all([
+  const [journeys, followups, messages] = await Promise.all([
     db.select({
       id: newFamilyJourneys.id,
       registrationId: newFamilyJourneys.registrationId,
@@ -56,8 +57,18 @@ export async function GET(request: Request) {
       .orderBy(asc(newFamilyJourneys.nextActionOn), desc(newFamilyJourneys.updatedAt))
       .limit(1500),
     db.select().from(newFamilyFollowups).orderBy(desc(newFamilyFollowups.happenedOn), desc(newFamilyFollowups.createdAt)).limit(6000),
+    db.select().from(newFamilyMessages).orderBy(desc(newFamilyMessages.createdAt)).limit(3000),
   ]);
-  return Response.json({ journeys, followups });
+  return Response.json({
+    journeys,
+    followups,
+    messages,
+    messageCapabilities: {
+      aiConfigured: Boolean(process.env.OPENAI_API_KEY),
+      smsConfigured: Boolean(process.env.SOLAPI_API_KEY && process.env.SOLAPI_API_SECRET && process.env.SOLAPI_SENDER_NUMBER),
+      alimtalkConfigured: Boolean(process.env.SOLAPI_API_KEY && process.env.SOLAPI_API_SECRET && process.env.SOLAPI_SENDER_NUMBER && process.env.SOLAPI_KAKAO_PF_ID && process.env.SOLAPI_KAKAO_TEMPLATE_ID),
+    },
+  });
 }
 
 export async function PATCH(request: Request) {

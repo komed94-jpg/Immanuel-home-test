@@ -13,6 +13,19 @@ type Followup = {
   createdAt: string;
 };
 
+type MessageLog = {
+  id: number;
+  journeyId: number;
+  channel: string;
+  recipient: string;
+  content: string;
+  status: string;
+  providerMessageId: string | null;
+  errorMessage: string | null;
+  sentAt: string | null;
+  createdAt: string;
+};
+
 type Journey = {
   id: number;
   registrationId: number;
@@ -41,7 +54,12 @@ type Journey = {
   memberNumber: string | null;
 };
 
-type Payload = { journeys: Journey[]; followups: Followup[] };
+type Payload = {
+  journeys: Journey[];
+  followups: Followup[];
+  messages: MessageLog[];
+  messageCapabilities: { aiConfigured: boolean; smsConfigured: boolean; alimtalkConfigured: boolean };
+};
 
 const stageOrder = ["received", "assigned", "contacted", "consulted", "approved", "connected", "education", "settled"];
 const stageLabels: Record<string, string> = {
@@ -56,6 +74,7 @@ const stageLabels: Record<string, string> = {
 };
 const statusLabels: Record<string, string> = { active: "진행 중", on_hold: "보류", completed: "정착 완료" };
 const actionLabels: Record<string, string> = { call: "전화", message: "문자·메신저", visit: "방문", consultation: "등록 상담", group: "목장 연결", education: "교육", note: "내부 메모" };
+const messageStatusLabels: Record<string, string> = { sent: "발송 완료", failed: "발송 실패", not_configured: "연결 설정 필요" };
 
 function koreaToday() {
   return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
@@ -70,7 +89,14 @@ export function NewFamilyManager() {
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState("active");
   const [notice, setNotice] = useState("");
+  const [composerId, setComposerId] = useState<number | null>(null);
+  const [drafts, setDrafts] = useState<Record<number, string>>({});
+  const [tones, setTones] = useState<Record<number, string>>({});
+  const [channels, setChannels] = useState<Record<number, string>>({});
+  const [confirmed, setConfirmed] = useState<Record<number, boolean>>({});
+  const [workingId, setWorkingId] = useState<number | null>(null);
   const today = koreaToday();
+  const messageCapabilities = data?.messageCapabilities ?? { aiConfigured: false, smsConfigured: false, alimtalkConfigured: false };
 
   async function load() {
     const response = await fetch("/api/admin/new-family", { cache: "no-store" });
@@ -141,6 +167,56 @@ export function NewFamilyManager() {
     setNotice("후속 조치를 기록했습니다.");
   }
 
+  async function generateDraft(item: Journey) {
+    setWorkingId(item.id);
+    setNotice("AI가 첫 연락 문안을 작성하는 중입니다…");
+    const response = await fetch("/api/admin/new-family/message", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        action: "generate",
+        journeyId: item.id,
+        tone: tones[item.id] ?? "warm",
+        assignee: item.assignee ?? "",
+      }),
+    });
+    const result = await response.json() as { content?: string; source?: string; error?: string };
+    setWorkingId(null);
+    if (!response.ok || !result.content) return setNotice(result.error ?? "AI 문안을 만들지 못했습니다.");
+    setDrafts((current) => ({ ...current, [item.id]: result.content ?? "" }));
+    setConfirmed((current) => ({ ...current, [item.id]: false }));
+    setNotice(result.source === "ai" ? "AI 문안을 만들었습니다. 내용을 확인하고 필요하면 수정해 주세요." : "AI 연결 전이라 안전한 기본 문안을 만들었습니다. 내용을 확인해 주세요.");
+  }
+
+  async function sendMessage(item: Journey) {
+    const content = drafts[item.id]?.trim() ?? "";
+    if (!content) return setNotice("먼저 문안을 작성하거나 AI 문안을 만들어 주세요.");
+    if (!confirmed[item.id]) return setNotice("받는 분과 문안을 확인한 뒤 ‘최종 확인’에 체크해 주세요.");
+    setWorkingId(item.id);
+    setNotice("첫 연락 메시지를 발송하는 중입니다…");
+    const response = await fetch("/api/admin/new-family/message", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        action: "send",
+        journeyId: item.id,
+        channel: channels[item.id] ?? "sms",
+        content,
+        confirmed: true,
+      }),
+    });
+    const result = await response.json() as { error?: string; configured?: boolean };
+    setWorkingId(null);
+    if (!response.ok) {
+      await load();
+      return setNotice(result.error ?? "메시지를 발송하지 못했습니다.");
+    }
+    await load();
+    setConfirmed((current) => ({ ...current, [item.id]: false }));
+    setComposerId(null);
+    setNotice("첫 연락을 발송하고 정착 기록에 자동으로 남겼습니다.");
+  }
+
   return <section className="admin-manager new-family-manager">
     <div className="new-family-summary">
       <button type="button" onClick={() => setFilter("active")}><small>진행 중</small><strong>{summary.active}명</strong></button>
@@ -160,6 +236,7 @@ export function NewFamilyManager() {
     {data && filtered.length === 0 && <p className="resource-empty">조건에 맞는 새가족이 없습니다.</p>}
     <div className="new-family-journey-list">{filtered.map((item) => {
       const itemFollowups = data?.followups.filter((followup) => followup.journeyId === item.id) ?? [];
+      const itemMessages = data?.messages.filter((message) => message.journeyId === item.id) ?? [];
       const stageIndex = Math.max(0, stageOrder.indexOf(item.stage));
       const overdue = item.journeyStatus === "active" && Boolean(item.nextActionOn && item.nextActionOn < today);
       return <article className={`new-family-journey-card ${overdue ? "is-overdue" : ""}`} key={`${item.id}:${item.updatedAt}`}>
@@ -174,6 +251,43 @@ export function NewFamilyManager() {
           <span><small>목장</small><strong>{item.smallGroupName || "미연결"}</strong></span>
           <span><small>교육</small><strong>{item.educationProgress}%</strong></span>
         </div>
+        <div className="new-family-contact-actions">
+          <div><strong>첫 연락</strong><p>AI가 환영 문안을 만들고, 담당자가 확인한 뒤 문자 또는 알림톡으로 보냅니다.</p></div>
+          <button type="button" onClick={() => setComposerId(composerId === item.id ? null : item.id)}>{composerId === item.id ? "작성창 닫기" : "AI 첫 연락 작성"}</button>
+        </div>
+        {composerId === item.id && <section className="new-family-message-composer">
+          <div className="new-family-message-heading">
+            <div><small>받는 분</small><strong>{item.memberName ?? item.name ?? "이름 미입력"} · {item.contact ?? "연락처 없음"}</strong></div>
+            <p>상담 메모와 가족정보는 AI에 전달하지 않습니다. 발송 전 담당자가 반드시 최종 문안을 확인합니다.</p>
+          </div>
+          <div className="new-family-message-capabilities" aria-label="메시지 연결 상태">
+            <span className={messageCapabilities.aiConfigured ? "is-ready" : ""}>AI {messageCapabilities.aiConfigured ? "연결됨" : "기본 문안"}</span>
+            <span className={messageCapabilities.smsConfigured ? "is-ready" : ""}>문자 {messageCapabilities.smsConfigured ? "발송 가능" : "설정 필요"}</span>
+            <span className={messageCapabilities.alimtalkConfigured ? "is-ready" : ""}>알림톡 {messageCapabilities.alimtalkConfigured ? "발송 가능" : "승인 템플릿 필요"}</span>
+          </div>
+          <div className="new-family-message-options">
+            <label><span>문안 유형</span><select value={tones[item.id] ?? "warm"} onChange={(event) => setTones((current) => ({ ...current, [item.id]: event.target.value }))}>
+              <option value="warm">따뜻한 환영형</option><option value="concise">간결한 안내형</option><option value="pastoral">목회적 환영형</option>
+            </select></label>
+            <button type="button" onClick={() => void generateDraft(item)} disabled={workingId === item.id}>{workingId === item.id ? "작성 중…" : drafts[item.id] ? "AI로 다시 작성" : "AI 문안 만들기"}</button>
+          </div>
+          <label className="new-family-message-field"><span>발송 문안</span><textarea rows={6} maxLength={2000} value={drafts[item.id] ?? ""} onChange={(event) => {
+            setDrafts((current) => ({ ...current, [item.id]: event.target.value }));
+            setConfirmed((current) => ({ ...current, [item.id]: false }));
+          }} placeholder="AI 문안 만들기를 누르거나 직접 첫 연락 문안을 입력합니다." /><small>{(drafts[item.id] ?? "").length} / 2,000자</small></label>
+          <div className="new-family-message-send">
+            <label><span>발송 채널</span><select value={channels[item.id] ?? "sms"} onChange={(event) => setChannels((current) => ({ ...current, [item.id]: event.target.value }))}>
+              <option value="sms">문자(SMS/LMS)</option><option value="alimtalk">카카오 알림톡</option>
+            </select></label>
+            <label className="new-family-message-confirm"><input type="checkbox" checked={confirmed[item.id] ?? false} onChange={(event) => setConfirmed((current) => ({ ...current, [item.id]: event.target.checked }))} /><span>받는 분과 문안을 최종 확인했습니다.</span></label>
+            <button type="button" onClick={() => void sendMessage(item)} disabled={workingId === item.id || !confirmed[item.id]}>{workingId === item.id ? "발송 중…" : "확인 후 발송"}</button>
+          </div>
+          <p className="new-family-message-note">알림톡은 카카오 채널과 사전 승인 템플릿이 연결된 경우에만 발송됩니다. 연결되지 않았거나 템플릿이 맞지 않으면 발송하지 않고 실패 기록을 남깁니다.</p>
+          {itemMessages.length > 0 && <details className="new-family-message-history"><summary>최근 발송 기록 {itemMessages.length}건</summary><ul>{itemMessages.slice(0, 5).map((message) => <li key={message.id}>
+            <div><strong>{message.channel === "alimtalk" ? "알림톡" : "문자"} · {messageStatusLabels[message.status] ?? message.status}</strong><time>{new Date(message.createdAt).toLocaleString("ko-KR")}</time></div>
+            <p>{message.content}</p>{message.errorMessage && <small>{message.errorMessage}</small>}
+          </li>)}</ul></details>}
+        </section>}
         <details className="new-family-care-editor"><summary>정착 정보와 후속 조치 관리</summary>
           <form className="new-family-journey-form" onSubmit={(event) => void saveJourney(event, item.id)}>
             <div className="new-family-form-grid">

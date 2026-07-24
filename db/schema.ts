@@ -248,6 +248,21 @@ export const newFamilyFollowups = pgTable("new_family_followups", {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
+export const newFamilyMessages = pgTable("new_family_messages", {
+  id: serial("id").primaryKey(),
+  journeyId: integer("journey_id").notNull().references(() => newFamilyJourneys.id, { onDelete: "cascade" }),
+  channel: text("channel").notNull(),
+  recipient: text("recipient").notNull(),
+  content: text("content").notNull(),
+  status: text("status").notNull(),
+  provider: text("provider").notNull().default("solapi"),
+  providerMessageId: text("provider_message_id"),
+  errorMessage: text("error_message"),
+  sentAt: timestamp("sent_at", { withTimezone: true }),
+  actor: text("actor").notNull().default("admin"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
 export const memberApprovalLogs = pgTable("member_approval_logs", {
   id: serial("id").primaryKey(),
   memberId: integer("member_id").notNull().references(() => members.id, { onDelete: "cascade" }),

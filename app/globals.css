@@ -1926,6 +1926,37 @@ p {
 .new-family-followup-list strong { font-size: .9rem; }
 .new-family-followup-list p { grid-column: 2 / -1; margin: 0; color: var(--muted); line-height: 1.6; white-space: pre-wrap; }
 .new-family-followup-list small { color: var(--muted); font-weight: 800; }
+.new-family-contact-actions { display: flex; justify-content: space-between; gap: 20px; align-items: center; margin-top: 16px; border: 1px solid rgba(216, 170, 69, .34); border-radius: 16px; background: #fffaf0; padding: 16px 18px; }
+.new-family-contact-actions strong { color: var(--gold-deep); font-size: .9rem; }
+.new-family-contact-actions p { margin: 4px 0 0; color: var(--muted); font-size: .82rem; line-height: 1.55; }
+.new-family-contact-actions button, .new-family-message-options button, .new-family-message-send > button { flex: 0 0 auto; border: 0; border-radius: 999px; background: var(--navy); padding: 11px 17px; color: #fff; font: inherit; font-size: .8rem; font-weight: 900; cursor: pointer; }
+.new-family-message-composer { margin-top: 14px; border: 1px solid var(--line); border-radius: 18px; background: #fff; padding: clamp(18px, 3vw, 24px); }
+.new-family-message-heading { display: flex; justify-content: space-between; gap: 24px; align-items: start; border-bottom: 1px solid var(--line); padding-bottom: 16px; }
+.new-family-message-heading div { display: grid; gap: 5px; }
+.new-family-message-heading small { color: var(--gold-deep); font-weight: 900; }
+.new-family-message-heading p { max-width: 520px; margin: 0; color: var(--muted); font-size: .78rem; line-height: 1.55; }
+.new-family-message-capabilities { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
+.new-family-message-capabilities span { border-radius: 999px; background: #f3ece7; padding: 6px 10px; color: #8c574a; font-size: .7rem; font-weight: 900; }
+.new-family-message-capabilities span.is-ready { background: #e8f3eb; color: #2f6a43; }
+.new-family-message-options { display: flex; align-items: end; gap: 12px; margin-top: 18px; }
+.new-family-message-options label, .new-family-message-field, .new-family-message-send > label { display: grid; gap: 7px; color: var(--muted); font-size: .76rem; font-weight: 900; }
+.new-family-message-options select, .new-family-message-field textarea, .new-family-message-send select { width: 100%; border: 1px solid rgba(7, 20, 38, .18); border-radius: 12px; background: #fff; padding: 11px 13px; color: var(--ink); font: inherit; }
+.new-family-message-field { margin-top: 14px; }
+.new-family-message-field textarea { resize: vertical; line-height: 1.65; }
+.new-family-message-field > small { justify-self: end; }
+.new-family-message-send { display: grid; grid-template-columns: 190px minmax(260px, 1fr) auto; gap: 14px; align-items: end; margin-top: 14px; }
+.new-family-message-confirm { display: flex !important; flex-direction: row; align-items: center; min-height: 44px; cursor: pointer; }
+.new-family-message-confirm input { width: 18px; height: 18px; accent-color: var(--gold-deep); }
+.new-family-message-options button:disabled, .new-family-message-send > button:disabled { opacity: .48; cursor: not-allowed; }
+.new-family-message-note { margin: 14px 0 0; color: var(--muted); font-size: .74rem; line-height: 1.55; }
+.new-family-message-history { margin-top: 16px; border-top: 1px solid var(--line); padding-top: 14px; }
+.new-family-message-history summary { color: var(--gold-deep); font-size: .82rem; font-weight: 900; cursor: pointer; }
+.new-family-message-history ul { display: grid; gap: 10px; margin: 12px 0 0; padding: 0; list-style: none; }
+.new-family-message-history li { border-radius: 12px; background: #f8f7f3; padding: 13px 15px; }
+.new-family-message-history li > div { display: flex; justify-content: space-between; gap: 14px; }
+.new-family-message-history time { color: var(--muted); font-size: .72rem; }
+.new-family-message-history p { margin: 8px 0 0; color: var(--ink); font-size: .82rem; line-height: 1.55; white-space: pre-wrap; }
+.new-family-message-history li > small { display: block; margin-top: 8px; color: #9a382b; }
 
 .discipleship-flow {
   width: min(1160px, calc(100% - 44px));
@@ -2217,6 +2248,13 @@ p {
   .new-family-followup-form .is-wide { grid-column: auto; }
   .new-family-followup-list li { grid-template-columns: 1fr; }
   .new-family-followup-list p { grid-column: auto; }
+  .new-family-contact-actions, .new-family-message-heading { display: grid; }
+  .new-family-contact-actions button { justify-self: start; }
+  .new-family-message-options { display: grid; }
+  .new-family-message-options button { justify-self: start; }
+  .new-family-message-send { grid-template-columns: 1fr; }
+  .new-family-message-send > button { justify-self: start; }
+  .new-family-message-history li > div { display: grid; gap: 4px; }
 
   .content-card {
     min-height: 190px;

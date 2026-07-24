@@ -261,6 +261,20 @@ const statements = [
     actor text not null default 'admin',
     created_at timestamptz not null default now()
   )`,
+  `create table if not exists new_family_messages (
+    id serial primary key,
+    journey_id integer not null references new_family_journeys(id) on delete cascade,
+    channel text not null,
+    recipient text not null,
+    content text not null,
+    status text not null,
+    provider text not null default 'solapi',
+    provider_message_id text,
+    error_message text,
+    sent_at timestamptz,
+    actor text not null default 'admin',
+    created_at timestamptz not null default now()
+  )`,
   `insert into new_family_journeys (registration_id, member_id, first_visited_on, visit_count)
    select registration.id, registration.member_id, registration.created_at::date::text, 1
    from new_family_registrations registration
@@ -351,6 +365,7 @@ const statements = [
   `create index if not exists new_family_journey_stage_idx on new_family_journeys (journey_status, stage, next_action_on)`,
   `create index if not exists new_family_journey_member_idx on new_family_journeys (member_id, updated_at desc)`,
   `create index if not exists new_family_followup_journey_idx on new_family_followups (journey_id, happened_on desc, created_at desc)`,
+  `create index if not exists new_family_message_journey_idx on new_family_messages (journey_id, created_at desc)`,
   `create index if not exists member_approval_log_member_idx on member_approval_logs (member_id, created_at desc)`,
   `create index if not exists household_member_household_idx on household_members (household_id, member_id)`,
   `create index if not exists attendance_events_held_on_idx on attendance_events (held_on desc)`,
