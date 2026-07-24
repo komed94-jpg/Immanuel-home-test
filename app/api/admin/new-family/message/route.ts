@@ -32,6 +32,7 @@ function koreaToday() {
 async function getRecipient(journeyId: number) {
   const [row] = await getDb().select({
     id: newFamilyJourneys.id,
+    requestId: newFamilyRegistrations.requestId,
     stage: newFamilyJourneys.stage,
     assignee: newFamilyJourneys.assignee,
     firstVisitedOn: newFamilyJourneys.firstVisitedOn,
@@ -56,6 +57,17 @@ export async function POST(request: Request) {
   if (!Number.isInteger(journeyId)) return Response.json({ error: "새가족 정보를 확인해 주세요." }, { status: 400 });
   const recipient = await getRecipient(journeyId);
   if (!recipient) return Response.json({ error: "새가족 정착 기록을 찾지 못했습니다." }, { status: 404 });
+
+  if (action === "save-recipient") {
+    const phone = normalizePhone(body.phone);
+    if (!/^01\d{8,9}$/.test(phone)) {
+      return Response.json({ error: "010-1234-5678 형식의 휴대전화 번호를 입력해 주세요." }, { status: 400 });
+    }
+    await getDb().update(ministryRequests)
+      .set({ contact: phone })
+      .where(eq(ministryRequests.id, recipient.requestId));
+    return Response.json({ ok: true, phone });
+  }
 
   if (action === "generate") {
     const tone = clean(body.tone, 20) as FirstContactTone;
@@ -86,11 +98,16 @@ export async function POST(request: Request) {
   if (action !== "send") return Response.json({ error: "요청 내용을 확인해 주세요." }, { status: 400 });
   const channel = clean(body.channel, 20) as MessageChannel;
   const content = clean(body.content, 2000);
-  const phone = normalizePhone(recipient.contact);
+  const phone = normalizePhone(clean(body.recipient, 30) || recipient.contact);
   if (!channels.has(channel) || !content || body.confirmed !== true) {
     return Response.json({ error: "발송 채널과 문안을 확인하고 최종 확인에 체크해 주세요." }, { status: 400 });
   }
   if (!/^01\d{8,9}$/.test(phone)) return Response.json({ error: "수신자의 휴대전화 번호를 확인해 주세요." }, { status: 400 });
+  if (phone !== normalizePhone(recipient.contact)) {
+    await getDb().update(ministryRequests)
+      .set({ contact: phone })
+      .where(eq(ministryRequests.id, recipient.requestId));
+  }
   if (channel === "alimtalk") {
     const approvedContent = getApprovedAlimtalkDraft({
       name: recipient.memberName || recipient.requestName || "새가족",

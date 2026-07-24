@@ -12,5 +12,5 @@ export function MemberNavLink() {
       .catch(() => setSession({ authenticated: false, isAdmin: false }));
   }, []);
   const authenticated = Boolean(session?.authenticated);
-  return <>{session?.isAdmin && <Link href="/admin">관리자</Link>}<Link href={authenticated ? "/member" : "/login"}>{authenticated ? "내 정보" : "로그인"}</Link></>;
+  return <>{session?.isAdmin && <span className="admin-nav-links"><Link href="/admin">관리자 홈</Link><Link href="/admin/new-family">새가족 관리</Link></span>}<Link href={authenticated ? "/member" : "/login"}>{authenticated ? "내 정보" : "로그인"}</Link></>;
 }

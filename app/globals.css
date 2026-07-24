@@ -107,6 +107,10 @@ p {
   color: var(--gold-soft);
 }
 
+.admin-nav-links {
+  display: contents;
+}
+
 .eyebrow,
 .section-kicker {
   margin: 0 0 18px;
@@ -1501,6 +1505,7 @@ p {
 .member-event-history small { color: var(--gold-deep); font-weight: 900; }
 .member-nav-mobile { display: none; }
 .member-nav-mobile a { color: #f8f3e8; font-size: 0.88rem; font-weight: 850; }
+.member-nav-mobile .admin-nav-links { display: inline-flex; gap: 14px; margin-right: 14px; }
 
 .admin-hero {
   background: var(--navy);
@@ -1938,6 +1943,13 @@ p {
 .new-family-message-capabilities { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
 .new-family-message-capabilities span { border-radius: 999px; background: #f3ece7; padding: 6px 10px; color: #8c574a; font-size: .7rem; font-weight: 900; }
 .new-family-message-capabilities span.is-ready { background: #e8f3eb; color: #2f6a43; }
+.new-family-recipient-editor { display: grid; grid-template-columns: minmax(220px, 360px) auto minmax(180px, 1fr); gap: 10px; align-items: end; margin-top: 16px; border-radius: 14px; background: #f8f7f3; padding: 14px; }
+.new-family-recipient-editor label { display: grid; gap: 7px; color: var(--muted); font-size: .76rem; font-weight: 900; }
+.new-family-recipient-editor input { width: 100%; border: 1px solid rgba(7, 20, 38, .18); border-radius: 12px; background: #fff; padding: 11px 13px; color: var(--ink); font: inherit; }
+.new-family-recipient-editor button { border: 0; border-radius: 999px; background: var(--navy); padding: 11px 17px; color: #fff; font: inherit; font-size: .8rem; font-weight: 900; cursor: pointer; }
+.new-family-recipient-editor button:disabled { opacity: .48; cursor: not-allowed; }
+.new-family-recipient-editor > small { align-self: center; color: #9a382b; font-size: .74rem; font-weight: 800; }
+.new-family-recipient-editor > small.is-valid { color: #2f6a43; }
 .new-family-message-options { display: flex; align-items: end; gap: 12px; margin-top: 18px; }
 .new-family-message-options label, .new-family-message-field, .new-family-message-send > label { display: grid; gap: 7px; color: var(--muted); font-size: .76rem; font-weight: 900; }
 .new-family-message-options select, .new-family-message-field textarea, .new-family-message-send select { width: 100%; border: 1px solid rgba(7, 20, 38, .18); border-radius: 12px; background: #fff; padding: 11px 13px; color: var(--ink); font: inherit; }
@@ -2252,6 +2264,8 @@ p {
   .new-family-contact-actions button { justify-self: start; }
   .new-family-message-options { display: grid; }
   .new-family-message-options button { justify-self: start; }
+  .new-family-recipient-editor { grid-template-columns: 1fr; }
+  .new-family-recipient-editor button { justify-self: start; }
   .new-family-message-send { grid-template-columns: 1fr; }
   .new-family-message-send > button { justify-self: start; }
   .new-family-message-history li > div { display: grid; gap: 4px; }
