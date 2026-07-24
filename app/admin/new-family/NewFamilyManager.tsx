@@ -168,8 +168,9 @@ export function NewFamilyManager() {
   }
 
   async function generateDraft(item: Journey) {
+    const channel = channels[item.id] ?? "sms";
     setWorkingId(item.id);
-    setNotice("AI가 첫 연락 문안을 작성하는 중입니다…");
+    setNotice(channel === "alimtalk" ? "승인된 알림톡 문안을 불러오는 중입니다…" : "AI가 첫 연락 문안을 작성하는 중입니다…");
     const response = await fetch("/api/admin/new-family/message", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -177,6 +178,7 @@ export function NewFamilyManager() {
         action: "generate",
         journeyId: item.id,
         tone: tones[item.id] ?? "warm",
+        channel,
         assignee: item.assignee ?? "",
       }),
     });
@@ -185,7 +187,11 @@ export function NewFamilyManager() {
     if (!response.ok || !result.content) return setNotice(result.error ?? "AI 문안을 만들지 못했습니다.");
     setDrafts((current) => ({ ...current, [item.id]: result.content ?? "" }));
     setConfirmed((current) => ({ ...current, [item.id]: false }));
-    setNotice(result.source === "ai" ? "AI 문안을 만들었습니다. 내용을 확인하고 필요하면 수정해 주세요." : "AI 연결 전이라 안전한 기본 문안을 만들었습니다. 내용을 확인해 주세요.");
+    setNotice(result.source === "alimtalk_template"
+      ? "카카오에서 승인된 문안을 불러왔습니다. 알림톡 문안은 수정하지 말고 받는 분만 확인해 주세요."
+      : result.source === "ai"
+        ? "AI 문안을 만들었습니다. 내용을 확인하고 필요하면 수정해 주세요."
+        : "AI 연결 전이라 안전한 기본 문안을 만들었습니다. 내용을 확인해 주세요.");
   }
 
   async function sendMessage(item: Journey) {
@@ -239,6 +245,9 @@ export function NewFamilyManager() {
       const itemMessages = data?.messages.filter((message) => message.journeyId === item.id) ?? [];
       const stageIndex = Math.max(0, stageOrder.indexOf(item.stage));
       const overdue = item.journeyStatus === "active" && Boolean(item.nextActionOn && item.nextActionOn < today);
+      const selectedChannel = channels[item.id] ?? "sms";
+      const channelReady = selectedChannel === "alimtalk" ? messageCapabilities.alimtalkConfigured : messageCapabilities.smsConfigured;
+      const hasMobile = /^01\d{8,9}$/.test((item.contact ?? "").replace(/\D/g, ""));
       return <article className={`new-family-journey-card ${overdue ? "is-overdue" : ""}`} key={`${item.id}:${item.updatedAt}`}>
         <div className="new-family-card-heading">
           <div><small>{item.cardType === "registration" ? "등록카드" : "방문카드"} · {statusLabels[item.journeyStatus] ?? item.journeyStatus}</small><h2>{item.memberName ?? item.name ?? "이름 미입력"} <span>{item.memberNumber ?? "교인번호 미발급"}</span></h2><p>{item.contact ?? "연락처 없음"} · 첫 방문 {displayDate(item.firstVisitedOn)}</p></div>
@@ -266,23 +275,27 @@ export function NewFamilyManager() {
             <span className={messageCapabilities.alimtalkConfigured ? "is-ready" : ""}>알림톡 {messageCapabilities.alimtalkConfigured ? "발송 가능" : "승인 템플릿 필요"}</span>
           </div>
           <div className="new-family-message-options">
-            <label><span>문안 유형</span><select value={tones[item.id] ?? "warm"} onChange={(event) => setTones((current) => ({ ...current, [item.id]: event.target.value }))}>
+            <label><span>문안 유형</span><select disabled={selectedChannel === "alimtalk"} value={tones[item.id] ?? "warm"} onChange={(event) => setTones((current) => ({ ...current, [item.id]: event.target.value }))}>
               <option value="warm">따뜻한 환영형</option><option value="concise">간결한 안내형</option><option value="pastoral">목회적 환영형</option>
             </select></label>
-            <button type="button" onClick={() => void generateDraft(item)} disabled={workingId === item.id}>{workingId === item.id ? "작성 중…" : drafts[item.id] ? "AI로 다시 작성" : "AI 문안 만들기"}</button>
+            <button type="button" onClick={() => void generateDraft(item)} disabled={workingId === item.id || (selectedChannel === "alimtalk" && !messageCapabilities.alimtalkConfigured)}>{workingId === item.id ? "작성 중…" : selectedChannel === "alimtalk" ? "승인 문안 불러오기" : drafts[item.id] ? "AI로 다시 작성" : "AI 문안 만들기"}</button>
           </div>
-          <label className="new-family-message-field"><span>발송 문안</span><textarea rows={6} maxLength={2000} value={drafts[item.id] ?? ""} onChange={(event) => {
+          <label className="new-family-message-field"><span>발송 문안</span><textarea readOnly={selectedChannel === "alimtalk"} rows={6} maxLength={2000} value={drafts[item.id] ?? ""} onChange={(event) => {
             setDrafts((current) => ({ ...current, [item.id]: event.target.value }));
             setConfirmed((current) => ({ ...current, [item.id]: false }));
-          }} placeholder="AI 문안 만들기를 누르거나 직접 첫 연락 문안을 입력합니다." /><small>{(drafts[item.id] ?? "").length} / 2,000자</small></label>
+          }} placeholder={selectedChannel === "alimtalk" ? "카카오 승인 문안을 불러옵니다." : "AI 문안 만들기를 누르거나 직접 첫 연락 문안을 입력합니다."} /><small>{(drafts[item.id] ?? "").length} / 2,000자</small></label>
           <div className="new-family-message-send">
-            <label><span>발송 채널</span><select value={channels[item.id] ?? "sms"} onChange={(event) => setChannels((current) => ({ ...current, [item.id]: event.target.value }))}>
+            <label><span>발송 채널</span><select value={selectedChannel} onChange={(event) => {
+              setChannels((current) => ({ ...current, [item.id]: event.target.value }));
+              setDrafts((current) => ({ ...current, [item.id]: "" }));
+              setConfirmed((current) => ({ ...current, [item.id]: false }));
+            }}>
               <option value="sms">문자(SMS/LMS)</option><option value="alimtalk">카카오 알림톡</option>
             </select></label>
             <label className="new-family-message-confirm"><input type="checkbox" checked={confirmed[item.id] ?? false} onChange={(event) => setConfirmed((current) => ({ ...current, [item.id]: event.target.checked }))} /><span>받는 분과 문안을 최종 확인했습니다.</span></label>
-            <button type="button" onClick={() => void sendMessage(item)} disabled={workingId === item.id || !confirmed[item.id]}>{workingId === item.id ? "발송 중…" : "확인 후 발송"}</button>
+            <button type="button" onClick={() => void sendMessage(item)} disabled={workingId === item.id || !confirmed[item.id] || !channelReady || !hasMobile}>{workingId === item.id ? "발송 중…" : "확인 후 발송"}</button>
           </div>
-          <p className="new-family-message-note">알림톡은 카카오 채널과 사전 승인 템플릿이 연결된 경우에만 발송됩니다. 연결되지 않았거나 템플릿이 맞지 않으면 발송하지 않고 실패 기록을 남깁니다.</p>
+          <p className="new-family-message-note">{!hasMobile ? "먼저 새가족 카드의 휴대전화 번호를 확인해 주세요. " : ""}문자는 AI가 작성한 문안을 담당자가 수정할 수 있습니다. 알림톡은 카카오 채널과 사전 승인 문안이 모두 연결된 경우에만 발송되며, 승인 문안은 수정할 수 없습니다.</p>
           {itemMessages.length > 0 && <details className="new-family-message-history"><summary>최근 발송 기록 {itemMessages.length}건</summary><ul>{itemMessages.slice(0, 5).map((message) => <li key={message.id}>
             <div><strong>{message.channel === "alimtalk" ? "알림톡" : "문자"} · {messageStatusLabels[message.status] ?? message.status}</strong><time>{new Date(message.createdAt).toLocaleString("ko-KR")}</time></div>
             <p>{message.content}</p>{message.errorMessage && <small>{message.errorMessage}</small>}

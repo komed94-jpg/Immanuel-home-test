@@ -13,6 +13,7 @@ import { normalizePhone, sameOrigin } from "@/lib/member-auth";
 import {
   FirstContactTone,
   generateFirstContactDraft,
+  getApprovedAlimtalkDraft,
   MessageChannel,
   sendFirstContactMessage,
 } from "@/lib/new-family-message";
@@ -58,14 +59,24 @@ export async function POST(request: Request) {
 
   if (action === "generate") {
     const tone = clean(body.tone, 20) as FirstContactTone;
+    const channel = clean(body.channel, 20) as MessageChannel;
     if (!tones.has(tone)) return Response.json({ error: "문안 유형을 확인해 주세요." }, { status: 400 });
+    if (!channels.has(channel)) return Response.json({ error: "발송 채널을 확인해 주세요." }, { status: 400 });
+    const draftInput = {
+      name: recipient.memberName || recipient.requestName || "새가족",
+      firstVisitedOn: recipient.firstVisitedOn,
+      assignee: clean(body.assignee, 80) || recipient.assignee,
+      tone,
+    };
+    if (channel === "alimtalk") {
+      const content = getApprovedAlimtalkDraft(draftInput);
+      if (!content) {
+        return Response.json({ error: "카카오에서 승인된 알림톡 문안 설정이 필요합니다." }, { status: 503 });
+      }
+      return Response.json({ ok: true, content, source: "alimtalk_template", model: null });
+    }
     try {
-      const draft = await generateFirstContactDraft({
-        name: recipient.memberName || recipient.requestName || "새가족",
-        firstVisitedOn: recipient.firstVisitedOn,
-        assignee: clean(body.assignee, 80) || recipient.assignee,
-        tone,
-      });
+      const draft = await generateFirstContactDraft(draftInput);
       return Response.json({ ok: true, ...draft });
     } catch (error) {
       return Response.json({ error: error instanceof Error ? error.message : "AI 문안 생성에 실패했습니다." }, { status: 502 });
@@ -80,6 +91,20 @@ export async function POST(request: Request) {
     return Response.json({ error: "발송 채널과 문안을 확인하고 최종 확인에 체크해 주세요." }, { status: 400 });
   }
   if (!/^01\d{8,9}$/.test(phone)) return Response.json({ error: "수신자의 휴대전화 번호를 확인해 주세요." }, { status: 400 });
+  if (channel === "alimtalk") {
+    const approvedContent = getApprovedAlimtalkDraft({
+      name: recipient.memberName || recipient.requestName || "새가족",
+      firstVisitedOn: recipient.firstVisitedOn,
+      assignee: recipient.assignee,
+      tone: "warm",
+    });
+    if (!approvedContent) {
+      return Response.json({ error: "카카오에서 승인된 알림톡 문안 설정이 필요합니다." }, { status: 503 });
+    }
+    if (content !== approvedContent) {
+      return Response.json({ error: "알림톡은 승인된 문안만 보낼 수 있습니다. 승인 문안을 다시 불러와 주세요." }, { status: 400 });
+    }
+  }
 
   const db = getDb();
   const [lastMessage] = await db.select().from(newFamilyMessages)

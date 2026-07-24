@@ -66,7 +66,7 @@ export async function GET(request: Request) {
     messageCapabilities: {
       aiConfigured: Boolean(process.env.OPENAI_API_KEY),
       smsConfigured: Boolean(process.env.SOLAPI_API_KEY && process.env.SOLAPI_API_SECRET && process.env.SOLAPI_SENDER_NUMBER),
-      alimtalkConfigured: Boolean(process.env.SOLAPI_API_KEY && process.env.SOLAPI_API_SECRET && process.env.SOLAPI_SENDER_NUMBER && process.env.SOLAPI_KAKAO_PF_ID && process.env.SOLAPI_KAKAO_TEMPLATE_ID),
+      alimtalkConfigured: Boolean(process.env.SOLAPI_API_KEY && process.env.SOLAPI_API_SECRET && process.env.SOLAPI_SENDER_NUMBER && process.env.SOLAPI_KAKAO_PF_ID && process.env.SOLAPI_KAKAO_TEMPLATE_ID && process.env.SOLAPI_KAKAO_TEMPLATE_TEXT),
     },
   });
 }

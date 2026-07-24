@@ -28,6 +28,22 @@ function fallbackDraft(input: DraftInput) {
   return `${input.name}님, 임마누엘교회 ${visit} 함께 예배할 수 있어 기뻤습니다. 낯선 자리였을 텐데 방문해 주셔서 진심으로 감사합니다. 교회생활이나 도움이 필요한 부분이 있으시면 부담 없이 말씀해 주세요. ${sender} 드림`;
 }
 
+export function getApprovedAlimtalkDraft(input: DraftInput) {
+  const template = process.env.SOLAPI_KAKAO_TEMPLATE_TEXT?.trim();
+  if (!template) return null;
+  const sender = input.assignee || "새가족 담당자";
+  const visitedOn = input.firstVisitedOn?.replaceAll("-", ". ") || "";
+  return template
+    .replaceAll("#{이름}", input.name)
+    .replaceAll("#{담당자}", sender)
+    .replaceAll("#{방문일}", visitedOn)
+    .replaceAll("{{name}}", input.name)
+    .replaceAll("{{assignee}}", sender)
+    .replaceAll("{{visitedOn}}", visitedOn)
+    .trim()
+    .slice(0, 1000);
+}
+
 function responseText(payload: unknown) {
   if (!payload || typeof payload !== "object") return "";
   const output = (payload as { output?: unknown }).output;
@@ -45,7 +61,7 @@ export async function generateFirstContactDraft(input: DraftInput) {
   const fallback = fallbackDraft(input);
   if (!apiKey) return { content: fallback, source: "template" as const, model: null };
 
-  const model = process.env.OPENAI_MESSAGE_MODEL || "gpt-5.6-sol";
+  const model = process.env.OPENAI_MESSAGE_MODEL || "gpt-5.6-terra";
   const toneGuide = input.tone === "concise"
     ? "간결하고 부담 없는 안내형"
     : input.tone === "pastoral"
@@ -75,10 +91,7 @@ export async function generateFirstContactDraft(input: DraftInput) {
       max_output_tokens: 350,
     }),
   });
-  if (!response.ok) {
-    const detail = await response.text().catch(() => "");
-    throw new Error(`AI 문안 생성에 실패했습니다.${detail ? ` (${response.status})` : ""}`);
-  }
+  if (!response.ok) return { content: fallback, source: "template" as const, model: null };
   const content = responseText(await response.json());
   return { content: content.slice(0, 1000) || fallback, source: "ai" as const, model };
 }
