@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { getDb } from "@/db";
 import { members, memberSessions } from "@/db/schema";
+export { normalizePhone } from "@/lib/phone";
 
 export const MEMBER_COOKIE = "immanuel_member_session";
 export const ADMIN_EMAIL = "komed94@gmail.com";
@@ -28,10 +29,6 @@ export function normalizeEmail(value: unknown) {
 
 export function isAdminMember(member: Pick<CurrentMember, "email"> | null | undefined) {
   return normalizeEmail(member?.email) === ADMIN_EMAIL;
-}
-
-export function normalizePhone(value: unknown) {
-  return typeof value === "string" ? value.replace(/\D/g, "").slice(0, 20) : "";
 }
 
 export function validPassword(value: string) {

@@ -9,7 +9,8 @@ import {
   newFamilyMessages,
   newFamilyRegistrations,
 } from "@/db/schema";
-import { normalizePhone, sameOrigin } from "@/lib/member-auth";
+import { sameOrigin } from "@/lib/member-auth";
+import { isKoreanMobile, normalizePhone } from "@/lib/phone";
 import {
   FirstContactTone,
   generateFirstContactDraft,
@@ -60,7 +61,7 @@ export async function POST(request: Request) {
 
   if (action === "save-recipient") {
     const phone = normalizePhone(body.phone);
-    if (!/^01\d{8,9}$/.test(phone)) {
+    if (!isKoreanMobile(phone)) {
       return Response.json({ error: "010-1234-5678 형식의 휴대전화 번호를 입력해 주세요." }, { status: 400 });
     }
     await getDb().update(ministryRequests)
@@ -102,7 +103,7 @@ export async function POST(request: Request) {
   if (!channels.has(channel) || !content || body.confirmed !== true) {
     return Response.json({ error: "발송 채널과 문안을 확인하고 최종 확인에 체크해 주세요." }, { status: 400 });
   }
-  if (!/^01\d{8,9}$/.test(phone)) return Response.json({ error: "수신자의 휴대전화 번호를 확인해 주세요." }, { status: 400 });
+  if (!isKoreanMobile(phone)) return Response.json({ error: "수신자의 휴대전화 번호를 확인해 주세요." }, { status: 400 });
   if (phone !== normalizePhone(recipient.contact)) {
     await getDb().update(ministryRequests)
       .set({ contact: phone })

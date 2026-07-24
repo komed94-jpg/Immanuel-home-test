@@ -1,6 +1,8 @@
 "use client";
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import { formatPhone, isKoreanMobile, normalizePhone } from "@/lib/phone";
 
 type Followup = {
   id: number;
@@ -82,17 +84,6 @@ function koreaToday() {
 
 function displayDate(value: string | null) {
   return value ? value.replaceAll("-", ". ") : "미정";
-}
-
-function normalizeMobile(value: string) {
-  return value.replace(/\D/g, "").slice(0, 11);
-}
-
-function displayMobile(value: string) {
-  const digits = normalizeMobile(value);
-  if (digits.length === 11) return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
-  if (digits.length === 10) return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6)}`;
-  return value;
 }
 
 export function NewFamilyManager() {
@@ -208,10 +199,10 @@ export function NewFamilyManager() {
 
   async function sendMessage(item: Journey) {
     const content = drafts[item.id]?.trim() ?? "";
-    const recipient = normalizeMobile(recipients[item.id] ?? item.contact ?? "");
+    const recipient = normalizePhone(recipients[item.id] ?? item.contact ?? "");
     if (!content) return setNotice("먼저 문안을 작성하거나 AI 문안을 만들어 주세요.");
     if (!confirmed[item.id]) return setNotice("받는 분과 문안을 확인한 뒤 ‘최종 확인’에 체크해 주세요.");
-    if (!/^01\d{8,9}$/.test(recipient)) return setNotice("받는 분의 휴대전화 번호를 확인해 주세요.");
+    if (!isKoreanMobile(recipient)) return setNotice("받는 분의 휴대전화 번호를 확인해 주세요.");
     setWorkingId(item.id);
     setNotice("첫 연락 메시지를 발송하는 중입니다…");
     const response = await fetch("/api/admin/new-family/message", {
@@ -239,8 +230,8 @@ export function NewFamilyManager() {
   }
 
   async function saveRecipient(item: Journey) {
-    const phone = normalizeMobile(recipients[item.id] ?? item.contact ?? "");
-    if (!/^01\d{8,9}$/.test(phone)) return setNotice("010-1234-5678 형식의 휴대전화 번호를 입력해 주세요.");
+    const phone = normalizePhone(recipients[item.id] ?? item.contact ?? "");
+    if (!isKoreanMobile(phone)) return setNotice("010-1234-5678 형식의 휴대전화 번호를 입력해 주세요.");
     setWorkingId(item.id);
     setNotice("받는 분의 휴대전화 번호를 저장하는 중입니다…");
     const response = await fetch("/api/admin/new-family/message", {
@@ -256,28 +247,12 @@ export function NewFamilyManager() {
     setNotice("받는 분의 휴대전화 번호를 저장했습니다.");
   }
 
-  async function openSmsApp(item: Journey) {
-    const content = drafts[item.id]?.trim() ?? "";
-    const phone = normalizeMobile(recipients[item.id] ?? item.contact ?? "");
-    if (!content) return setNotice("먼저 문안을 작성하거나 AI 문안을 만들어 주세요.");
-    if (!confirmed[item.id]) return setNotice("받는 분과 문안을 확인한 뒤 ‘최종 확인’에 체크해 주세요.");
-    if (!/^01\d{8,9}$/.test(phone)) return setNotice("받는 분의 휴대전화 번호를 확인해 주세요.");
-    setWorkingId(item.id);
-    const response = await fetch("/api/admin/new-family/message", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: "save-recipient", journeyId: item.id, phone }),
-    });
-    const result = await response.json() as { error?: string };
-    setWorkingId(null);
-    if (!response.ok) return setNotice(result.error ?? "휴대전화 번호를 저장하지 못했습니다.");
-    await navigator.clipboard?.writeText(content).catch(() => undefined);
-    const separator = /iPad|iPhone|iPod/.test(navigator.userAgent) ? "&" : "?";
-    window.location.assign(`sms:${phone}${separator}body=${encodeURIComponent(content)}`);
-    setNotice("문자 앱을 열고 문안도 복사했습니다. 실제 발송 버튼을 눌러 주세요.");
-  }
-
   return <section className="admin-manager new-family-manager">
+    <nav className="new-family-admin-links" aria-label="새가족 관리자 기능">
+      <Link className="is-active" href="/admin/new-family"><small>CARE & MESSAGE</small><strong>정착 관리 · AI 첫 연락</strong></Link>
+      <Link href="/admin/requests?type=new-family"><small>REGISTRATION CARDS</small><strong>새가족 접수 카드</strong></Link>
+      <Link href="/admin/members"><small>MEMBER APPROVAL</small><strong>교인 승인 · 교인번호</strong></Link>
+    </nav>
     <div className="new-family-summary">
       <button type="button" onClick={() => setFilter("active")}><small>진행 중</small><strong>{summary.active}명</strong></button>
       <button type="button" className={summary.overdue ? "is-alert" : ""} onClick={() => setFilter("overdue")}><small>후속 조치 지연</small><strong>{summary.overdue}명</strong></button>
@@ -302,12 +277,11 @@ export function NewFamilyManager() {
       const selectedChannel = channels[item.id] ?? "sms";
       const channelReady = selectedChannel === "alimtalk" ? messageCapabilities.alimtalkConfigured : messageCapabilities.smsConfigured;
       const recipientValue = recipients[item.id] ?? item.contact ?? "";
-      const hasMobile = /^01\d{8,9}$/.test(normalizeMobile(recipientValue));
+      const hasMobile = isKoreanMobile(recipientValue);
       const hasDraft = Boolean(drafts[item.id]?.trim());
-      const nativeSmsFallback = selectedChannel === "sms" && !messageCapabilities.smsConfigured;
       return <article className={`new-family-journey-card ${overdue ? "is-overdue" : ""}`} key={`${item.id}:${item.updatedAt}`}>
         <div className="new-family-card-heading">
-          <div><small>{item.cardType === "registration" ? "등록카드" : "방문카드"} · {statusLabels[item.journeyStatus] ?? item.journeyStatus}</small><h2>{item.memberName ?? item.name ?? "이름 미입력"} <span>{item.memberNumber ?? "교인번호 미발급"}</span></h2><p>{item.contact ?? "연락처 없음"} · 첫 방문 {displayDate(item.firstVisitedOn)}</p></div>
+          <div><small>{item.cardType === "registration" ? "등록카드" : "방문카드"} · {statusLabels[item.journeyStatus] ?? item.journeyStatus}</small><h2>{item.memberName ?? item.name ?? "이름 미입력"} <span>{item.memberNumber ?? "교인번호 미발급"}</span></h2><p>{item.contact ? formatPhone(item.contact) : "연락처 없음"} · 첫 방문 {displayDate(item.firstVisitedOn)}</p></div>
           <div className={overdue ? "is-alert" : ""}><small>{overdue ? "후속 조치 지연" : "다음 조치"}</small><strong>{displayDate(item.nextActionOn)}</strong></div>
         </div>
         <ol className="new-family-stage-track">{stageOrder.map((stage, index) => <li className={index <= stageIndex ? "is-done" : ""} key={stage}><span>{index + 1}</span><small>{stageLabels[stage]}</small></li>)}</ol>
@@ -327,13 +301,14 @@ export function NewFamilyManager() {
             <p>상담 메모와 가족정보는 AI에 전달하지 않습니다. 발송 전 담당자가 반드시 최종 문안을 확인합니다.</p>
           </div>
           <div className="new-family-recipient-editor">
-            <label><span>수신 휴대전화</span><input type="tel" inputMode="tel" autoComplete="tel" placeholder="010-1234-5678" value={displayMobile(recipientValue)} onChange={(event) => {
+            <label><span>수신 휴대전화</span><input type="tel" inputMode="tel" autoComplete="tel" placeholder="010-1234-5678" value={formatPhone(recipientValue)} onChange={(event) => {
               setRecipients((current) => ({ ...current, [item.id]: event.target.value }));
               setConfirmed((current) => ({ ...current, [item.id]: false }));
             }} /></label>
             <button type="button" onClick={() => void saveRecipient(item)} disabled={workingId === item.id || !hasMobile}>번호 저장</button>
-            <small className={hasMobile ? "is-valid" : ""}>{hasMobile ? "발송 가능한 번호입니다." : "휴대전화 번호를 입력하면 발송 버튼이 활성화됩니다."}</small>
+            <small className={hasMobile ? "is-valid" : ""}>{hasMobile ? "국내 휴대전화 형식이 맞습니다." : "010-1234-5678 형식으로 입력해 주세요."}</small>
           </div>
+          {!messageCapabilities.smsConfigured && <p className="new-family-message-warning" role="alert">현재 문자 발송 서비스가 연결되지 않아 실제 발송은 잠겨 있습니다. SOLAPI API 키·비밀키와 등록된 발신번호를 서버에 연결하면 이 화면에서 바로 발송됩니다.</p>}
           <div className="new-family-message-capabilities" aria-label="메시지 연결 상태">
             <span className={messageCapabilities.aiConfigured ? "is-ready" : ""}>AI {messageCapabilities.aiConfigured ? "연결됨" : "기본 문안"}</span>
             <span className={messageCapabilities.smsConfigured ? "is-ready" : ""}>문자 {messageCapabilities.smsConfigured ? "발송 가능" : "설정 필요"}</span>
@@ -358,9 +333,9 @@ export function NewFamilyManager() {
               <option value="sms">문자(SMS/LMS)</option><option value="alimtalk">카카오 알림톡</option>
             </select></label>
             <label className="new-family-message-confirm"><input type="checkbox" checked={confirmed[item.id] ?? false} onChange={(event) => setConfirmed((current) => ({ ...current, [item.id]: event.target.checked }))} /><span>받는 분과 문안을 최종 확인했습니다.</span></label>
-            <button type="button" onClick={() => void (nativeSmsFallback ? openSmsApp(item) : sendMessage(item))} disabled={workingId === item.id || !confirmed[item.id] || !hasMobile || !hasDraft || (selectedChannel === "alimtalk" && !channelReady)}>{workingId === item.id ? "준비 중…" : nativeSmsFallback ? "문자 앱으로 열기" : "확인 후 발송"}</button>
+            <button type="button" onClick={() => void sendMessage(item)} disabled={workingId === item.id || !confirmed[item.id] || !hasMobile || !hasDraft || !channelReady}>{workingId === item.id ? "발송 중…" : !channelReady ? "발송 서비스 연결 필요" : "확인 후 발송"}</button>
           </div>
-          <p className="new-family-message-note">{!hasMobile ? "위에서 받는 분의 휴대전화 번호를 입력해 주세요. " : ""}{nativeSmsFallback ? "자동 문자 발송 서비스가 연결되기 전에는 기기의 문자 앱을 열고 문안을 자동 입력합니다. " : "문자는 이 화면에서 바로 발송됩니다. "}알림톡은 카카오 채널과 사전 승인 문안이 모두 연결된 경우에만 발송되며, 승인 문안은 수정할 수 없습니다.</p>
+          <p className="new-family-message-note">{!hasMobile ? "위에서 받는 분의 휴대전화 번호를 입력해 주세요. " : ""}문자는 발송 서비스가 연결된 경우에만 이 화면에서 실제 전송됩니다. 알림톡은 카카오 채널과 사전 승인 문안이 모두 연결된 경우에만 발송되며, 승인 문안은 수정할 수 없습니다.</p>
           {itemMessages.length > 0 && <details className="new-family-message-history"><summary>최근 발송 기록 {itemMessages.length}건</summary><ul>{itemMessages.slice(0, 5).map((message) => <li key={message.id}>
             <div><strong>{message.channel === "alimtalk" ? "알림톡" : "문자"} · {messageStatusLabels[message.status] ?? message.status}</strong><time>{new Date(message.createdAt).toLocaleString("ko-KR")}</time></div>
             <p>{message.content}</p>{message.errorMessage && <small>{message.errorMessage}</small>}

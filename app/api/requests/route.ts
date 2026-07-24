@@ -3,6 +3,7 @@ import { isImmanuelAdminRequest } from "@/app/chatgpt-auth";
 import { getDb } from "@/db";
 import { churchEvents, members, ministryRequests, newFamilyJourneys, newFamilyRegistrations } from "@/db/schema";
 import { getMemberFromRequest } from "@/lib/member-auth";
+import { isKoreanMobile, normalizePhone } from "@/lib/phone";
 
 const allowedRequestTypes = new Set([
   "prayer",
@@ -38,7 +39,7 @@ function cleanDetails(value: unknown) {
     occupation: cleanText(details.occupation, 240),
     familyInfo: cleanText(details.familyInfo, 1000),
     guideName: cleanText(details.guideName, 80),
-    guidePhone: cleanText(details.guidePhone, 40),
+    guidePhone: normalizePhone(cleanText(details.guidePhone, 40)),
     guideRelation: cleanText(details.guideRelation, 160),
     faithStatus: cleanText(details.faithStatus, 120),
     previousChurchName: cleanText(details.previousChurchName, 240),
@@ -63,7 +64,8 @@ export async function POST(request: Request) {
     const payload = (await request.json()) as Record<string, unknown>;
     const requestType = cleanText(payload.requestType, 40);
     const name = cleanText(payload.name, 80);
-    const contact = cleanText(payload.contact, 120);
+    const rawContact = cleanText(payload.contact, 120);
+    const contact = requestType === "new-family" ? normalizePhone(rawContact) : rawContact;
     const subject = cleanText(payload.subject, 160);
     const message = cleanText(payload.message, 5000);
     const website = cleanText(payload.website, 200);
@@ -108,6 +110,9 @@ export async function POST(request: Request) {
     );
     if (requestType === "new-family" && (!name || !contact || !details?.cardType || !details.birthDate || !details.address || !details.email || !details.occupation || !details.familyInfo || !details.referral || !registrationComplete)) {
       return Response.json({ error: "새가족 등록 필수 항목을 확인해 주세요." }, { status: 400 });
+    }
+    if (requestType === "new-family" && !isKoreanMobile(contact)) {
+      return Response.json({ error: "전화번호를 010-1234-5678 형식으로 입력해 주세요." }, { status: 400 });
     }
 
     const db = getDb();

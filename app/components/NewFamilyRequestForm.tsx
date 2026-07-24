@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { formatPhone } from "@/lib/phone";
 
 type CardType = "visit" | "registration";
 type SubmitState =
@@ -87,7 +88,7 @@ export function NewFamilyRequestForm({ initialMember }: { initialMember: Initial
     <label><span>주소</span><input name="address" type="text" maxLength={240} autoComplete="street-address" required /></label>
     <div className="request-form-grid">
       <label><span>이메일</span><input name="email" type="email" maxLength={120} autoComplete="email" defaultValue={initialMember?.email ?? ""} required /></label>
-      <label><span>전화번호</span><input name="phone" type="tel" maxLength={40} autoComplete="tel" defaultValue={initialMember?.phone ?? ""} required /></label>
+      <label><span>전화번호</span><input name="phone" type="tel" maxLength={40} autoComplete="tel" placeholder="010-1234-5678" defaultValue={formatPhone(initialMember?.phone ?? "")} required /></label>
     </div>
     <label><span>직장 또는 하는 일</span><input name="occupation" type="text" maxLength={240} required /></label>
     <label><span>가족사항</span><textarea name="familyInfo" rows={3} maxLength={1000} required /></label>
@@ -96,7 +97,7 @@ export function NewFamilyRequestForm({ initialMember }: { initialMember: Initial
       <legend>인도자 정보 <small>선택</small></legend>
       <div className="request-form-grid">
         <label><span>인도자 이름</span><input name="guideName" type="text" maxLength={80} /></label>
-        <label><span>인도자 전화번호</span><input name="guidePhone" type="tel" maxLength={40} /></label>
+        <label><span>인도자 전화번호</span><input name="guidePhone" type="tel" maxLength={40} placeholder="010-1234-5678" /></label>
       </div>
       <label><span>인도자와의 관계</span><input name="guideRelation" type="text" maxLength={160} /></label>
     </fieldset>

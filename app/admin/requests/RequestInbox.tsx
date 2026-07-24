@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { formatPhone } from "@/lib/phone";
 
 type RequestType = "prayer" | "counseling" | "new-family" | "spirit-ministry" | "bible-conference" | "discipleship" | "community" | "event";
 
@@ -77,8 +78,8 @@ const statusLabels: Record<string, string> = {
   completed: "완료"
 };
 
-export function RequestInbox() {
-  const [requestType, setRequestType] = useState<RequestType>("prayer");
+export function RequestInbox({ initialType = "prayer" }: { initialType?: RequestType }) {
+  const [requestType, setRequestType] = useState<RequestType>(initialType);
   const [requests, setRequests] = useState<MinistryRequest[]>([]);
   const [state, setState] = useState<"loading" | "ready" | "error">("loading");
   const [query, setQuery] = useState("");
@@ -178,7 +179,7 @@ export function RequestInbox() {
               <dl>
                 <div><dt>접수번호</dt><dd>{receiptPrefixes[item.requestType]}-{item.id}</dd></div>
                 <div><dt>이름</dt><dd>{item.name || "미기재"}</dd></div>
-                <div><dt>연락처</dt><dd>{item.contact || "미기재"}</dd></div>
+                <div><dt>연락처</dt><dd>{item.contact ? (item.requestType === "new-family" ? formatPhone(item.contact) : item.contact) : "미기재"}</dd></div>
               </dl>
               <p className="request-card-message">{item.message}</p>
               {item.requestType === "new-family" && getDetails(item.options) && (
@@ -190,7 +191,7 @@ export function RequestInbox() {
                   <div><dt>직장 또는 하는 일</dt><dd>{getDetails(item.options)?.occupation || "미기재"}</dd></div>
                   <div><dt>가족 정보</dt><dd>{getDetails(item.options)?.familyInfo || "미기재"}</dd></div>
                   <div><dt>인도자 이름</dt><dd>{getDetails(item.options)?.guideName || "미기재"}</dd></div>
-                  <div><dt>인도자 전화번호</dt><dd>{getDetails(item.options)?.guidePhone || "미기재"}</dd></div>
+                  <div><dt>인도자 전화번호</dt><dd>{getDetails(item.options)?.guidePhone ? formatPhone(getDetails(item.options)?.guidePhone) : "미기재"}</dd></div>
                   <div><dt>인도자와의 관계</dt><dd>{getDetails(item.options)?.guideRelation || "미기재"}</dd></div>
                   <div><dt>현재 신앙 상태</dt><dd>{getDetails(item.options)?.faithStatus || "미기재"}</dd></div>
                   <div><dt>이전 교회 이름</dt><dd>{getDetails(item.options)?.previousChurchName || "미기재"}</dd></div>
