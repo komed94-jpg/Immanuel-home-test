@@ -10,9 +10,13 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false }
 };
 
-export default async function ImmanuelWayStudyPage({ searchParams }: { searchParams: Promise<{ lesson?: string }> }) {
-  const { lesson } = await searchParams;
-  const startPageKey = lesson && immanuelWayCourse.pages.some((page) => page.key === `${lesson}-scripture`) ? `${lesson}-scripture` : undefined;
+export default async function ImmanuelWayStudyPage({ searchParams }: { searchParams: Promise<{ lesson?: string; page?: string }> }) {
+  const { lesson, page } = await searchParams;
+  const startPageKey = page && immanuelWayCourse.pages.some((item) => item.key === page)
+    ? page
+    : lesson && immanuelWayCourse.pages.some((item) => item.key === `${lesson}-scripture`)
+      ? `${lesson}-scripture`
+      : undefined;
   return <Layout>
     <section className="web-study-hero web-study-hero-way">
       <div>
@@ -26,6 +30,6 @@ export default async function ImmanuelWayStudyPage({ searchParams }: { searchPar
       <strong>성경이 먼저입니다.</strong>
       <p>각 과는 설명보다 핵심 본문을 먼저 읽고, 참조 말씀으로 확인한 뒤 해설·분별·실천·기도로 이어집니다.</p>
     </section>
-    <StudyWorkbook course={immanuelWayCourse} startPageKey={startPageKey} />
+    <StudyWorkbook key={startPageKey ?? "default"} course={immanuelWayCourse} startPageKey={startPageKey} />
   </Layout>;
 }

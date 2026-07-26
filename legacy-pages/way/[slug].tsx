@@ -65,7 +65,7 @@ export default function ArticlePage({ article }: ArticlePageProps) {
             <h2>{lessonNumber}과 성경공부로 이어갑니다.</h2>
             <p>핵심 본문과 참조 말씀을 읽고, 이 내용을 성경을 기준으로 확인하고 적용합니다.</p>
           </div>
-          <Link href={`/bible-study/immanuel-way?lesson=${article.slug}`} className="primary-link">
+          <Link href={`/bible-study/immanuel-way?lesson=${article.slug}#study-content`} className="primary-link">
             {lessonLabel}과 성경공부 시작
           </Link>
         </section>

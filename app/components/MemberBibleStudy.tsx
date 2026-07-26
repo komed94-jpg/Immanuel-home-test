@@ -29,7 +29,7 @@ export function MemberBibleStudy({ courses }: { courses: Course[] }) {
     return <article className="member-training-card" key={course.slug}>
       <div className="member-training-heading"><div><small>{status}</small><h3>{course.title}</h3><p>{course.totalLessons ? `${course.totalLessons}과 · ` : ""}${completedPages}/${course.totalPages}쪽 완료</p></div><strong>{record?.completion?.status === "certified" ? "수료" : `${percent}%`}</strong></div>
       <div className="training-progress" aria-label={`진도 ${percent}%`}><span style={{ width: `${percent}%` }} /></div>
-      <a className="text-action" href={`/bible-study/${course.slug}`}>{completedPages ? "이어서 공부하기" : "성경공부 시작"}</a>
+      <a className="text-action" href={`/bible-study/${course.slug}#study-content`}>{completedPages ? "이어서 공부하기" : "성경공부 시작"}</a>
     </article>;
   })}</div>;
 }

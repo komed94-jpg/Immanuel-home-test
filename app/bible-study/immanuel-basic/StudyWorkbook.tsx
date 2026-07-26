@@ -11,6 +11,7 @@ export function StudyWorkbook({ course, startPageKey }: { course: BibleStudyCour
   const requestedIndex = startPageKey ? course.pages.findIndex((item) => item.key === startPageKey) : -1;
   const [pageIndex, setPageIndex] = useState(requestedIndex >= 0 ? requestedIndex : 0);
   const didSetResume = useRef(requestedIndex >= 0);
+  const contentRef = useRef<HTMLElement>(null);
   const [data, setData] = useState<StudyState | null>(null);
   const [needsLogin, setNeedsLogin] = useState(false);
   const [answers, setAnswers] = useState<Record<string, string>>({});
@@ -27,6 +28,31 @@ export function StudyWorkbook({ course, startPageKey }: { course: BibleStudyCour
       return unitPages.length > 0 && unitPages.every((item) => progressKeys.has(item.key));
     }).length;
   }, [course.pages, course.totalLessons, progressKeys]);
+
+  function scrollToStudyContent() {
+    window.requestAnimationFrame(() => {
+      contentRef.current?.scrollIntoView({
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+        block: "start"
+      });
+      contentRef.current?.focus({ preventScroll: true });
+    });
+  }
+
+  function selectPage(nextIndex: number, scrollToContent = true) {
+    const boundedIndex = Math.max(0, Math.min(course.pages.length - 1, nextIndex));
+    const nextPage = course.pages[boundedIndex];
+    setPageIndex(boundedIndex);
+    didSetResume.current = true;
+
+    const url = new URL(window.location.href);
+    url.searchParams.set("page", nextPage.key);
+    url.searchParams.delete("lesson");
+    url.hash = "study-content";
+    window.history.pushState({ bibleStudyPage: nextPage.key }, "", url);
+
+    if (scrollToContent) scrollToStudyContent();
+  }
 
   async function load() {
     const response = await fetch(`/api/member/study?course=${course.slug}`, { cache: "no-store" });
@@ -57,6 +83,23 @@ export function StudyWorkbook({ course, startPageKey }: { course: BibleStudyCour
       .catch(() => setNotice("학습 기록을 불러오지 못했습니다."));
   }, [course.pages, course.pages.length, course.slug]);
 
+  useEffect(() => {
+    function restorePageFromHistory() {
+      const url = new URL(window.location.href);
+      const lesson = url.searchParams.get("lesson");
+      const pageKey = url.searchParams.get("page") ?? (lesson ? `${lesson}-scripture` : null);
+      if (!pageKey) return;
+      const nextIndex = course.pages.findIndex((item) => item.key === pageKey);
+      if (nextIndex >= 0) {
+        setPageIndex(nextIndex);
+        scrollToStudyContent();
+      }
+    }
+
+    window.addEventListener("popstate", restorePageFromHistory);
+    return () => window.removeEventListener("popstate", restorePageFromHistory);
+  }, [course.pages]);
+
   async function saveAnswer(questionKey: string, answer: string) {
     if (needsLogin) return;
     setAnswers((current) => ({ ...current, [`${page.key}:${questionKey}`]: answer }));
@@ -79,12 +122,12 @@ export function StudyWorkbook({ course, startPageKey }: { course: BibleStudyCour
       <div className="web-study-progress"><span style={{ width: `${percent}%` }} /></div>
       <strong>{needsLogin ? `총 ${course.totalLessons ? `${course.totalLessons}과 · ` : ""}${course.pages.length}쪽 · 로그인 후 진도 저장` : course.totalLessons && completedLessons !== null ? `${completedLessons}/${course.totalLessons}과 · ${completed}/${course.pages.length}쪽 · ${percent}%` : `${completed}/${course.pages.length}쪽 완료 · ${percent}%`}</strong>
       <ol>{course.pages.map((item, index) => <li key={item.key}>
-        <button type="button" className={index === pageIndex ? "is-active" : ""} onClick={() => setPageIndex(index)}>
+        <button type="button" className={index === pageIndex ? "is-active" : ""} aria-current={index === pageIndex ? "page" : undefined} onClick={() => selectPage(index)}>
           <span>{index + 1}</span><em><small>{item.lesson}</small>{item.title}</em>{progressKeys.has(item.key) && <small>완료</small>}
         </button>
       </li>)}</ol>
     </aside>
-    <article className="web-study-page">
+    <article className="web-study-page" id="study-content" ref={contentRef} tabIndex={-1}>
       <div className="web-study-page-heading">
         <div><p className="section-kicker">{page.eyebrow}</p><h2>{page.title}</h2>{page.scripture && <span>{page.scripture}</span>}</div>
         <b>{String(pageIndex + 1).padStart(2, "0")} / {String(course.pages.length).padStart(2, "0")}</b>
@@ -92,16 +135,16 @@ export function StudyWorkbook({ course, startPageKey }: { course: BibleStudyCour
       {page.body && <div className="web-study-body">{page.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>}
       {page.sections && <div className="web-study-sections">{page.sections.map((section) => <section className="web-study-section" key={`${section.label}:${section.title}`}>
         <p className="web-study-section-label">{section.label}</p><h3>{section.title}</h3>{section.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>)}</div>}
-      {needsLogin && <div className="web-study-login-callout"><strong>읽기는 누구나 할 수 있습니다.</strong><p>답변 저장, 공부 날짜 기록, 진도와 수료 관리는 로그인한 교인에게 열립니다.</p><a className="primary-link" href={`/login?returnTo=${encodeURIComponent(`/bible-study/${course.slug}`)}`}>로그인하여 답변 기록하기</a></div>}
+      {needsLogin && <div className="web-study-login-callout"><strong>읽기는 누구나 할 수 있습니다.</strong><p>답변 저장, 공부 날짜 기록, 진도와 수료 관리는 로그인한 교인에게 열립니다.</p><a className="primary-link" href={`/login?returnTo=${encodeURIComponent(`/bible-study/${course.slug}?page=${page.key}#study-content`)}`}>로그인하여 이 페이지부터 기록하기</a></div>}
       <div className="web-study-questions">{page.questions.map((question) => {
         const key = `${page.key}:${question.key}`;
         return <label key={question.key}><span>{question.label}</span><strong>{question.prompt}</strong>{question.visibility === "private" && <small className="web-study-private-note">이 답변은 관리자 화면에 표시되지 않고 본인에게만 보입니다.</small>}<textarea rows={5} value={answers[key] ?? ""} disabled={needsLogin} onChange={(event) => setAnswers((current) => ({ ...current, [key]: event.target.value }))} onBlur={(event) => void saveAnswer(question.key, event.target.value)} placeholder={needsLogin ? "로그인하면 이곳에 답을 기록할 수 있습니다." : "여기에 답을 적으면 자동 저장됩니다."} /></label>;
       })}</div>
       {notice && <p className="content-manager-notice" role="status">{notice}</p>}
       <div className="web-study-actions">
-        <button type="button" className="text-action" disabled={pageIndex === 0} onClick={() => setPageIndex((value) => Math.max(0, value - 1))}>이전</button>
+        <button type="button" className="text-action" disabled={pageIndex === 0} onClick={() => selectPage(pageIndex - 1)}>이전</button>
         {!needsLogin && <button type="button" className="primary-link" onClick={() => void completePage()}>{progressKeys.has(page.key) ? "완료 날짜 다시 저장" : "이 페이지 공부 완료"}</button>}
-        <button type="button" className="text-action" disabled={pageIndex === course.pages.length - 1} onClick={() => setPageIndex((value) => Math.min(course.pages.length - 1, value + 1))}>다음</button>
+        <button type="button" className="text-action" disabled={pageIndex === course.pages.length - 1} onClick={() => selectPage(pageIndex + 1)}>다음</button>
       </div>
       {data?.completion && <p className="web-study-completion">{data.completion.status === "certified" ? "관리자가 수료 처리했습니다." : "전체 학습 완료 상태입니다. 관리자 확인 후 수료 처리됩니다."}</p>}
     </article>

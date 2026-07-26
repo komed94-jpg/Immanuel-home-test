@@ -745,6 +745,8 @@ p {
 .web-study-sidebar button em { font-style: normal; font-weight: 850; }
 .web-study-sidebar button small { color: var(--gold-deep); font-weight: 900; }
 .web-study-page { min-height: 720px; padding: clamp(28px, 5vw, 56px); }
+.web-study-page:focus { outline: none; }
+#study-content { scroll-margin-top: 92px; }
 .web-study-page-heading { display: flex; justify-content: space-between; gap: 24px; border-bottom: 1px solid var(--line); padding-bottom: 28px; }
 .web-study-page-heading h2 { margin: 10px 0 12px; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2.1rem, 4vw, 3.4rem); font-weight: 500; line-height: 1.15; }
 .web-study-page-heading span, .web-study-page-heading b { color: var(--gold-deep); font-weight: 900; }
