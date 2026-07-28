@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Layout } from "@/components/Layout";
 import { DiscernmentWorkbook } from "./DiscernmentWorkbook";
 import { DiscernmentLessonTwoWorkbook } from "./DiscernmentLessonTwoWorkbook";
+import { DiscernmentLessonThreeWorkbook } from "./DiscernmentLessonThreeWorkbook";
 
 export const metadata: Metadata = {
   title: "분별에서 사랑으로 | 임마누엘교회",
@@ -16,7 +17,11 @@ export default async function DiscernmentToLovePage({
   searchParams: Promise<{ lesson?: string; page?: string }>
 }) {
   const { lesson, page } = await searchParams;
-  const showLessonTwo = lesson === "2" || page?.startsWith("l2-");
+  const currentLesson = lesson === "3" || page?.startsWith("l3-")
+    ? 3
+    : lesson === "2" || page?.startsWith("l2-")
+      ? 2
+      : 1;
 
   return <Layout>
     <section className="web-study-hero">
@@ -39,20 +44,28 @@ export default async function DiscernmentToLovePage({
           <small>1과</small>
           <h3>분별은 정죄가 아니라 자유를 위한 것이다</h3>
           <p>우리가 무엇으로 판단하는지 살피고, 잘못된 잣대에서 자유로워져 사랑으로 나아갑니다.</p>
-          <Link href="/bible-study/discernment-to-love?lesson=1&page=opening#study-content" className={showLessonTwo ? "text-action" : "primary-link"}>1과 열기</Link>
+          <Link href="/bible-study/discernment-to-love?lesson=1&page=opening#study-content" className={currentLesson === 1 ? "primary-link" : "text-action"}>1과 열기</Link>
         </article>
         <article className="study-material-card">
           <small>2과</small>
           <h3>체험으로 판단할 수 없습니다</h3>
-          <p>소극적 표지 ①~⑥을 성경의 두 장면씩 나란히 놓고 살펴봅니다.</p>
-          <Link href="/bible-study/discernment-to-love?lesson=2&page=l2-opening#study-content" className={showLessonTwo ? "primary-link" : "text-action"}>2과 열기</Link>
+          <p>소극적 표지 전반 여섯 항목을 성경의 두 장면씩 나란히 놓고 살펴봅니다.</p>
+          <Link href="/bible-study/discernment-to-love?lesson=2&page=l2-opening#study-content" className={currentLesson === 2 ? "primary-link" : "text-action"}>2과 열기</Link>
+        </article>
+        <article className="study-material-card">
+          <small>3과</small>
+          <h3>신앙생활의 모양으로 판단할 수 없습니다</h3>
+          <p>신앙의 말, 회심 과정, 열심, 찬양, 확신, 간증을 영적 등급표로 사용할 수 없는 이유를 살펴봅니다.</p>
+          <Link href="/bible-study/discernment-to-love?lesson=3&page=l3-opening#study-content" className={currentLesson === 3 ? "primary-link" : "text-action"}>3과 열기</Link>
         </article>
       </div>
     </section>
 
-    {showLessonTwo
-      ? <DiscernmentLessonTwoWorkbook key={page ?? "l2-opening"} startPage={page} />
-      : <DiscernmentWorkbook key={page ?? "opening"} startPage={page} />}
+    {currentLesson === 3
+      ? <DiscernmentLessonThreeWorkbook key={page ?? "l3-opening"} startPage={page} />
+      : currentLesson === 2
+        ? <DiscernmentLessonTwoWorkbook key={page ?? "l2-opening"} startPage={page} />
+        : <DiscernmentWorkbook key={page ?? "opening"} startPage={page} />}
 
     <section className="study-section" aria-label="관련 성경공부">
       <div className="study-section-heading">
