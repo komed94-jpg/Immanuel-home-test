@@ -1,11 +1,16 @@
 import { and, eq } from "drizzle-orm";
 import { getDb } from "@/db";
 import { bibleStudyCompletions, bibleStudyPageProgress, bibleStudyResponses } from "@/db/schema";
-import { getBibleStudyCourse, totalPages } from "@/lib/bible-study";
+import { getBibleStudyCourse as getCoreBibleStudyCourse, totalPages } from "@/lib/bible-study";
+import { discernmentToLoveCourse } from "@/lib/bible-study-discernment";
 import { getMemberFromRequest, sameOrigin } from "@/lib/member-auth";
 
 function clean(value: unknown, max: number) {
   return typeof value === "string" ? value.trim().slice(0, max) : "";
+}
+
+function getBibleStudyCourse(slug: string) {
+  return slug === discernmentToLoveCourse.slug ? discernmentToLoveCourse : getCoreBibleStudyCourse(slug);
 }
 
 function koreaDate(date = new Date()) {
