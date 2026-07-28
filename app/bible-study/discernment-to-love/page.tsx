@@ -8,7 +8,7 @@ import { DiscernmentLessonFourWorkbook } from "./DiscernmentLessonFourWorkbook";
 
 export const metadata: Metadata = {
   title: "분별에서 사랑으로 | 임마누엘교회",
-  description: "분별은 정죄가 아니라 자유를 위한 것이다 · 영적 분별 성경공부",
+  description: "1과부터 4과까지 이어지는 영적 분별 웹 성경공부",
   robots: { index: false, follow: false }
 };
 
