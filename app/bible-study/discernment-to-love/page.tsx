@@ -9,10 +9,11 @@ import { DiscernmentLessonFiveWorkbook } from "./DiscernmentLessonFiveWorkbook";
 import { DiscernmentLessonSixWorkbook } from "./DiscernmentLessonSixWorkbook";
 import { DiscernmentLessonSevenWorkbook } from "./DiscernmentLessonSevenWorkbook";
 import { DiscernmentLessonEightWorkbook } from "./DiscernmentLessonEightWorkbook";
+import { DiscernmentLessonNineWorkbook } from "./DiscernmentLessonNineWorkbook";
 
 export const metadata: Metadata = {
   title: "분별에서 사랑으로 | 임마누엘교회",
-  description: "1과부터 8과까지 이어지는 영적 분별 웹 성경공부",
+  description: "1과부터 9과까지 이어지는 영적 분별 웹 성경공부",
   robots: { index: false, follow: false }
 };
 
@@ -22,21 +23,23 @@ export default async function DiscernmentToLovePage({
   searchParams: Promise<{ lesson?: string; page?: string }>
 }) {
   const { lesson, page } = await searchParams;
-  const currentLesson = lesson === "8" || page?.startsWith("l8-")
-    ? 8
-    : lesson === "7" || page?.startsWith("l7-")
-      ? 7
-      : lesson === "6" || page?.startsWith("l6-")
-        ? 6
-        : lesson === "5" || page?.startsWith("l5-")
-          ? 5
-          : lesson === "4" || page?.startsWith("l4-")
-            ? 4
-            : lesson === "3" || page?.startsWith("l3-")
-              ? 3
-              : lesson === "2" || page?.startsWith("l2-")
-                ? 2
-                : 1;
+  const currentLesson = lesson === "9" || page?.startsWith("l9-")
+    ? 9
+    : lesson === "8" || page?.startsWith("l8-")
+      ? 8
+      : lesson === "7" || page?.startsWith("l7-")
+        ? 7
+        : lesson === "6" || page?.startsWith("l6-")
+          ? 6
+          : lesson === "5" || page?.startsWith("l5-")
+            ? 5
+            : lesson === "4" || page?.startsWith("l4-")
+              ? 4
+              : lesson === "3" || page?.startsWith("l3-")
+                ? 3
+                : lesson === "2" || page?.startsWith("l2-")
+                  ? 2
+                  : 1;
 
   return <Layout>
     <section className="web-study-hero">
@@ -103,24 +106,32 @@ export default async function DiscernmentToLovePage({
           <p>같은 신앙 단어 안에 다른 전제와 구원 구조가 들어갈 수 있음을 살피고, 진리를 사랑하여 빛 가운데 걷는 법을 배웁니다.</p>
           <Link href="/bible-study/discernment-to-love?lesson=8&page=l8-opening#study-content" className={currentLesson === 8 ? "primary-link" : "text-action"}>8과 열기</Link>
         </article>
+        <article className="study-material-card">
+          <small>9과</small>
+          <h3>AI는 언약의 당사자가 될 수 있는가</h3>
+          <p>예측과 인격적 앎, 기억 복제와 몸의 부활, 유익과 사랑, 기능적 응답과 언약적 응답을 구분합니다.</p>
+          <Link href="/bible-study/discernment-to-love?lesson=9&page=l9-opening#study-content" className={currentLesson === 9 ? "primary-link" : "text-action"}>9과 열기</Link>
+        </article>
       </div>
     </section>
 
-    {currentLesson === 8
-      ? <DiscernmentLessonEightWorkbook key={page ?? "l8-opening"} startPage={page} />
-      : currentLesson === 7
-        ? <DiscernmentLessonSevenWorkbook key={page ?? "l7-opening"} startPage={page} />
-        : currentLesson === 6
-          ? <DiscernmentLessonSixWorkbook key={page ?? "l6-opening"} startPage={page} />
-          : currentLesson === 5
-            ? <DiscernmentLessonFiveWorkbook key={page ?? "l5-opening"} startPage={page} />
-            : currentLesson === 4
-              ? <DiscernmentLessonFourWorkbook key={page ?? "l4-opening"} startPage={page} />
-              : currentLesson === 3
-                ? <DiscernmentLessonThreeWorkbook key={page ?? "l3-opening"} startPage={page} />
-                : currentLesson === 2
-                  ? <DiscernmentLessonTwoWorkbook key={page ?? "l2-opening"} startPage={page} />
-                  : <DiscernmentWorkbook key={page ?? "opening"} startPage={page} />}
+    {currentLesson === 9
+      ? <DiscernmentLessonNineWorkbook key={page ?? "l9-opening"} startPage={page} />
+      : currentLesson === 8
+        ? <DiscernmentLessonEightWorkbook key={page ?? "l8-opening"} startPage={page} />
+        : currentLesson === 7
+          ? <DiscernmentLessonSevenWorkbook key={page ?? "l7-opening"} startPage={page} />
+          : currentLesson === 6
+            ? <DiscernmentLessonSixWorkbook key={page ?? "l6-opening"} startPage={page} />
+            : currentLesson === 5
+              ? <DiscernmentLessonFiveWorkbook key={page ?? "l5-opening"} startPage={page} />
+              : currentLesson === 4
+                ? <DiscernmentLessonFourWorkbook key={page ?? "l4-opening"} startPage={page} />
+                : currentLesson === 3
+                  ? <DiscernmentLessonThreeWorkbook key={page ?? "l3-opening"} startPage={page} />
+                  : currentLesson === 2
+                    ? <DiscernmentLessonTwoWorkbook key={page ?? "l2-opening"} startPage={page} />
+                    : <DiscernmentWorkbook key={page ?? "opening"} startPage={page} />}
 
     <section className="study-section" aria-label="관련 성경공부">
       <div className="study-section-heading">
