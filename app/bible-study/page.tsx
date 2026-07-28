@@ -8,6 +8,7 @@ export const metadata: Metadata = {
 };
 
 const materials = [
+  { category: "미리보기 · 1과", title: "분별에서 사랑으로", description: "영적 분별은 사람을 재판하는 기술이 아니라, 잘못된 기준에서 자유로워져 사랑으로 나아가는 훈련입니다. 현재 업로드된 1과를 웹 교재로 먼저 검토합니다.", href: "/bible-study/discernment-to-love#study-content", status: "1과 미리보기 열기" },
   { category: "핵심과정 · 11과", title: "임마누엘의 길", description: "11개 신앙고백을 핵심 본문과 참조 말씀으로 확인하고, 본문 관찰·해설·분별·실천·기도로 이어 가는 웹 성경공부입니다.", href: "/bible-study/immanuel-way#study-content", status: "11과 성경공부 시작" },
   { category: "제자훈련 · 1권", title: "그럼에도 불구하고, 여전히 하나님은 나를 사랑하신다", description: "행위가 아니라 사랑 위에 서는 법. 8과와 부록을 웹에서 읽고, 로그인하면 답변·공부 날짜·진도·수료를 기록할 수 있습니다.", href: "/bible-study/immanuel-basic#study-content", status: "1권 웹 교재 열기" },
   { category: "제자훈련 · 2권", title: "그럼에도 불구하고, 여전히 하나님은 나를 사랑하신다 Ⅱ", description: "부끄러움이 아니라 아버지의 시선으로 나를 보는 법. 8과·26쪽의 웹 교재와 인도자 가이드를 함께 제공합니다.", href: "/bible-study/immanuel-basic-2#study-content", status: "2권 웹 교재 열기" },
