@@ -7,10 +7,11 @@ import { DiscernmentLessonThreeWorkbook } from "./DiscernmentLessonThreeWorkbook
 import { DiscernmentLessonFourWorkbook } from "./DiscernmentLessonFourWorkbook";
 import { DiscernmentLessonFiveWorkbook } from "./DiscernmentLessonFiveWorkbook";
 import { DiscernmentLessonSixWorkbook } from "./DiscernmentLessonSixWorkbook";
+import { DiscernmentLessonSevenWorkbook } from "./DiscernmentLessonSevenWorkbook";
 
 export const metadata: Metadata = {
   title: "분별에서 사랑으로 | 임마누엘교회",
-  description: "1과부터 6과까지 이어지는 영적 분별 웹 성경공부",
+  description: "1과부터 7과까지 이어지는 영적 분별 웹 성경공부",
   robots: { index: false, follow: false }
 };
 
@@ -20,17 +21,19 @@ export default async function DiscernmentToLovePage({
   searchParams: Promise<{ lesson?: string; page?: string }>
 }) {
   const { lesson, page } = await searchParams;
-  const currentLesson = lesson === "6" || page?.startsWith("l6-")
-    ? 6
-    : lesson === "5" || page?.startsWith("l5-")
-      ? 5
-      : lesson === "4" || page?.startsWith("l4-")
-        ? 4
-        : lesson === "3" || page?.startsWith("l3-")
-          ? 3
-          : lesson === "2" || page?.startsWith("l2-")
-            ? 2
-            : 1;
+  const currentLesson = lesson === "7" || page?.startsWith("l7-")
+    ? 7
+    : lesson === "6" || page?.startsWith("l6-")
+      ? 6
+      : lesson === "5" || page?.startsWith("l5-")
+        ? 5
+        : lesson === "4" || page?.startsWith("l4-")
+          ? 4
+          : lesson === "3" || page?.startsWith("l3-")
+            ? 3
+            : lesson === "2" || page?.startsWith("l2-")
+              ? 2
+              : 1;
 
   return <Layout>
     <section className="web-study-hero">
@@ -85,20 +88,28 @@ export default async function DiscernmentToLovePage({
           <p>사랑을 새 저울로 만들지 않으면서, 유익과 동기와 자기중심성, 그리고 성령의 다섯 방향이 사랑에서 어떻게 드러나는지 살펴봅니다.</p>
           <Link href="/bible-study/discernment-to-love?lesson=6&page=l6-opening#study-content" className={currentLesson === 6 ? "primary-link" : "text-action"}>6과 열기</Link>
         </article>
+        <article className="study-material-card">
+          <small>7과</small>
+          <h3>성경은 왜 절대적인 기준인가</h3>
+          <p>막연한 말씀, 지도자의 권위, 체험과 영적 음성을 기록된 성경 아래에서 분별하는 법을 배웁니다.</p>
+          <Link href="/bible-study/discernment-to-love?lesson=7&page=l7-opening#study-content" className={currentLesson === 7 ? "primary-link" : "text-action"}>7과 열기</Link>
+        </article>
       </div>
     </section>
 
-    {currentLesson === 6
-      ? <DiscernmentLessonSixWorkbook key={page ?? "l6-opening"} startPage={page} />
-      : currentLesson === 5
-        ? <DiscernmentLessonFiveWorkbook key={page ?? "l5-opening"} startPage={page} />
-        : currentLesson === 4
-          ? <DiscernmentLessonFourWorkbook key={page ?? "l4-opening"} startPage={page} />
-          : currentLesson === 3
-            ? <DiscernmentLessonThreeWorkbook key={page ?? "l3-opening"} startPage={page} />
-            : currentLesson === 2
-              ? <DiscernmentLessonTwoWorkbook key={page ?? "l2-opening"} startPage={page} />
-              : <DiscernmentWorkbook key={page ?? "opening"} startPage={page} />}
+    {currentLesson === 7
+      ? <DiscernmentLessonSevenWorkbook key={page ?? "l7-opening"} startPage={page} />
+      : currentLesson === 6
+        ? <DiscernmentLessonSixWorkbook key={page ?? "l6-opening"} startPage={page} />
+        : currentLesson === 5
+          ? <DiscernmentLessonFiveWorkbook key={page ?? "l5-opening"} startPage={page} />
+          : currentLesson === 4
+            ? <DiscernmentLessonFourWorkbook key={page ?? "l4-opening"} startPage={page} />
+            : currentLesson === 3
+              ? <DiscernmentLessonThreeWorkbook key={page ?? "l3-opening"} startPage={page} />
+              : currentLesson === 2
+                ? <DiscernmentLessonTwoWorkbook key={page ?? "l2-opening"} startPage={page} />
+                : <DiscernmentWorkbook key={page ?? "opening"} startPage={page} />}
 
     <section className="study-section" aria-label="관련 성경공부">
       <div className="study-section-heading">
