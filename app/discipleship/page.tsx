@@ -36,10 +36,11 @@ export default async function DiscipleshipPage() {
       <div>
         <p className="section-kicker">STUDY TOOLS</p>
         <h2 id="discipleship-study-title">훈련의 말씀은 성경공부에서 이어집니다.</h2>
-        <p>임마누엘의 길 11과에서 교회의 신앙고백을 성경으로 확인하고, 1권과 2권에서 사랑과 회복의 여정을 더 깊이 배웁니다. 웹에서 읽고 답하며, 개인 묵상은 공감성경으로, 목장 나눔 준비는 목자성경으로 이어 갑니다.</p>
+        <p>임마누엘의 길에서 교회의 신앙고백을 성경으로 확인하고, 「분별에서 사랑으로」에서 잘못된 잣대로부터 자유로워지는 분별을 배우며, 1권과 2권에서 사랑과 회복의 여정을 더 깊이 배웁니다.</p>
       </div>
       <div className="discipleship-study-actions">
         <Link className="primary-link" href="/bible-study/immanuel-way#study-content">임마누엘의 길 11과</Link>
+        <Link className="primary-link" href="/bible-study/discernment-to-love#study-content">분별에서 사랑으로</Link>
         <Link className="primary-link" href="/bible-study/immanuel-basic#study-content">1권 성경공부 시작</Link>
         <Link className="primary-link" href="/bible-study/immanuel-basic-2#study-content">2권 성경공부 시작</Link>
         <Link className="text-action" href="/bible-study">전체 교재 보기</Link>

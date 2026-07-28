@@ -12,10 +12,12 @@ import { MemberDiscipleship } from "@/app/components/MemberDiscipleship";
 import { MemberEventHistory } from "@/app/components/MemberEventHistory";
 import { MemberBibleStudy } from "@/app/components/MemberBibleStudy";
 import { bibleStudyCourses } from "@/lib/bible-study";
+import { discernmentToLoveCourse } from "@/lib/bible-study-discernment";
 
 export const metadata: Metadata = { title: "내 정보 | 임마누엘교회", robots: { index: false, follow: false } };
 
 const membershipLabels: Record<string, string> = { nonmember: "비멤버", pending: "교인 승인 대기", active: "등록 교인", inactive: "비활성 교인", long_absent: "장기 미출석", transferred: "이명", withdrawn: "탈퇴", deceased: "별세" };
+const allBibleStudyCourses = [...bibleStudyCourses, discernmentToLoveCourse];
 
 export default async function MemberPage({ searchParams }: { searchParams: Promise<{ notice?: string }> }) {
   const member = await getCurrentMember();
@@ -27,7 +29,7 @@ export default async function MemberPage({ searchParams }: { searchParams: Promi
     {member.membershipStatus !== "active" && <section className="member-approval-note"><h2>교인 등록 승인 전입니다.</h2><p>회원가입 계정은 정상적으로 만들어졌습니다. 새가족 등록카드를 제출하고 관리자가 교인 등록을 승인하면 교인번호와 멤버 전용 기능이 활성화됩니다.</p><Link className="primary-link" href="/services/new-family">새가족 등록카드 작성</Link></section>}
     <section className="member-dashboard-section"><h2>교인 등록과 가족</h2><MemberRegistrySummary /></section>
     <section className="member-dashboard-section" id="discipleship-history"><h2>제자훈련 신청·진도·수료 이력</h2><MemberDiscipleship /></section>
-    <section className="member-dashboard-section" id="bible-study-history"><h2>내 웹 성경공부</h2><MemberBibleStudy courses={bibleStudyCourses.map((course) => ({ slug: course.slug, title: course.title, totalPages: course.pages.length, totalLessons: course.totalLessons }))} /></section>
+    <section className="member-dashboard-section" id="bible-study-history"><h2>내 웹 성경공부</h2><MemberBibleStudy courses={allBibleStudyCourses.map((course) => ({ slug: course.slug, title: course.title, totalPages: course.pages.length, totalLessons: course.totalLessons }))} /></section>
     <section className="member-dashboard-section" id="event-history"><h2>행사 신청·참가 이력</h2><MemberEventHistory /></section>
     <section className="member-dashboard-section"><h2>회원 정보</h2><MemberProfileForm name={member.name} email={member.email} phone={member.phone} /></section>
     <section className="member-dashboard-section"><h2>비밀번호 변경</h2><PasswordChangeForm /></section>

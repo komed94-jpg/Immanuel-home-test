@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Layout } from "@/components/Layout";
-import { DeploymentBadge } from "@/components/DeploymentBadge";
 import { services, wayArticles } from "@/data/immanuel";
 
 const serviceIcons = [
@@ -42,7 +41,6 @@ export default function Home() {
   return (
     <Layout>
       <section className="home-hero">
-        <DeploymentBadge />
         <div className="home-hero-inner">
           <p className="eyebrow">WORD · WORSHIP · GROWTH · SENDING</p>
           <h1>
