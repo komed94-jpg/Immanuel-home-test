@@ -1,3 +1,4 @@
+// Vercel preview rebuild trigger: 2026-07-29
 export type Question = { key: string; label: string; prompt: string };
 export type Block =
   | { type: "heading"; text: string }
