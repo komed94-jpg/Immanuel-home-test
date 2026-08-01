@@ -8,6 +8,7 @@ export const metadata: Metadata = {
 };
 
 const materials = [
+  { category: "말씀 습관 · 8주", title: "예수님을 사랑한다고 말했다", description: "예수님을 사랑한다는 고백을 말씀을 읽고·묻고·기록하고·순종하는 생활로 옮기는 8주 습관 프로젝트입니다.", href: "/bible-study/loving-jesus", status: "8주 성경공부 시작" },
   { category: "핵심과정 · 11과", title: "임마누엘의 길", description: "11개 신앙고백을 핵심 본문과 참조 말씀으로 확인하고, 본문 관찰·해설·분별·실천·기도로 이어 가는 웹 성경공부입니다.", href: "/bible-study/immanuel-way#study-content", status: "11과 성경공부 시작" },
   { category: "영적 분별 · 1~10과", title: "분별에서 사랑으로", description: "외적인 현상과 잘못된 잣대에서 자유로워져 정죄가 아닌 사랑으로 나아가며, AI 시대의 분별과 책임 있는 사용까지 배우는 성경공부입니다.", href: "/bible-study/discernment-to-love#study-content", status: "1~10과 성경공부 열기" },
   { category: "제자훈련 · 1권", title: "그럼에도 불구하고, 여전히 하나님은 나를 사랑하신다", description: "행위가 아니라 사랑 위에 서는 법. 8과와 부록을 웹에서 읽고, 로그인하면 답변·공부 날짜·진도·수료를 기록할 수 있습니다.", href: "/bible-study/immanuel-basic#study-content", status: "1권 웹 교재 열기" },
