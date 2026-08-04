@@ -3,6 +3,12 @@ import { Layout } from "@/components/Layout";
 
 const contentCards = [
   {
+    title: "DISC 관계 교육",
+    label: "RELATIONSHIP FORMATION",
+    body: "24문항으로 내 행동을 알고, 타인을 이해하고 존중하며, 사랑으로 섬기는 관계 훈련입니다.",
+    href: "/disc"
+  },
+  {
     title: "웹 성경공부",
     label: "WEB WORKBOOK",
     body: "교재를 한 장씩 읽고 답변·공부 날짜·진도를 기록하는 디지털 성경공부입니다.",

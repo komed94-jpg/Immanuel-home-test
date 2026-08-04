@@ -39,6 +39,7 @@ export default async function DiscipleshipPage() {
         <p>임마누엘의 길에서 교회의 신앙고백을 성경으로 확인하고, 「분별에서 사랑으로」에서 잘못된 잣대로부터 자유로워지는 분별을 배우며, 1권과 2권에서 사랑과 회복의 여정을 더 깊이 배웁니다.</p>
       </div>
       <div className="discipleship-study-actions">
+        <Link className="primary-link" href="/disc">DISC 관계 교육</Link>
         <Link className="primary-link" href="/bible-study/immanuel-way#study-content">임마누엘의 길 11과</Link>
         <Link className="primary-link" href="/bible-study/discernment-to-love#study-content">분별에서 사랑으로</Link>
         <Link className="primary-link" href="/bible-study/immanuel-basic#study-content">1권 성경공부 시작</Link>
