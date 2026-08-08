@@ -26,7 +26,7 @@ export default function DiscPage() {
           <div className="disc-orbit disc-orbit-two" aria-hidden="true" />
           <div className="disc-hero-inner">
             <p className="disc-kicker">DISC · RELATIONSHIP · FORMATION</p>
-            <h1><span>사람을 파악하는 것을 넘어,</span><strong>사랑하는 방식을 배웁니다.</strong></h1>
+            <h1><span>상대를 파악하는 것을 넘어,</span><strong>사랑하는 방식을 배웁니다.</strong></h1>
             <p>내 행동을 정직하게 보고, 타인을 이해하고 존중하며, 상대에게 필요한 방식으로 사랑을 전하는 공동체 훈련입니다.</p>
             <div className="disc-hero-actions">
               <a className="disc-button is-primary" href="#disc-check">내 행동 알아보기</a>
