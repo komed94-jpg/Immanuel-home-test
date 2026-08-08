@@ -84,7 +84,7 @@ export default function Home() {
       <section className="home-disc-preview" aria-labelledby="home-disc-title">
         <div className="home-disc-copy">
           <p className="section-kicker">DISC · RELATIONSHIP FORMATION</p>
-          <h2 id="home-disc-title">사람을 파악하는 것을 넘어,<br />사랑하는 방식을 배웁니다.</h2>
+          <h2 id="home-disc-title">상대를 파악하는 것을 넘어,<br />사랑하는 방식을 배웁니다.</h2>
           <p>24문항으로 내 행동을 살피고, 타인을 이해하고 존중하며, 사랑으로 섬기는 3과 관계 교육으로 이어집니다.</p>
           <div>
             <Link className="primary-link" href="/disc#disc-check">내 행동 알아보기</Link>
