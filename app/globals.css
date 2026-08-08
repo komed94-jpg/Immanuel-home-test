@@ -448,6 +448,76 @@ p {
   font-size: 0.96rem;
 }
 
+.home-disc-preview {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(380px, 0.85fr);
+  gap: clamp(38px, 7vw, 90px);
+  width: min(1120px, calc(100% - 48px));
+  margin: 88px auto 0;
+  border-radius: 34px;
+  background:
+    radial-gradient(circle at 92% 8%, rgba(215, 111, 93, .28), transparent 17rem),
+    linear-gradient(135deg, #063734, #0b4f4b);
+  padding: clamp(32px, 6vw, 68px);
+  color: #fffaf1;
+  box-shadow: 0 28px 70px rgba(7, 20, 38, .18);
+}
+
+.home-disc-copy h2 {
+  margin: 0;
+  color: #fffaf1;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.35rem, 4vw, 4rem);
+  font-weight: 500;
+  line-height: 1.08;
+}
+
+.home-disc-copy > p:not(.section-kicker) {
+  max-width: 650px;
+  margin: 22px 0 0;
+  color: rgba(255, 250, 241, .75);
+  line-height: 1.8;
+}
+
+.home-disc-copy > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.home-disc-text-link {
+  color: #f0d7aa;
+  font-weight: 900;
+}
+
+.home-disc-types {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  align-content: center;
+}
+
+.home-disc-types span {
+  min-height: 150px;
+  display: grid;
+  align-content: center;
+  gap: 5px;
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, .07);
+  padding: 20px;
+}
+
+.home-disc-types b { color: var(--disc-type-color); font-size: 2rem; }
+.home-disc-types strong { font-size: 1.1rem; }
+.home-disc-types small { color: rgba(255, 250, 241, .65); font-size: .82rem; }
+.home-disc-types .is-d { --disc-type-color: #ef8d79; }
+.home-disc-types .is-i { --disc-type-color: #f3b34c; }
+.home-disc-types .is-s { --disc-type-color: #78c4ad; }
+.home-disc-types .is-c { --disc-type-color: #aaa5dd; }
+
 .page-hero,
 .why-hero {
   position: relative;
@@ -2134,6 +2204,18 @@ p {
 }
 
 @media (max-width: 900px) {
+  .home-disc-preview {
+    grid-template-columns: 1fr;
+    width: calc(100% - 32px);
+    margin-top: 64px;
+    border-radius: 28px;
+    padding: 28px;
+  }
+
+  .home-disc-types span {
+    min-height: 120px;
+  }
+
   .daily-word-translations { grid-template-columns: 1fr; }
   .daily-word-page .article-hero { min-height: 320px; padding: 80px 22px 16px; }
   .daily-word-page .daily-word-list { margin-top: -12px; padding-top: 12px; }
