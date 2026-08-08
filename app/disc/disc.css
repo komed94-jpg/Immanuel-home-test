@@ -1016,11 +1016,13 @@
   .disc-assessment { width: calc(100% - 36px); padding: 82px 0 96px; }
   .disc-assessment-intro { display: grid; align-items: start; }
   .disc-privacy-badge { min-width: 0; }
-  .disc-scale { grid-template-columns: repeat(5, minmax(48px, 1fr)); gap: 5px; }
+  .disc-scale { grid-template-columns: repeat(5, minmax(42px, 1fr)); gap: 5px; }
   .disc-question { padding: 22px 14px; }
   .disc-question legend { font-size: 1rem; }
   .disc-scale label { min-height: 66px; border-radius: 12px; padding: 8px 2px; }
   .disc-scale span { display: none; }
+  .disc-scale label:first-child span,
+  .disc-scale label:last-child span { display: block; font-size: 0.68rem; }
   .disc-answer-hint { text-align: left; }
   .disc-score-grid { gap: 9px; }
   .disc-score-card { padding: 16px; }
