@@ -16,7 +16,7 @@ export default function WayPage() {
             {wayArticles.map((article, index) => (
               <Link
                 className="poster-card"
-                href={`/bible-study/immanuel-way?lesson=${article.slug}#study-content`}
+                href={`/way/${article.slug}`}
                 key={article.slug}
                 style={{ backgroundImage: `url(${article.image.url})` }}
               >

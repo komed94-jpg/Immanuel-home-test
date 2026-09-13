@@ -7,7 +7,7 @@ type SavedResponse = { pageKey: string; questionKey: string; answer: string; stu
 type SavedProgress = { pageKey: string; studiedOn: string; completedAt: string };
 type StudyState = { responses: SavedResponse[]; progress: SavedProgress[]; completion: { status: string; certifiedAt: string | null } | null; totalPages: number };
 
-export function StudyWorkbook({ course, startPageKey }: { course: BibleStudyCourse; startPageKey?: string }) {
+export function StudyWorkbook({ course, startPageKey, returnPath, hiddenSectionLabels = [] }: { course: BibleStudyCourse; startPageKey?: string; returnPath?: string; hiddenSectionLabels?: string[] }) {
   const requestedIndex = startPageKey ? course.pages.findIndex((item) => item.key === startPageKey) : -1;
   const [pageIndex, setPageIndex] = useState(requestedIndex >= 0 ? requestedIndex : 0);
   const didSetResume = useRef(requestedIndex >= 0);
@@ -133,9 +133,9 @@ export function StudyWorkbook({ course, startPageKey }: { course: BibleStudyCour
         <b>{String(pageIndex + 1).padStart(2, "0")} / {String(course.pages.length).padStart(2, "0")}</b>
       </div>
       {page.body && <div className="web-study-body">{page.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>}
-      {page.sections && <div className="web-study-sections">{page.sections.map((section) => <section className="web-study-section" key={`${section.label}:${section.title}`}>
+      {page.sections && <div className="web-study-sections">{page.sections.filter((section) => !hiddenSectionLabels.includes(section.label)).map((section) => <section className="web-study-section" key={`${section.label}:${section.title}`}>
         <p className="web-study-section-label">{section.label}</p><h3>{section.title}</h3>{section.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>)}</div>}
-      {needsLogin && <div className="web-study-login-callout"><strong>읽기는 누구나 할 수 있습니다.</strong><p>답변 저장, 공부 날짜 기록, 진도와 수료 관리는 로그인한 교인에게 열립니다.</p><a className="primary-link" href={`/login?returnTo=${encodeURIComponent(`/bible-study/${course.slug}?page=${page.key}#study-content`)}`}>로그인하여 이 페이지부터 기록하기</a></div>}
+      {needsLogin && <div className="web-study-login-callout"><strong>읽기는 누구나 할 수 있습니다.</strong><p>답변 저장, 공부 날짜 기록, 진도와 수료 관리는 로그인한 교인에게 열립니다.</p><a className="primary-link" href={`/login?returnTo=${encodeURIComponent(returnPath ? `${returnPath}?page=${page.key}#study-content` : `/bible-study/${course.slug}?page=${page.key}#study-content`)}`}>로그인하여 이 페이지부터 기록하기</a></div>}
       <div className="web-study-questions">{page.questions.map((question) => {
         const key = `${page.key}:${question.key}`;
         return <label key={question.key}><span>{question.label}</span><strong>{question.prompt}</strong>{question.visibility === "private" && <small className="web-study-private-note">이 답변은 관리자 화면에 표시되지 않고 본인에게만 보입니다.</small>}<textarea rows={5} value={answers[key] ?? ""} disabled={needsLogin} onChange={(event) => setAnswers((current) => ({ ...current, [key]: event.target.value }))} onBlur={(event) => void saveAnswer(question.key, event.target.value)} placeholder={needsLogin ? "로그인하면 이곳에 답을 기록할 수 있습니다." : "여기에 답을 적으면 자동 저장됩니다."} /></label>;
