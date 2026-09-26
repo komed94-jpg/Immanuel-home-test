@@ -1,0 +1,87 @@
+[
+  {
+    "filename": "leviticus-offerings.mp4",
+    "bytes": 52409802,
+    "sha256": "03caacda1706d119ea56280fa75314f640ab8ee2cf7f346139f0cb04f5882210",
+    "parts": [
+      "leviticus-offerings/000.bin",
+      "leviticus-offerings/001.bin",
+      "leviticus-offerings/002.bin",
+      "leviticus-offerings/003.bin",
+      "leviticus-offerings/004.bin",
+      "leviticus-offerings/005.bin",
+      "leviticus-offerings/006.bin",
+      "leviticus-offerings/007.bin",
+      "leviticus-offerings/008.bin",
+      "leviticus-offerings/009.bin",
+      "leviticus-offerings/010.bin",
+      "leviticus-offerings/011.bin",
+      "leviticus-offerings/012.bin",
+      "leviticus-offerings/013.bin",
+      "leviticus-offerings/014.bin",
+      "leviticus-offerings/015.bin",
+      "leviticus-offerings/016.bin",
+      "leviticus-offerings/017.bin"
+    ]
+  },
+  {
+    "filename": "jerusalem-jesus.mp4",
+    "bytes": 42948998,
+    "sha256": "6d05a5a7075fed157c1a0e4d69af1ccb76cb48c42e4491df11e8505e31d289ba",
+    "parts": [
+      "jerusalem-jesus/000.bin",
+      "jerusalem-jesus/001.bin",
+      "jerusalem-jesus/002.bin",
+      "jerusalem-jesus/003.bin",
+      "jerusalem-jesus/004.bin",
+      "jerusalem-jesus/005.bin",
+      "jerusalem-jesus/006.bin",
+      "jerusalem-jesus/007.bin",
+      "jerusalem-jesus/008.bin",
+      "jerusalem-jesus/009.bin",
+      "jerusalem-jesus/010.bin",
+      "jerusalem-jesus/011.bin",
+      "jerusalem-jesus/012.bin",
+      "jerusalem-jesus/013.bin",
+      "jerusalem-jesus/014.bin"
+    ]
+  },
+  {
+    "filename": "galilee-ministry.mp4",
+    "bytes": 38481832,
+    "sha256": "cc040f9838b54e200d6a9ca0ab9ba65d8abb7108971e96327b3e0a30c841ce13",
+    "parts": [
+      "galilee-ministry/000.bin",
+      "galilee-ministry/001.bin",
+      "galilee-ministry/002.bin",
+      "galilee-ministry/003.bin",
+      "galilee-ministry/004.bin",
+      "galilee-ministry/005.bin",
+      "galilee-ministry/006.bin",
+      "galilee-ministry/007.bin",
+      "galilee-ministry/008.bin",
+      "galilee-ministry/009.bin",
+      "galilee-ministry/010.bin",
+      "galilee-ministry/011.bin",
+      "galilee-ministry/012.bin",
+      "galilee-ministry/013.bin"
+    ]
+  },
+  {
+    "filename": "paul-journeys.mp4",
+    "bytes": 28480039,
+    "sha256": "07dc32c19027a0e7fc3cfd3097ba8c062295c178755afd5e12a361b86a41f46d",
+    "parts": [
+      "paul-journeys/000.bin",
+      "paul-journeys/001.bin",
+      "paul-journeys/002.bin",
+      "paul-journeys/003.bin",
+      "paul-journeys/004.bin",
+      "paul-journeys/005.bin",
+      "paul-journeys/006.bin",
+      "paul-journeys/007.bin",
+      "paul-journeys/008.bin",
+      "paul-journeys/009.bin"
+    ]
+  }
+]

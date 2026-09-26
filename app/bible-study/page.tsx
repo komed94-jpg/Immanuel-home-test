@@ -30,7 +30,7 @@ export default function BibleStudyPage() {
         <div className="home-wrap">
           <p className="section-kicker">BIBLE STUDY VIDEOS</p>
           <h2 id="bible-video-heading">성경 공부 영상</h2>
-          <p className="bible-section-intro">성막과 솔로몬 성전의 안과 밖을 한국어 해설과 함께 살펴보세요.</p>
+          <p className="bible-section-intro">성막과 성전, 레위기의 제사, 예수님의 사역과 바울의 선교여행을 한국어 해설로 공부하세요.</p>
           <BibleVideoCards />
         </div>
       </section>
