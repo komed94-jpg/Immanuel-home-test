@@ -22,7 +22,7 @@ export default function BibleStudyVideo({ video }: { video: BibleVideo }) {
   return (
     <Layout>
       <article className="bible-study-page home-wrap">
-        <Link className="bible-back" href="/bible-study#bible-videos">← 성경 공부 영상 목록</Link>
+        <Link className="bible-back" href="/bible-world">← 영상으로 보는 성경 세계</Link>
         <p className="section-kicker">Bible Study</p>
         <h1>{video.title}</h1>
         <p className="bible-study-intro">{video.description}</p>
@@ -50,7 +50,7 @@ export default function BibleStudyVideo({ video }: { video: BibleVideo }) {
           </li>)}</ol>
         </section>
         <section className="bible-questions"><h2>함께 나눌 질문</h2><ol>{video.questions.map((question) => <li key={question}>{question}</li>)}</ol></section>
-        <Link className="secondary-link" href="/bible-study#bible-videos">다른 성경 공부 영상 보기</Link>
+        <Link className="primary-link" href="/bible-world">전체 영상 목록 보기</Link>
       </article>
     </Layout>
   );
