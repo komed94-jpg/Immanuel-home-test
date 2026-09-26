@@ -140,5 +140,25 @@
       "old-testament-terrain/001.bin",
       "old-testament-terrain/002.bin"
     ]
+  },
+  {
+    "filename": "israel-terrain-climate.mp4",
+    "bytes": 35962799,
+    "sha256": "ec4c9f2048cac3387c71fb2a9eb5cbd7789cdb20fab040aa71bcfd5abe216b80",
+    "parts": [
+      "israel-terrain-climate/000.bin",
+      "israel-terrain-climate/001.bin",
+      "israel-terrain-climate/002.bin",
+      "israel-terrain-climate/003.bin",
+      "israel-terrain-climate/004.bin",
+      "israel-terrain-climate/005.bin",
+      "israel-terrain-climate/006.bin",
+      "israel-terrain-climate/007.bin",
+      "israel-terrain-climate/008.bin",
+      "israel-terrain-climate/009.bin",
+      "israel-terrain-climate/010.bin",
+      "israel-terrain-climate/011.bin",
+      "israel-terrain-climate/012.bin"
+    ]
   }
 ]

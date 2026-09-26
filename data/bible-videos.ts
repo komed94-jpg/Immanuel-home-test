@@ -2,6 +2,84 @@ export type BibleVideo = { slug: string; title: string; description: string; dur
 
 export const bibleVideos: BibleVideo[] = [
   {
+    "slug": "israel-terrain-climate",
+    "title": "이스라엘의 지형과 기후",
+    "description": "회전하는 입체 지형, 정면 단면, 해안과 산지의 눈높이 장면으로 땅의 높낮이와 비·건조함의 관계를 배웁니다.",
+    "duration": "5분 5초",
+    "src": "/videos/israel-terrain-climate.mp4",
+    "poster": "/videos/israel-terrain-climate.jpg",
+    "captions": "/videos/israel-terrain-climate.ko.vtt",
+    "guide": "/videos/israel-terrain-climate-study.md",
+    "note": "NOAA ETOPO 2022 고도 자료로 만든 회전 입체 지형(높이 8배 강조)과 정면 단면, 기후 원리 애니메이션을 사용했습니다. 해안·산지·광야·호수 장면은 실사풍 AI 정지 이미지에 이동·확대 효과를 적용한 대표 환경 재현으로 실제 현장 촬영이 아닙니다. 현대 자료를 성경 시대의 정확한 날씨나 국경으로 제시하지 않습니다.",
+    "chapters": [
+      {
+        "title": "01 · 위에서 보고, 옆에서 읽다",
+        "start": 0,
+        "duration": 29.541,
+        "ref": "지형: NOAA ETOPO 2022 · 국경 생략"
+      },
+      {
+        "title": "02 · 정면 단면으로 보는 높낮이",
+        "start": 29.541,
+        "duration": 32.708,
+        "ref": "북위 31.78도 부근 동서 단면 · 고도는 표본 격자 값"
+      },
+      {
+        "title": "03 · 해안의 겨울비",
+        "start": 62.249,
+        "duration": 28.417,
+        "ref": "기후 구분: 이스라엘 기상청 · 대표 환경 재현"
+      },
+      {
+        "title": "04 · 산을 올려다보는 시선",
+        "start": 90.666,
+        "duration": 30.833,
+        "ref": "기후 교육 자료: 이스라엘 교육부 · 대표 환경 재현"
+      },
+      {
+        "title": "05 · 산을 넘으면 비가 줄어드는 이유",
+        "start": 121.499,
+        "duration": 35.0,
+        "ref": "강수 과정의 개념도 · 실제 풍속·강수량 모의가 아님"
+      },
+      {
+        "title": "06 · 광야를 아래에서 바라보다",
+        "start": 156.499,
+        "duration": 32.875,
+        "ref": "유대 광야의 대표 지형 재현 · 실제 촬영 아님"
+      },
+      {
+        "title": "07 · 호수에서 올려다보는 고원",
+        "start": 189.374,
+        "duration": 34.0,
+        "ref": "갈릴리 호수와 동쪽 고원의 대표 환경 재현"
+      },
+      {
+        "title": "08 · 북쪽에서 남쪽으로, 계절에서 계절로",
+        "start": 223.374,
+        "duration": 36.166,
+        "ref": "이스라엘 기상청·교육부 · 계절 경향의 개념도"
+      },
+      {
+        "title": "09 · 올라감과 내려감, 비를 기다리는 삶",
+        "start": 259.54,
+        "duration": 35.125,
+        "ref": "누가복음 10:30 · 신명기 11:10–14"
+      },
+      {
+        "title": "함께 나눌 질문",
+        "start": 294.665,
+        "duration": 10,
+        "ref": "본문과 삶을 연결하기"
+      }
+    ],
+    "questions": [
+      "해안에서 산지를 넘어 요단 골짜기로 가면 높이와 비의 양은 어떻게 달라지나요?",
+      "누가복음 10장의 내려간다는 표현을 지형과 연결해 설명해 보세요.",
+      "신명기 11장에서 비를 기다리는 삶은 어떤 의미를 갖나요?"
+    ]
+  },
+  {
     "slug": "tabernacle",
     "title": "성막, 뜰에서 지성소까지",
     "description": "번제단과 물두멍을 지나 성소와 지성소까지. 기구의 위치와 역할을 성경 본문과 함께 살펴봅니다.",
