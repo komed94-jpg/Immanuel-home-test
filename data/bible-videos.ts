@@ -2,6 +2,78 @@ export type BibleVideo = { slug: string; title: string; description: string; dur
 
 export const bibleVideos: BibleVideo[] = [
   {
+    "slug": "high-priest-garments",
+    "title": "대제사장의 복장과 영적 의미",
+    "description": "에봇·흉패·금방울과 석류·금패를 가까이 살펴보고, 대속죄일의 세마포 옷과 그리스도의 중보를 한국어 해설로 배웁니다. 필요한 설명 화면을 영상 안에 삽입했습니다.",
+    "duration": "7분 8초",
+    "src": "/videos/high-priest-garments.mp4",
+    "poster": "/videos/high-priest-garments.jpg",
+    "captions": "/videos/high-priest-garments.ko.vtt",
+    "guide": "/videos/high-priest-garments-study.md",
+    "note": "실사풍 AI 복원 정지 이미지의 카메라 이동·확대 연출과 설명 애니메이션을 결합한 해설 영상입니다. 실제 촬영이나 인물 동작을 생성한 영화 장면은 아닙니다. 재단·색조·세공은 일부 추정이며, 금패의 문구는 현대 히브리어 글자 표기로 표현했습니다. 본문의 설명·기독교적 해석·목회적 적용을 구분했습니다.",
+    "chapters": [
+      {
+        "title": "백성의 이름을 지고 하나님 앞에",
+        "start": 0,
+        "duration": 42.292,
+        "ref": "출애굽기 28:2–4, 12, 29, 36"
+      },
+      {
+        "title": "먼저, 복장의 전체 구조",
+        "start": 42.292,
+        "duration": 46.708,
+        "ref": "출 28:4, 31–43 · 미슈나 요마 7:5"
+      },
+      {
+        "title": "에봇, 어깨에 지는 백성의 이름",
+        "start": 89.0,
+        "duration": 51.458,
+        "ref": "출애굽기 28:6–12; 39:3"
+      },
+      {
+        "title": "흉패, 가슴에 품은 열두 지파",
+        "start": 140.458,
+        "duration": 53.583,
+        "ref": "출애굽기 28:15–30"
+      },
+      {
+        "title": "청색 겉옷, 금방울과 석류",
+        "start": 194.042,
+        "duration": 49.75,
+        "ref": "출애굽기 28:31–35; 39:22–26"
+      },
+      {
+        "title": "금패, 여호와께 성결",
+        "start": 243.792,
+        "duration": 46.417,
+        "ref": "출애굽기 28:36–38; 39:30–31"
+      },
+      {
+        "title": "대속죄일에는 복장이 달라집니다",
+        "start": 290.208,
+        "duration": 47.583,
+        "ref": "레위기 16:4, 6, 11–14, 23–24"
+      },
+      {
+        "title": "그리스도, 영원한 대제사장",
+        "start": 337.792,
+        "duration": 48.0,
+        "ref": "히브리서 7:23–28; 9:11–14, 24–28"
+      },
+      {
+        "title": "이름을 품고, 거룩함을 살아내며",
+        "start": 385.792,
+        "duration": 42.583,
+        "ref": "출 28:12, 29, 36 · 히 7:25; 9:12"
+      }
+    ],
+    "questions": [
+      "어깨 보석과 흉패에 백성의 이름을 새긴 목적은 무엇인가요?",
+      "출애굽기의 예복과 레위기 16장의 지성소 의식 복장은 어떻게 다른가요?",
+      "히브리서는 그리스도의 중보와 제사를 어떻게 설명하나요?"
+    ]
+  },
+  {
     "slug": "israel-terrain-climate",
     "title": "이스라엘의 지형과 기후",
     "description": "회전하는 입체 지형, 정면 단면, 해안과 산지의 눈높이 장면으로 땅의 높낮이와 비·건조함의 관계를 배웁니다.",

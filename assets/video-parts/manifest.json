@@ -160,5 +160,42 @@
       "israel-terrain-climate/011.bin",
       "israel-terrain-climate/012.bin"
     ]
+  },
+  {
+    "filename": "high-priest-garments.mp4",
+    "bytes": 87508052,
+    "sha256": "f345d50503fd0a28e9497a102d78b1778e210c68221872fd1ce81ed4267561f4",
+    "parts": [
+      "high-priest-garments/000.bin",
+      "high-priest-garments/001.bin",
+      "high-priest-garments/002.bin",
+      "high-priest-garments/003.bin",
+      "high-priest-garments/004.bin",
+      "high-priest-garments/005.bin",
+      "high-priest-garments/006.bin",
+      "high-priest-garments/007.bin",
+      "high-priest-garments/008.bin",
+      "high-priest-garments/009.bin",
+      "high-priest-garments/010.bin",
+      "high-priest-garments/011.bin",
+      "high-priest-garments/012.bin",
+      "high-priest-garments/013.bin",
+      "high-priest-garments/014.bin",
+      "high-priest-garments/015.bin",
+      "high-priest-garments/016.bin",
+      "high-priest-garments/017.bin",
+      "high-priest-garments/018.bin",
+      "high-priest-garments/019.bin",
+      "high-priest-garments/020.bin",
+      "high-priest-garments/021.bin",
+      "high-priest-garments/022.bin",
+      "high-priest-garments/023.bin",
+      "high-priest-garments/024.bin",
+      "high-priest-garments/025.bin",
+      "high-priest-garments/026.bin",
+      "high-priest-garments/027.bin",
+      "high-priest-garments/028.bin",
+      "high-priest-garments/029.bin"
+    ]
   }
 ]
