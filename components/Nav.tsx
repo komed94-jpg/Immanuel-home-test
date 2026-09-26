@@ -6,6 +6,7 @@ const navItems = [
   { href: "/why-immanuel", label: "왜 임마누엘인가" },
   { href: "/way", label: "임마누엘의 길" },
   { href: "/bible-study", label: "성경공부" },
+  { href: "/bible-reading", label: "성경읽기" },
   { href: "/bible-world", label: "영상으로 보는 성경 세계" },
   { href: "/disc", label: "DISC" },
   { href: "/services", label: "교회 서비스" },
