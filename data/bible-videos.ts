@@ -374,5 +374,245 @@ export const bibleVideos: BibleVideo[] = [
       "성소와 지성소에는 각각 어떤 기구가 있었나요?",
       "솔로몬은 왜 하나님을 성전 안에 가둘 수 없다고 고백했을까요?"
     ]
+  },
+  {
+    "slug": "day-of-atonement",
+    "title": "대제사장의 대속죄일",
+    "description": "세마포 옷과 분향, 피 뿌림과 두 염소의 절차를 따라 레위기 16장과 히브리서 9장을 읽습니다.",
+    "duration": "4분 32초",
+    "src": "/videos/day-of-atonement.mp4",
+    "poster": "/videos/day-of-atonement.jpg",
+    "captions": "/videos/day-of-atonement.ko.vtt",
+    "guide": "/videos/day-of-atonement-study.md",
+    "note": "성경 기록을 토대로 만든 AI 복원 상상도입니다. 인물과 건축 세부는 추정입니다. 실사풍 정지 이미지의 이동·확대 효과와 학습 지도·도식을 사용했습니다. 지도는 주요 지점과 진행 순서를 설명하며 실제 도로·항로를 재현하지 않습니다.",
+    "chapters": [
+      {
+        "title": "아무 때나 들어가지 말라",
+        "start": 0,
+        "duration": 40.583,
+        "ref": "레위기 16:1–5"
+      },
+      {
+        "title": "몸을 씻고 세마포 옷을 입다",
+        "start": 40.583,
+        "duration": 43.833,
+        "ref": "레위기 16:4, 6, 11"
+      },
+      {
+        "title": "향연이 속죄소를 가리다",
+        "start": 84.417,
+        "duration": 43.167,
+        "ref": "레위기 16:12–17"
+      },
+      {
+        "title": "두 염소, 서로 다른 역할",
+        "start": 127.583,
+        "duration": 47.542,
+        "ref": "레위기 16:7–10, 15, 20–22"
+      },
+      {
+        "title": "공동체 전체가 자신을 낮추다",
+        "start": 175.125,
+        "duration": 42.958,
+        "ref": "레위기 16:23–34"
+      },
+      {
+        "title": "히브리서와 함께 읽기",
+        "start": 218.083,
+        "duration": 43.417,
+        "ref": "히브리서 9:7–14, 24–28"
+      },
+      {
+        "title": "함께 나눌 질문",
+        "start": 261.5,
+        "duration": 10,
+        "ref": "본문과 삶을 연결하기"
+      }
+    ],
+    "questions": [
+      "대속죄일에 대제사장 자신을 위한 속죄도 필요한 이유는 무엇인가요?",
+      "두 염소는 각각 어떤 역할을 맡으며, 본문에서 어떤 순서로 등장하나요?",
+      "히브리서가 말하는 그리스도의 단번의 제사는 반복되는 의식과 어떻게 다른가요?"
+    ]
+  },
+  {
+    "slug": "wedding-at-cana",
+    "title": "가나 혼인잔치와 첫 표적",
+    "description": "잔치의 위기와 돌항아리 여섯, 종들의 행동을 따라 예수님의 영광을 드러낸 첫 표적을 공부합니다.",
+    "duration": "4분 38초",
+    "src": "/videos/wedding-at-cana.mp4",
+    "poster": "/videos/wedding-at-cana.jpg",
+    "captions": "/videos/wedding-at-cana.ko.vtt",
+    "guide": "/videos/wedding-at-cana-study.md",
+    "note": "성경 기록을 토대로 만든 AI 복원 상상도입니다. 인물과 건축 세부는 추정입니다. 실사풍 정지 이미지의 이동·확대 효과와 학습 지도·도식을 사용했습니다. 지도는 주요 지점과 진행 순서를 설명하며 실제 도로·항로를 재현하지 않습니다.",
+    "chapters": [
+      {
+        "title": "갈릴리의 한 혼인잔치",
+        "start": 0,
+        "duration": 45.833,
+        "ref": "요한복음 2:1–3"
+      },
+      {
+        "title": "아직 이르지 않은 때",
+        "start": 45.833,
+        "duration": 44.333,
+        "ref": "요한복음 2:3–5"
+      },
+      {
+        "title": "정결 예식용 돌항아리 여섯",
+        "start": 90.167,
+        "duration": 43.042,
+        "ref": "요한복음 2:6"
+      },
+      {
+        "title": "물을 가득 채우고 떠서 가져가다",
+        "start": 133.208,
+        "duration": 44.667,
+        "ref": "요한복음 2:7–9"
+      },
+      {
+        "title": "연회장이 맛본 좋은 포도주",
+        "start": 177.875,
+        "duration": 45.167,
+        "ref": "요한복음 2:9–10"
+      },
+      {
+        "title": "표적이 가리키는 분을 보다",
+        "start": 223.042,
+        "duration": 44.792,
+        "ref": "요한복음 2:11–12"
+      },
+      {
+        "title": "함께 나눌 질문",
+        "start": 267.833,
+        "duration": 10,
+        "ref": "본문과 삶을 연결하기"
+      }
+    ],
+    "questions": [
+      "요한복음이 돌항아리의 재료와 용도, 수를 설명하는 이유를 어떻게 생각하나요?",
+      "종들과 연회장은 각각 무엇을 알고, 무엇을 모르고 있었나요?",
+      "11절은 이 사건의 의미와 제자들의 반응을 어떻게 정리하나요?"
+    ]
+  },
+  {
+    "slug": "new-testament-terrain",
+    "title": "이스라엘의 신약 지형",
+    "description": "실제 고도 자료로 갈릴리·사마리아·유대와 요단 골짜기를 살피고 복음서의 이동 표현을 이해합니다.",
+    "duration": "4분 36초",
+    "src": "/videos/new-testament-terrain.mp4",
+    "poster": "/videos/new-testament-terrain.jpg",
+    "captions": "/videos/new-testament-terrain.ko.vtt",
+    "guide": "/videos/new-testament-terrain-study.md",
+    "note": "현대 NOAA ETOPO 2022 고도 자료와 Natural Earth 해안·호수 자료에 성경 시대의 주요 지명을 표시한 학습 지도입니다. 색상은 고도이며 음영은 강조했습니다. 고대의 국경·호안·도로를 정밀 복원한 것이 아닙니다. 강과 연결선은 개략적입니다.",
+    "chapters": [
+      {
+        "title": "복음서를 읽는 땅의 뼈대",
+        "start": 0,
+        "duration": 45.792,
+        "ref": "마가복음 1장 · 요한복음 4장"
+      },
+      {
+        "title": "갈릴리 산지와 낮은 호수",
+        "start": 45.792,
+        "duration": 44.792,
+        "ref": "마가복음 1:16–21; 4:35–41"
+      },
+      {
+        "title": "사마리아를 지나가는 길",
+        "start": 90.583,
+        "duration": 45.958,
+        "ref": "요한복음 4:3–7, 20–24"
+      },
+      {
+        "title": "예루살렘으로 올라가다",
+        "start": 136.542,
+        "duration": 42.417,
+        "ref": "누가복음 10:30–37; 19:1–28"
+      },
+      {
+        "title": "요단강과 사해, 동쪽 고원",
+        "start": 178.958,
+        "duration": 43.208,
+        "ref": "마가복음 1:5, 9; 10:1"
+      },
+      {
+        "title": "해안과 항구로 넓어지는 이야기",
+        "start": 222.167,
+        "duration": 43.5,
+        "ref": "사도행전 9:36–10:48"
+      },
+      {
+        "title": "함께 나눌 질문",
+        "start": 265.667,
+        "duration": 10,
+        "ref": "본문과 삶을 연결하기"
+      }
+    ],
+    "questions": [
+      "갈릴리·사마리아·유대의 남북 순서를 지도 없이 설명할 수 있나요?",
+      "예루살렘에서 여리고로 내려간다는 표현은 지형과 어떻게 연결되나요?",
+      "지형을 아는 것과 예수님의 모든 이동 경로를 확정하는 것은 왜 다른가요?"
+    ]
+  },
+  {
+    "slug": "old-testament-terrain",
+    "title": "이스라엘의 구약 지형",
+    "description": "해안 평야·중앙 산지·요단 골짜기·네게브를 살피며 족장과 사사, 왕국 시대의 본문을 연결합니다.",
+    "duration": "4분 42초",
+    "src": "/videos/old-testament-terrain.mp4",
+    "poster": "/videos/old-testament-terrain.jpg",
+    "captions": "/videos/old-testament-terrain.ko.vtt",
+    "guide": "/videos/old-testament-terrain-study.md",
+    "note": "현대 NOAA ETOPO 2022 고도 자료와 Natural Earth 해안·호수 자료에 성경 시대의 주요 지명을 표시한 학습 지도입니다. 색상은 고도이며 음영은 강조했습니다. 고대의 국경·호안·도로를 정밀 복원한 것이 아닙니다. 강과 연결선은 개략적입니다.",
+    "chapters": [
+      {
+        "title": "시대가 달라도 남아 있는 지형",
+        "start": 0,
+        "duration": 47.708,
+        "ref": "신명기 11:10–12"
+      },
+      {
+        "title": "세겜에서 벧엘, 남쪽 네게브로",
+        "start": 47.708,
+        "duration": 43.875,
+        "ref": "창세기 12:6–9; 13:18"
+      },
+      {
+        "title": "해안 평야와 세펠라의 골짜기",
+        "start": 91.583,
+        "duration": 42.833,
+        "ref": "사무엘상 17:1–3"
+      },
+      {
+        "title": "북쪽의 이스르엘 평야와 갈멜",
+        "start": 134.417,
+        "duration": 46.0,
+        "ref": "사사기 4:6–16 · 열왕기상 18장"
+      },
+      {
+        "title": "요단을 건너고 광야를 지나며",
+        "start": 180.417,
+        "duration": 44.458,
+        "ref": "여호수아 3장 · 사무엘상 24장"
+      },
+      {
+        "title": "산지의 도시와 달라지는 시대",
+        "start": 224.875,
+        "duration": 46.833,
+        "ref": "열왕기상 12장; 16:24"
+      },
+      {
+        "title": "함께 나눌 질문",
+        "start": 271.708,
+        "duration": 10,
+        "ref": "본문과 삶을 연결하기"
+      }
+    ],
+    "questions": [
+      "해안 평야와 중앙 산지 사이에서 세펠라는 어떤 위치에 있나요?",
+      "아브라함 이야기와 사사 시대 이야기에 등장하는 장소들을 지도에서 찾을 수 있나요?",
+      "구약의 서로 다른 시대를 하나의 고정된 국경으로 그리면 어떤 문제가 생기나요?"
+    ]
   }
 ];

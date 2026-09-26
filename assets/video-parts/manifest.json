@@ -83,5 +83,62 @@
       "paul-journeys/008.bin",
       "paul-journeys/009.bin"
     ]
+  },
+  {
+    "filename": "day-of-atonement.mp4",
+    "bytes": 25928661,
+    "sha256": "f69d25470a9507e47fbdf71cc96adce7f2374892a612d9970ee55e2e8d6f3cb5",
+    "parts": [
+      "day-of-atonement/000.bin",
+      "day-of-atonement/001.bin",
+      "day-of-atonement/002.bin",
+      "day-of-atonement/003.bin",
+      "day-of-atonement/004.bin",
+      "day-of-atonement/005.bin",
+      "day-of-atonement/006.bin",
+      "day-of-atonement/007.bin",
+      "day-of-atonement/008.bin"
+    ]
+  },
+  {
+    "filename": "wedding-at-cana.mp4",
+    "bytes": 39519289,
+    "sha256": "af274f461f7805cd21c74887cdac8431a021124fcf93171298e3beb114488035",
+    "parts": [
+      "wedding-at-cana/000.bin",
+      "wedding-at-cana/001.bin",
+      "wedding-at-cana/002.bin",
+      "wedding-at-cana/003.bin",
+      "wedding-at-cana/004.bin",
+      "wedding-at-cana/005.bin",
+      "wedding-at-cana/006.bin",
+      "wedding-at-cana/007.bin",
+      "wedding-at-cana/008.bin",
+      "wedding-at-cana/009.bin",
+      "wedding-at-cana/010.bin",
+      "wedding-at-cana/011.bin",
+      "wedding-at-cana/012.bin",
+      "wedding-at-cana/013.bin"
+    ]
+  },
+  {
+    "filename": "new-testament-terrain.mp4",
+    "bytes": 7831680,
+    "sha256": "d5299cd2f4b1afbb79dbffd304df18e07c1088881c8857f6d25d0635b4e1d6d9",
+    "parts": [
+      "new-testament-terrain/000.bin",
+      "new-testament-terrain/001.bin",
+      "new-testament-terrain/002.bin"
+    ]
+  },
+  {
+    "filename": "old-testament-terrain.mp4",
+    "bytes": 8177957,
+    "sha256": "f5a7fef219388fb703defb34d74bcb73e9fb9988d3252a9d76559dcad3e31238",
+    "parts": [
+      "old-testament-terrain/000.bin",
+      "old-testament-terrain/001.bin",
+      "old-testament-terrain/002.bin"
+    ]
   }
 ]

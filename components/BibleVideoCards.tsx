@@ -8,7 +8,7 @@ export function BibleVideoCards() {
       {bibleVideos.map((video) => (
         <Link className="bible-video-card" href={`/content/bible-study/${video.slug}`} key={video.slug}>
           <div className="bible-video-cover">
-            <Image src={video.poster} alt={video.title + " 복원 장면"} fill sizes="(max-width: 700px) 100vw, 50vw" />
+            <Image src={video.poster} alt={video.title + (video.slug.endsWith("-terrain") ? " 지형 지도" : " 복원 장면")} fill sizes="(max-width: 700px) 100vw, 50vw" />
             <span className="bible-video-play" aria-hidden="true">▶</span>
             <span className="bible-video-duration">{video.duration}</span>
           </div>
