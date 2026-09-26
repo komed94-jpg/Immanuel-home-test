@@ -1,3 +1,4 @@
+import { BibleVideoCards } from "@/components/BibleVideoCards";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Layout } from "@/components/Layout";
@@ -25,6 +26,15 @@ export default function BibleStudyPage() {
         <p>성경공부 교재와 개인 묵상, 목장 나눔 도구를 한 흐름 안에서 만날 수 있습니다.</p>
       </div>
     </section>
+      <section className="bible-video-section" id="bible-videos" aria-labelledby="bible-video-heading">
+        <div className="home-wrap">
+          <p className="section-kicker">BIBLE STUDY VIDEOS</p>
+          <h2 id="bible-video-heading">성경 공부 영상</h2>
+          <p className="bible-section-intro">성막과 솔로몬 성전의 안과 밖을 한국어 해설과 함께 살펴보세요.</p>
+          <BibleVideoCards />
+        </div>
+      </section>
+
     <section className="study-section" aria-labelledby="study-materials-title">
       <div className="study-section-heading"><p className="section-kicker">STUDY MATERIALS</p><h2 id="study-materials-title">성경공부 교재</h2><p>교재는 웹에서 누구나 읽을 수 있습니다. 로그인한 교인은 답변과 공부 날짜를 남기고, 과정을 모두 마치면 수료 관리로 이어집니다.</p></div>
       <div className="study-material-grid">

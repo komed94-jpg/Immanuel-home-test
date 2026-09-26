@@ -1,3 +1,4 @@
+import { BibleVideoCards } from "@/components/BibleVideoCards";
 import Link from "next/link";
 import { Layout } from "@/components/Layout";
 
@@ -71,6 +72,15 @@ export default function ContentPage() {
               교회 서비스
             </Link>
           </div>
+        </div>
+      </section>
+
+      <section className="bible-video-section" id="bible-study" aria-labelledby="bible-video-heading">
+        <div className="home-wrap">
+          <p className="section-kicker">BIBLE STUDY VIDEOS</p>
+          <h2 id="bible-video-heading">성경 공부 영상</h2>
+          <p className="bible-section-intro">성막과 솔로몬 성전의 안과 밖을 한국어 해설과 함께 살펴보세요.</p>
+          <BibleVideoCards />
         </div>
       </section>
 
