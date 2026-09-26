@@ -1,0 +1,19 @@
+.lecture { max-width: 1120px; margin: 0 auto; padding: 56px 24px 80px; color: #193940; }
+.lecture h1 { font-size: clamp(2rem, 4vw, 3.25rem); line-height: 1.3; margin: 24px 0; }
+.lecture h2 { font-size: 1.65rem; margin: 40px 0 14px; }
+.lecture p { line-height: 1.85; word-break: keep-all; }
+.intro { font-size: 1.2rem; max-width: 850px; }
+.status { padding: 20px 24px; border-left: 4px solid #987238; background: #f6f1e7; }
+.downloads { display: flex; flex-wrap: wrap; gap: 12px; margin: 24px 0; }
+.downloads a { padding: 13px 20px; border-radius: 6px; color: white; background: #193940; text-decoration: none; font-weight: 700; }
+.downloads a:hover { background: #285660; }
+.caveat { color: #655c4b; font-size: .95rem; }
+.slides details { margin: 16px 0; border: 1px solid #d7d7cc; border-radius: 8px; overflow: hidden; }
+.slides summary { padding: 20px; font-size: 1.1rem; font-weight: 700; cursor: pointer; background: #f6f4ee; }
+.slides summary:focus-visible, .downloads a:focus-visible { outline: 3px solid #bc934b; outline-offset: 3px; }
+.slides img { display: block; width: 100%; height: auto; }
+.notes { padding: 8px 24px 16px; }
+.reference { color: #766443; font-size: .95rem; }
+.sources { padding-left: 24px; line-height: 2; }
+.sources a { text-decoration: underline; text-underline-offset: 3px; }
+@media(max-width: 600px) { .lecture { padding: 32px 16px 56px; } .downloads { flex-direction: column; } .notes { padding: 8px 16px 16px; } }
