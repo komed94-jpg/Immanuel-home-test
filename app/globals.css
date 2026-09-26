@@ -10,6 +10,47 @@
   --line: rgba(248, 243, 232, 0.16);
 }
 
+/* 성경읽기: 홈페이지의 남색·금색 체계에 맞춘 독립 작업 화면 */
+.reading-page { min-height: 100svh; background: linear-gradient(165deg, #071426 0, #12243c 390px, #f7f1e6 391px); padding: 124px 24px 96px; }
+.reading-shell { width: min(1100px, 100%); margin: 0 auto; }
+.reading-heading { max-width: 740px; color: #fff; padding-bottom: 38px; }
+.reading-heading h1 { font-family: Georgia, "Times New Roman", serif; font-weight: 500; font-size: clamp(2.8rem, 6vw, 4.4rem); line-height: 1.15; margin: 10px 0 12px; }
+.reading-heading > p:last-child { margin: 0; color: #d3dce7; font-size: 1.02rem; line-height: 1.8; }
+.reading-layout { display: grid; grid-template-columns: minmax(0, 1fr) 290px; align-items: start; gap: 22px; }
+.reading-card, .reading-progress { background: #fff; border: 1px solid #dfe3e8; border-radius: 22px; box-shadow: 0 20px 60px rgba(7, 20, 38, .12); }
+.reading-card { padding: clamp(22px, 4vw, 42px); }
+.reading-topline, .reading-day-heading, .reading-controls, .reading-chapters a { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.reading-topline { color: #6b5a32; font-weight: 750; font-size: .9rem; border-bottom: 1px solid #e6e8ec; padding-bottom: 16px; }
+.reading-day-heading { align-items: flex-start; padding-top: 28px; }
+.reading-eyebrow { margin: 0 0 4px; color: #52627a; font-size: .9rem; }
+.reading-day-heading h2 { margin: 0; color: #071426; font-family: Georgia, "Times New Roman", serif; font-weight: 500; font-size: 2.6rem; }
+.reading-passage { margin: 8px 0 0; color: #213750; font-weight: 750; line-height: 1.6; }
+.reading-check { white-space: nowrap; border: 1px solid #c8d4df; border-radius: 99px; padding: 8px 12px; color: #27445e; font-size: .85rem; }
+.reading-instruction { color: #52627a; line-height: 1.75; margin: 24px 0 18px; }
+.reading-chapters { list-style: none; padding: 0; margin: 0 0 24px; display: grid; gap: 10px; }
+.reading-chapters a { min-height: 59px; border: 1px solid #dce3e9; border-radius: 12px; padding: 12px 16px; font-size: 1rem; font-weight: 650; color: #112a45; background: #f8fafc; }
+.reading-chapters a:hover, .reading-chapters a:focus-visible { border-color: #ae8330; background: #fffaf0; }
+.reading-primary, .reading-secondary, .reading-controls button { border: 1px solid #12233b; border-radius: 10px; background: #12233b; color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
+.reading-primary { width: 100%; min-height: 54px; }
+.reading-secondary { min-height: 44px; padding: 10px 14px; background: #fff; color: #12233b; }
+.reading-primary:disabled, .reading-secondary:disabled, .reading-controls button:disabled { opacity: .5; cursor: not-allowed; }
+.reading-notice { color: #174f4e; font-size: .95rem; line-height: 1.6; }
+.reading-controls { flex-wrap: wrap; justify-content: flex-start; margin-top: 26px; padding-top: 18px; border-top: 1px solid #e6e8ec; }
+.reading-controls button { min-height: 42px; padding: 8px 14px; background: #fff; color: #12233b; }
+.reading-controls label { margin-left: auto; font-size: .9rem; color: #52627a; }
+.reading-controls select { min-height: 42px; padding: 8px; border: 1px solid #adb8c3; border-radius: 9px; background: #fff; color: #12233b; font: inherit; }
+.reading-progress { padding: 28px; }
+.reading-progress h2 { margin: 0 0 22px; font-size: 1.25rem; }
+.reading-progress strong { display: block; font-size: 2.65rem; line-height: 1.1; color: #12233b; }
+.reading-progress strong small { font-size: 1rem; font-weight: 500; color: #52627a; }
+.reading-progress progress { width: 100%; height: 12px; margin: 22px 0 10px; accent-color: #ae8330; }
+.reading-progress p { color: #52627a; line-height: 1.7; font-size: .91rem; }
+.reading-progress .reading-account { border-top: 1px solid #e6e8ec; padding-top: 18px; }
+.reading-account a { text-decoration: underline; color: #735118; font-weight: 700; }
+.reading-credit { margin: 22px 0 0; color: #52627a; font-size: .87rem; line-height: 1.6; }
+.reading-page button:focus-visible, .reading-page select:focus-visible, .reading-page a:focus-visible { outline: 3px solid #c49335; outline-offset: 2px; }
+@media (max-width: 760px) { .reading-page { padding: 110px 16px 70px; background: linear-gradient(165deg, #071426 0, #12243c 350px, #f7f1e6 351px); } .reading-heading { padding-bottom: 28px; } .reading-layout { grid-template-columns: 1fr; } .reading-progress { grid-row: 1; } .reading-progress h2 { margin-bottom: 8px; } .reading-progress progress { margin: 14px 0 0; } .reading-controls label { margin-left: 0; } }
+
 * {
   box-sizing: border-box;
 }
