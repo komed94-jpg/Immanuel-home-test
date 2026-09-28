@@ -7,7 +7,7 @@ export const bibleVideos: BibleVideo[] = [
     "description": "왕궁에 들어온 개구리부터 유월절의 밤까지, 바로의 선택과 무너지는 확신을 따라가는 성경 이야기입니다. 애굽의 신들이 상징하던 영역을 살피며 하나님의 주권과 구원, 오늘 우리의 순종을 묻습니다.",
     "duration": "7분 47초",
     "src": "https://d2ol7oe51mr4n9.cloudfront.net/user_3JcMIWGuRwiJAsHjPVjH1U9bosd/78140343-6ced-4867-b98c-7eda584bb7ad.mp4",
-    "poster": "/videos/ten-plagues-egypt.jpg?v=story-20260928",
+    "poster": "/videos/ten-plagues-egypt-story-20260928.jpg",
     "captions": "/videos/ten-plagues-egypt.ko.vtt",
     "guide": "/videos/ten-plagues-egypt-study.md",
     "note": "출애굽기 1–12장을 바탕으로 만든 실사풍 AI 재현 영상입니다. 본문에 없는 대화·표정·카메라 연출은 극적 재구성입니다. 건축과 복식의 세부는 추정이며 특정 바로나 출애굽 연대를 확정하지 않습니다. 이집트 신과 재앙의 연결은 역사적 역할을 참고한 해석으로, 성경이 열 재앙마다 특정 신을 지목한 것은 아닙니다. 음악: The Long Dark · Hiraeth · Light in Dark Places (2019 Remaster), by Scott Buckley — released under CC-BY 4.0. www.scottbuckley.com.au. 라이선스: https://creativecommons.org/licenses/by/4.0/. 발췌·페이드·음량 조절 후 해설 및 현장음과 혼합했습니다. 곡별 원본 링크는 해설·학습안내에 있습니다.",
