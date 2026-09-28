@@ -2,6 +2,96 @@ export type BibleVideo = { slug: string; title: string; description: string; dur
 
 export const bibleVideos: BibleVideo[] = [
   {
+    "slug": "ten-plagues-egypt",
+    "title": "애굽의 열 재앙 — 제국을 흔든 하나님의 말씀",
+    "description": "나일강에서 유월절의 밤까지, 열 재앙을 실제 동작이 있는 실사풍 AI 영상으로 따라갑니다. 접사·지상 이동·정면 장면에 한국어 해설과 성경 본문을 더했습니다.",
+    "duration": "2분 20초",
+    "src": "https://d2ol7oe51mr4n9.cloudfront.net/user_3JcMIWGuRwiJAsHjPVjH1U9bosd/14bd0b7d-d390-4376-ab8c-bf6e9d6c088f.mp4",
+    "poster": "/videos/ten-plagues-egypt.jpg",
+    "captions": "/videos/ten-plagues-egypt.ko.vtt",
+    "guide": "/videos/ten-plagues-egypt-study.md",
+    "note": "출애굽기 7–12장을 바탕으로 만든 AI 교육용 재현입니다. 인물·동물·환경의 움직임을 생성한 실사풍 영상이며 실제 촬영이 아닙니다. 건축·복식의 세부는 미술적 재구성이며 특정 바로나 출애굽 연대를 확정하지 않습니다. 마지막 재앙은 피의 표와 어른들의 애도로 절제하여 표현했습니다.",
+    "chapters": [
+      {
+        "title": "도입",
+        "start": 0,
+        "duration": 8,
+        "ref": "출 7:5, 16–17"
+      },
+      {
+        "title": "1. 물이 피로",
+        "start": 8,
+        "duration": 12,
+        "ref": "출 7:14–25"
+      },
+      {
+        "title": "2. 개구리",
+        "start": 20,
+        "duration": 12,
+        "ref": "출 8:1–15"
+      },
+      {
+        "title": "3. 이",
+        "start": 32,
+        "duration": 12,
+        "ref": "출 8:16–19"
+      },
+      {
+        "title": "4. 파리",
+        "start": 44,
+        "duration": 12,
+        "ref": "출 8:20–32"
+      },
+      {
+        "title": "5. 가축 전염병",
+        "start": 56,
+        "duration": 12,
+        "ref": "출 9:1–7"
+      },
+      {
+        "title": "6. 악성 종기",
+        "start": 68,
+        "duration": 12,
+        "ref": "출 9:8–12"
+      },
+      {
+        "title": "7. 우박",
+        "start": 80,
+        "duration": 12,
+        "ref": "출 9:13–35"
+      },
+      {
+        "title": "8. 메뚜기",
+        "start": 92,
+        "duration": 12,
+        "ref": "출 10:1–20"
+      },
+      {
+        "title": "9. 흑암",
+        "start": 104,
+        "duration": 12,
+        "ref": "출 10:21–29"
+      },
+      {
+        "title": "10. 처음 난 것의 죽음",
+        "start": 116,
+        "duration": 12,
+        "ref": "출 11:1–10; 12:1–13, 21–32"
+      },
+      {
+        "title": "마지막 출발",
+        "start": 128,
+        "duration": 12,
+        "ref": "출 7:16; 12:12, 31–42"
+      }
+    ],
+    "questions": [
+      "재앙을 통해 하나님이 알리려 하신 것은 무엇인가요? 출애굽기 7:5, 17과 연결해 보세요.",
+      "바로는 재앙 앞에서 어떤 약속과 번복을 반복하나요?",
+      "유월절의 피의 표와 출애굽은 구원과 예배를 어떻게 연결하나요?"
+    ]
+  },
+  {
     "slug": "high-priest-garments",
     "title": "대제사장의 복장과 영적 의미",
     "description": "에봇·흉패·금방울과 석류·금패를 가까이 살펴보고, 대속죄일의 세마포 옷과 그리스도의 중보를 한국어 해설로 배웁니다. 필요한 설명 화면을 영상 안에 삽입했습니다.",
@@ -766,3 +856,4 @@ export const bibleVideos: BibleVideo[] = [
     ]
   }
 ];
+
