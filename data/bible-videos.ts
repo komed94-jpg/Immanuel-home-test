@@ -3,92 +3,105 @@ export type BibleVideo = { slug: string; title: string; description: string; dur
 export const bibleVideos: BibleVideo[] = [
   {
     "slug": "ten-plagues-egypt",
-    "title": "애굽의 열 재앙 — 제국을 흔든 하나님의 말씀",
-    "description": "나일강에서 유월절의 밤까지, 열 재앙을 실제 동작이 있는 실사풍 AI 영상으로 따라갑니다. 접사·지상 이동·정면 장면에 한국어 해설과 성경 본문을 더했습니다.",
-    "duration": "2분 20초",
-    "src": "https://d2ol7oe51mr4n9.cloudfront.net/user_3JcMIWGuRwiJAsHjPVjH1U9bosd/14bd0b7d-d390-4376-ab8c-bf6e9d6c088f.mp4",
-    "poster": "/videos/ten-plagues-egypt.jpg",
+    "title": "애굽의 열 재앙 — 나는 여호와라",
+    "description": "왕궁에 들어온 개구리부터 유월절의 밤까지, 바로의 선택과 무너지는 확신을 따라가는 성경 이야기입니다. 애굽의 신들이 상징하던 영역을 살피며 하나님의 주권과 구원, 오늘 우리의 순종을 묻습니다.",
+    "duration": "7분 47초",
+    "src": "https://d2ol7oe51mr4n9.cloudfront.net/user_3JcMIWGuRwiJAsHjPVjH1U9bosd/78140343-6ced-4867-b98c-7eda584bb7ad.mp4",
+    "poster": "/videos/ten-plagues-egypt.jpg?v=story-20260928",
     "captions": "/videos/ten-plagues-egypt.ko.vtt",
     "guide": "/videos/ten-plagues-egypt-study.md",
-    "note": "출애굽기 7–12장을 바탕으로 만든 AI 교육용 재현입니다. 인물·동물·환경의 움직임을 생성한 실사풍 영상이며 실제 촬영이 아닙니다. 건축·복식의 세부는 미술적 재구성이며 특정 바로나 출애굽 연대를 확정하지 않습니다. 마지막 재앙은 피의 표와 어른들의 애도로 절제하여 표현했습니다.",
+    "note": "출애굽기 1–12장을 바탕으로 만든 실사풍 AI 재현 영상입니다. 본문에 없는 대화·표정·카메라 연출은 극적 재구성입니다. 건축과 복식의 세부는 추정이며 특정 바로나 출애굽 연대를 확정하지 않습니다. 이집트 신과 재앙의 연결은 역사적 역할을 참고한 해석으로, 성경이 열 재앙마다 특정 신을 지목한 것은 아닙니다. 음악: The Long Dark · Hiraeth · Light in Dark Places (2019 Remaster), by Scott Buckley — released under CC-BY 4.0. www.scottbuckley.com.au. 라이선스: https://creativecommons.org/licenses/by/4.0/. 발췌·페이드·음량 조절 후 해설 및 현장음과 혼합했습니다. 곡별 원본 링크는 해설·학습안내에 있습니다.",
     "chapters": [
       {
-        "title": "도입",
-        "start": 0,
-        "duration": 8,
-        "ref": "출 7:5, 16–17"
+        "title": "왕의 침대에도 개구리가 있다",
+        "start": 0.0,
+        "duration": 24.917,
+        "ref": "출애굽기 8:3–15"
       },
       {
-        "title": "1. 물이 피로",
-        "start": 8,
-        "duration": 12,
-        "ref": "출 7:14–25"
+        "title": "재앙 전에 들려온 소리",
+        "start": 24.917,
+        "duration": 27.375,
+        "ref": "출애굽기 1:8–22 / 출애굽기 2:23–25 / 출애굽기 3:7–10"
       },
       {
-        "title": "2. 개구리",
-        "start": 20,
-        "duration": 12,
-        "ref": "출 8:1–15"
+        "title": "여호와가 누구이기에",
+        "start": 52.292,
+        "duration": 19.792,
+        "ref": "출애굽기 5:1–2 / 출애굽기 7:5 / 출애굽기 7:16–17"
       },
       {
-        "title": "3. 이",
-        "start": 32,
-        "duration": 12,
-        "ref": "출 8:16–19"
+        "title": "첫째 재앙 — 믿었던 강을 마실 수 없다",
+        "start": 72.083,
+        "duration": 38.625,
+        "ref": "출애굽기 7:14–25"
       },
       {
-        "title": "4. 파리",
-        "start": 44,
-        "duration": 12,
-        "ref": "출 8:20–32"
+        "title": "둘째 재앙 — 편해지자 달라진 약속",
+        "start": 110.708,
+        "duration": 38.583,
+        "ref": "출애굽기 8:8–15"
       },
       {
-        "title": "5. 가축 전염병",
-        "start": 56,
-        "duration": 12,
-        "ref": "출 9:1–7"
+        "title": "셋째와 넷째 — 왕의 울타리가 흔들린다",
+        "start": 149.292,
+        "duration": 34.125,
+        "ref": "출애굽기 8:16–32"
       },
       {
-        "title": "6. 악성 종기",
-        "start": 68,
-        "duration": 12,
-        "ref": "출 9:8–12"
+        "title": "다섯째와 여섯째 — 재산과 몸이 흔들릴 때",
+        "start": 183.417,
+        "duration": 32.208,
+        "ref": "출애굽기 9:1–19"
       },
       {
-        "title": "7. 우박",
-        "start": 80,
-        "duration": 12,
-        "ref": "출 9:13–35"
+        "title": "일곱째 — 같은 경고, 다른 선택",
+        "start": 215.625,
+        "duration": 34.875,
+        "ref": "출애굽기 9:18–35"
       },
       {
-        "title": "8. 메뚜기",
-        "start": 92,
-        "duration": 12,
-        "ref": "출 10:1–20"
+        "title": "여덟째 — 누구까지 보내 줄 것인가",
+        "start": 250.5,
+        "duration": 33.208,
+        "ref": "출애굽기 10:1–20"
       },
       {
-        "title": "9. 흑암",
-        "start": 104,
-        "duration": 12,
-        "ref": "출 10:21–29"
+        "title": "아홉째 — 왕도 밝힐 수 없는 어둠",
+        "start": 283.708,
+        "duration": 28.833,
+        "ref": "출애굽기 10:21–29"
       },
       {
-        "title": "10. 처음 난 것의 죽음",
-        "start": 116,
-        "duration": 12,
-        "ref": "출 11:1–10; 12:1–13, 21–32"
+        "title": "왜 끝내 놓지 못했을까",
+        "start": 312.542,
+        "duration": 28.583,
+        "ref": "출애굽기 8:15,32 / 출애굽기 9:12,34–35 / 출애굽기 10:1–2 / 출애굽기 12:12–13"
       },
       {
-        "title": "마지막 출발",
-        "start": 128,
-        "duration": 12,
-        "ref": "출 7:16; 12:12, 31–42"
+        "title": "열째 — 울음이 들려오는 밤",
+        "start": 341.125,
+        "duration": 27.292,
+        "ref": "출애굽기 1:22 / 출애굽기 11:4–7 / 출애굽기 12:3–13,29–30"
+      },
+      {
+        "title": "유월절 — 문 안에서 붙드는 약속",
+        "start": 368.417,
+        "duration": 46.292,
+        "ref": "출애굽기 12:8–14,21–27"
+      },
+      {
+        "title": "떠나는 길, 섬기는 삶",
+        "start": 414.708,
+        "duration": 44.5,
+        "ref": "출애굽기 3:7–12 / 출애굽기 7:16 / 출애굽기 12:31–42 / 고린도전서 5:7"
       }
     ],
     "questions": [
-      "재앙을 통해 하나님이 알리려 하신 것은 무엇인가요? 출애굽기 7:5, 17과 연결해 보세요.",
-      "바로는 재앙 앞에서 어떤 약속과 번복을 반복하나요?",
-      "유월절의 피의 표와 출애굽은 구원과 예배를 어떻게 연결하나요?"
+      "바로가 원한 것은 재앙의 끝이었을까요, 하나님께 대한 순종이었을까요? 내 기도와 약속을 돌아보세요.",
+      "애굽이 생명·풍요·치유·왕권을 의지했던 대상들은 재앙 앞에서 어떤 한계를 드러내나요?",
+      "우박 경고를 듣고 종과 가축을 피신시킨 사람들의 선택은 무엇을 가르치나요?",
+      "유월절과 출애굽은 하나님의 심판, 은혜, 구원과 예배를 어떻게 연결하나요?"
     ]
   },
   {
@@ -856,4 +869,5 @@ export const bibleVideos: BibleVideo[] = [
     ]
   }
 ];
+
 
