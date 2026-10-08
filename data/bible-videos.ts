@@ -1,6 +1,66 @@
-export type BibleVideo = { slug: string; title: string; description: string; duration: string; src: string; poster: string; captions: string; chapters: {title: string; start: number; duration: number; ref: string}[]; questions: string[]; guide?: string; note?: string };
+export type BibleVideo = { slug: string; title: string; description: string; duration: string; src: string; poster: string; captions?: string; resolution?: string; category?: string; chapters: {title: string; start: number; duration: number; ref: string}[]; questions: string[]; guide?: string; note?: string };
 
 export const bibleVideos: BibleVideo[] = [
+{
+  "slug": "ai-revival-episode-1",
+  "title": "AI가 설교하는 시대, 참된 부흥은 무엇인가?",
+  "description": "‘AI 시대, 교회가 붙들어야 할 것’ 5부작의 1편. 조나단 에드워즈의 부흥신학을 따라 신앙의 경험과 열매를 살피고, 오늘 교회의 응답을 함께 생각합니다.",
+  "duration": "12분",
+  "src": "https://d2ol7oe51mr4n9.cloudfront.net/user_3JcMIWGuRwiJAsHjPVjH1U9bosd/934e9f81-e075-4bdd-b7eb-57844701cb1d.mp4",
+  "poster": "/images/ai-revival-episode-1.svg",
+  "resolution": "720p",
+  "category": "AI 시대와 교회 · 1편",
+  "note": "AI로 제작한 다큐멘터리입니다. 등장인물과 생활 장면은 가상이며, 역사 장면은 재연입니다. 조나단 에드워즈의 부흥신학을 다룬 연구를 바탕으로 구성했습니다. Arthur 한국어 내레이션, 효과음과 배경음악을 포함합니다.",
+  "chapters": [
+    {
+      "title": "한 성도의 밤과 우리의 질문",
+      "start": 0,
+      "duration": 82.7,
+      "ref": "가상 사례"
+    },
+    {
+      "title": "에드워즈에게 묻는 참된 부흥",
+      "start": 82.7,
+      "duration": 117.74,
+      "ref": "조나단 에드워즈의 부흥신학"
+    },
+    {
+      "title": "신앙을 살피는 다섯 방향",
+      "start": 200.44,
+      "duration": 180.836,
+      "ref": "그리스도 · 죄 · 말씀 · 진리 · 사랑"
+    },
+    {
+      "title": "은혜가 삶에 맺는 열매",
+      "start": 381.276,
+      "duration": 47.48,
+      "ref": "사랑과 순종"
+    },
+    {
+      "title": "AI가 대신할 수 없는 응답",
+      "start": 428.756,
+      "duration": 100.294,
+      "ref": "관계와 책임"
+    },
+    {
+      "title": "공동체의 변화와 오늘의 순종",
+      "start": 529.05,
+      "duration": 128.82,
+      "ref": "회개 · 기도 · 말씀 · 이웃 돌봄"
+    },
+    {
+      "title": "우리에게 남는 질문과 기도",
+      "start": 657.87,
+      "duration": 62.13,
+      "ref": "오늘의 응답"
+    }
+  ],
+  "questions": [
+    "위로받았다는 경험과 참된 신앙의 열매를 어떻게 구별할 수 있을까요?",
+    "AI의 도움을 받더라도 내가 직접 감당해야 할 신앙과 관계의 책임은 무엇인가요?",
+    "받은 은혜에 응답하여 오늘 실천할 작은 순종은 무엇인가요?"
+  ]
+},
   {
     "slug": "ten-plagues-egypt",
     "title": "애굽의 열 재앙 — 나는 여호와라",
