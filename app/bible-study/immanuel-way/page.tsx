@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { Layout } from "@/components/Layout";
+import { redirect } from "next/navigation";
+import { wayArticles } from "@/data/immanuel";
 import { immanuelWayCourse } from "@/lib/bible-study";
-import { StudyWorkbook } from "../immanuel-basic/StudyWorkbook";
 
 export const metadata: Metadata = {
   title: "임마누엘의 길 11과 웹 성경공부 | 임마누엘교회",
@@ -10,26 +9,22 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false }
 };
 
-export default async function ImmanuelWayStudyPage({ searchParams }: { searchParams: Promise<{ lesson?: string; page?: string }> }) {
+export default async function ImmanuelWayStudyPage({
+  searchParams
+}: {
+  searchParams: Promise<{ lesson?: string; page?: string }>;
+}) {
   const { lesson, page } = await searchParams;
-  const startPageKey = page && immanuelWayCourse.pages.some((item) => item.key === page)
-    ? page
-    : lesson && immanuelWayCourse.pages.some((item) => item.key === `${lesson}-scripture`)
-      ? `${lesson}-scripture`
-      : undefined;
-  return <Layout>
-    <section className="web-study-hero web-study-hero-way">
-      <div>
-        <Link href="/way" className="back-link">임마누엘의 길</Link>
-        <p className="section-kicker">IMMANUEL WAY · 11 LESSONS</p>
-        <h1>{immanuelWayCourse.title}</h1>
-        <p>{immanuelWayCourse.subtitle}<br />{immanuelWayCourse.overview}</p>
-      </div>
-    </section>
-    <section className="web-study-bible-principle" aria-label="성경공부 원칙">
-      <strong>성경이 먼저입니다.</strong>
-      <p>각 과는 설명보다 핵심 본문을 먼저 읽고, 참조 말씀으로 확인한 뒤 해설·분별·실천·기도로 이어집니다.</p>
-    </section>
-    <StudyWorkbook key={startPageKey ?? "default"} course={immanuelWayCourse} startPageKey={startPageKey} />
-  </Layout>;
+  const requestedPage = page && immanuelWayCourse.pages.find((item) => item.key === page);
+  const article = requestedPage
+    ? wayArticles[(requestedPage.unit ?? 0) - 1]
+    : wayArticles.find((item) => item.slug === lesson);
+
+  if (!article) redirect("/way");
+
+  if (requestedPage) {
+    redirect(`/way/${article.slug}?page=${encodeURIComponent(requestedPage.key)}#study-content`);
+  }
+
+  redirect(`/way/${article.slug}`);
 }
