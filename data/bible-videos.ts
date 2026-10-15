@@ -3,62 +3,92 @@ export type BibleVideo = { slug: string; title: string; description: string; dur
 export const bibleVideos: BibleVideo[] = [
 {
   "slug": "ai-revival-episode-1",
-  "title": "AI가 설교하는 시대, 참된 부흥은 무엇인가?",
-  "description": "‘AI 시대, 교회가 붙들어야 할 것’ 5부작의 1편. 조나단 에드워즈의 부흥신학을 따라 신앙의 경험과 열매를 살피고, 오늘 교회의 응답을 함께 생각합니다.",
-  "duration": "12분",
-  "src": "https://d2ol7oe51mr4n9.cloudfront.net/user_3JcMIWGuRwiJAsHjPVjH1U9bosd/934e9f81-e075-4bdd-b7eb-57844701cb1d.mp4",
+  "title": "부흥이 찾아온 마을 — 1편 마음이 향하는 곳",
+  "description": "AI 시대의 교회 부흥과 조나단 에드워즈의 부흥신학을 다룬 논문에 바탕을 둔 이야기입니다. 노샘프턴의 회심 기록과 오늘의 한국 교회를 오가며, 그리스도의 은혜가 회개와 사랑, 용서와 감사의 열매로 이어지는 과정을 살핍니다.",
+  "duration": "6분 20초",
+  "src": "https://d2ol7oe51mr4n9.cloudfront.net/user_3JcMIWGuRwiJAsHjPVjH1U9bosd/d747c6fc-1005-48ed-8c18-1ab4f09e80c7.mp4",
   "poster": "/images/ai-revival-episode-1.svg",
-  "resolution": "720p",
+  "resolution": "1080p",
   "category": "AI 시대와 교회 · 1편",
-  "note": "AI로 제작한 다큐멘터리입니다. 등장인물과 생활 장면은 가상이며, 역사 장면은 재연입니다. 조나단 에드워즈의 부흥신학을 다룬 연구를 바탕으로 구성했습니다. Arthur 한국어 내레이션, 효과음과 배경음악을 포함합니다.",
+  "note": "논문에 바탕을 둔 실사풍 AI 재연 영상입니다. 역사 장면은 문헌을 토대로 재구성했으며, 현대 인물과 사건은 창작입니다. 음악: Meditation Impromptu 01 · Porch Swing Days (slower), Kevin MacLeod (https://incompetech.com), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). 곡을 발췌하고 페이드·음량 조절 후 내레이션 및 현장음과 혼합했습니다.",
   "chapters": [
     {
-      "title": "한 성도의 밤과 우리의 질문",
+      "title": "연구의 질문과 오늘의 교회",
       "start": 0,
-      "duration": 82.7,
-      "ref": "가상 사례"
+      "duration": 34.7,
+      "ref": "AI 시대 교회 부흥과 에드워즈의 부흥신학 연구"
     },
     {
-      "title": "에드워즈에게 묻는 참된 부흥",
-      "start": 82.7,
-      "duration": 117.74,
-      "ref": "조나단 에드워즈의 부흥신학"
+      "title": "1734–1735년, 노샘프턴의 변화",
+      "start": 34.7,
+      "duration": 32.8,
+      "ref": "에드워즈의 회심 기록을 토대로 한 재연"
     },
     {
-      "title": "신앙을 살피는 다섯 방향",
-      "start": 200.44,
-      "duration": 180.836,
-      "ref": "그리스도 · 죄 · 말씀 · 진리 · 사랑"
+      "title": "자신의 죄를 마주하다",
+      "start": 67.5,
+      "duration": 40.6,
+      "ref": "애비게일 허친슨의 회심 기록"
     },
     {
-      "title": "은혜가 삶에 맺는 열매",
-      "start": 381.276,
-      "duration": 47.48,
-      "ref": "사랑과 순종"
+      "title": "그리스도의 은혜를 의지하다",
+      "start": 108.1,
+      "duration": 36.3,
+      "ref": "그리스도의 구속과 성령의 깨닫게 하심"
     },
     {
-      "title": "AI가 대신할 수 없는 응답",
-      "start": 428.756,
-      "duration": 100.294,
-      "ref": "관계와 책임"
+      "title": "애통과 기쁨, 사랑의 변화",
+      "start": 144.4,
+      "duration": 44.0,
+      "ref": "거룩한 애정과 이웃 사랑"
     },
     {
-      "title": "공동체의 변화와 오늘의 순종",
-      "start": 529.05,
-      "duration": 128.82,
-      "ref": "회개 · 기도 · 말씀 · 이웃 돌봄"
+      "title": "아는 것을 넘어 사랑하게 되는 마음",
+      "start": 188.4,
+      "duration": 30.3,
+      "ref": "에드워즈의 부흥신학과 영적 감각"
     },
     {
-      "title": "우리에게 남는 질문과 기도",
-      "start": 657.87,
-      "duration": 62.13,
-      "ref": "오늘의 응답"
+      "title": "가족과 회중에 번지는 변화",
+      "start": 218.7,
+      "duration": 30.8,
+      "ref": "1735년 노샘프턴의 예배와 공동체"
+    },
+    {
+      "title": "잘못을 고백하고 책임을 지다",
+      "start": 249.5,
+      "duration": 52.5,
+      "ref": "현대 교회의 가상 이야기"
+    },
+    {
+      "title": "기도하며 기다리는 시간",
+      "start": 302,
+      "duration": 12.4,
+      "ref": "회개와 기다림"
+    },
+    {
+      "title": "용서와 감사의 만남",
+      "start": 314.4,
+      "duration": 24.5,
+      "ref": "자발적인 화해와 감사"
+    },
+    {
+      "title": "함께 웃고 섬기는 삶",
+      "start": 338.9,
+      "duration": 19.3,
+      "ref": "공동체의 돌봄과 기쁨"
+    },
+    {
+      "title": "오늘 우리에게 남는 질문",
+      "start": 358.2,
+      "duration": 22.0,
+      "ref": "함께 드리는 예배와 삶의 응답"
     }
   ],
   "questions": [
-    "위로받았다는 경험과 참된 신앙의 열매를 어떻게 구별할 수 있을까요?",
-    "AI의 도움을 받더라도 내가 직접 감당해야 할 신앙과 관계의 책임은 무엇인가요?",
-    "받은 은혜에 응답하여 오늘 실천할 작은 순종은 무엇인가요?"
+    "애비게일의 변화에서 그리스도의 은혜와 성령의 역사는 어떻게 드러나나요?",
+    "죄를 애통해하는 마음과 용서받은 기쁨은 우리의 삶에서 어떻게 함께 나타날 수 있을까요?",
+    "잘못을 고백한 뒤 상대의 아픔을 듣고 기다리는 일은 왜 필요할까요?"
   ]
 },
   {
