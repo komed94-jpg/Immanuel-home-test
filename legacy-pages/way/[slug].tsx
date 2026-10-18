@@ -4,6 +4,16 @@ import { Layout } from "@/components/Layout";
 import { WayArticle, wayArticles } from "@/data/immanuel";
 import { immanuelWayCourse } from "@/lib/bible-study";
 import { StudyWorkbook } from "@/app/bible-study/immanuel-basic/StudyWorkbook";
+import styles from "./belief-emphasis.module.css";
+
+// One-page typography trial. Match original text without rewriting the article data.
+const beliefEmphasis = [
+  "하나님의 사랑 안에서 부름받은 사람들",
+  "살아 있는 하나님의 말씀 위에 세워집니다.",
+  "예배와 훈련과 사역의 기준",
+  "말씀과 성령 안에서 균형 잡힌 그리스도인",
+  "마지막 한 사람까지 그리스도를 따르게 하는 공동체"
+];
 
 type ArticlePageProps = {
   article: WayArticle;
@@ -72,10 +82,31 @@ export default function ArticlePage({ article, startPageKey }: ArticlePageProps)
           </div>
         </section>
 
-        <section className="article-body" aria-label={`${article.title} 원문`}>
-          {article.content.map((paragraph, index) => (
-            <p key={`${article.slug}-${index}`}>{paragraph}</p>
-          ))}
+        <section
+          className={article.slug === "belief" ? `article-body ${styles.beliefIntro}` : "article-body"}
+          aria-label={`${article.title} 원문`}
+        >
+          {article.content.map((paragraph, index) => {
+            const emphasis = article.slug === "belief"
+              ? beliefEmphasis.find((phrase) => paragraph.includes(phrase))
+              : undefined;
+            const emphasisStart = emphasis ? paragraph.indexOf(emphasis) : -1;
+
+            return (
+              <p
+                key={`${article.slug}-${index}`}
+                className={article.slug === "belief" && index === 0 ? styles.confession : undefined}
+              >
+                {emphasis ? (
+                  <>
+                    {paragraph.slice(0, emphasisStart)}
+                    <strong>{emphasis}</strong>
+                    {paragraph.slice(emphasisStart + emphasis.length)}
+                  </>
+                ) : paragraph}
+              </p>
+            );
+          })}
         </section>
         <section className="way-lesson-study-area" aria-label={`${article.title} ${lessonNumber}과 성경공부`}>
           <header className="way-lesson-study-heading">
@@ -129,3 +160,4 @@ export const getStaticProps: GetStaticProps<ArticlePageProps> = async ({ params 
     }
   };
 };
+
