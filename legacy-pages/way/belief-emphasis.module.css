@@ -1,6 +1,22 @@
 .beliefIntro strong {
-  color: var(--ivory, #f7f1e6);
-  font-weight: 800;
+  color: #efd6a2;
+  font-weight: 750;
+  text-decoration-line: underline;
+  text-decoration-color: rgba(216, 170, 69, 0.8);
+  text-decoration-thickness: 0.075em;
+  text-underline-offset: 0.22em;
+  text-decoration-skip-ink: auto;
+}
+
+/* Reserve the strongest contrast for the closing mission statement. */
+.beliefIntro p:last-child strong {
+  border-radius: 0.18em;
+  padding: 0.08em 0.28em;
+  background-color: #e6c78a;
+  color: var(--navy, #071426);
+  text-decoration: none;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 .beliefIntro p.confession {
@@ -25,3 +41,4 @@
     line-height: 1.85;
   }
 }
+
