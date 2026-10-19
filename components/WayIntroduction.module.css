@@ -1,0 +1,85 @@
+.intro {
+  position: relative;
+}
+
+.intro strong {
+  color: #efd6a2;
+  font-weight: 750;
+}
+
+.intro p.opening {
+  margin: 0 0 38px;
+  border-inline-start: 3px solid var(--gold, #d8aa45);
+  border-radius: 0 12px 12px 0;
+  padding: clamp(20px, 4vw, 30px);
+  background: linear-gradient(110deg, rgba(216, 170, 69, .09), rgba(216, 170, 69, .02));
+  color: var(--ivory, #f7f1e6);
+  font-size: clamp(1.25rem, 2.3vw, 1.6rem);
+  font-weight: 650;
+  line-height: 1.85;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.intro p.bracket {
+  position: relative;
+  margin-inline-start: -16px;
+  padding-inline-start: 16px;
+}
+
+.bracket::before,
+.bracket::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  width: 9px;
+  border-inline-start: 2px solid var(--gold, #d8aa45);
+  border-top: 2px solid var(--gold, #d8aa45);
+  border-bottom: 2px solid var(--gold, #d8aa45);
+  border-radius: 3px 0 0 4px;
+  inset-inline-start: 0;
+  top: 6px;
+  bottom: 5px;
+  transform: rotate(-.6deg);
+}
+
+.bracket::after {
+  inset-inline-start: 2px;
+  top: 8px;
+  bottom: 7px;
+  opacity: .45;
+  border-width: 1px;
+  transform: rotate(.3deg);
+}
+
+.annotations {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.circle,
+.circleSecond {
+  fill: none;
+  stroke: var(--gold, #d8aa45);
+  stroke-width: 1.7px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.circleSecond {
+  stroke-width: .8px;
+  opacity: .5;
+}
+
+@media (max-width: 520px) {
+  .intro p.opening {
+    margin-bottom: 30px;
+    padding: 20px 16px;
+    font-size: 1.25rem;
+  }
+}
