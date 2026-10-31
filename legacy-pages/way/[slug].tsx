@@ -89,7 +89,7 @@ export default function ArticlePage({ article, startPageKey }: ArticlePageProps)
           />
           <nav className="way-topic-navigation" aria-label="이전·다음 임마누엘의 길">
             {previousArticle ? <Link href={`/way/${previousArticle.slug}`}><small>이전 주제</small><strong>{previousArticle.title}</strong></Link> : <span />}
-            <Link href="/way" className="way-topic-list-link">11개 주제 전체 보기</Link>
+            <Link href="/way" className="way-topic-list-link">{wayArticles.length}개 주제 전체 보기</Link>
             {nextArticle ? <Link href={`/way/${nextArticle.slug}`}><small>다음 주제</small><strong>{nextArticle.title}</strong></Link> : <span />}
           </nav>
         </section>
@@ -126,5 +126,6 @@ export const getStaticProps: GetStaticProps<ArticlePageProps> = async ({ params 
     }
   };
 };
+
 
 

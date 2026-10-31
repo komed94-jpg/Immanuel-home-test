@@ -110,7 +110,7 @@ export default function Home() {
         <div className="home-wrap">
           <h2>임마누엘의 길</h2>
           <p>
-            11개의 길은 단순한 메뉴가 아니라, 임마누엘교회가 믿고 예배하고
+            {wayArticles.length}개의 길은 단순한 메뉴가 아니라, 임마누엘교회가 믿고 예배하고
             기도하고 성장하며 세상으로 나아가는 신앙의 고백입니다.
           </p>
           <div className="poster-grid">
@@ -151,3 +151,4 @@ export default function Home() {
     </Layout>
   );
 }
+
