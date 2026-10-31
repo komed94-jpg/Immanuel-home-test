@@ -40,7 +40,7 @@ export default async function DiscipleshipPage() {
       </div>
       <div className="discipleship-study-actions">
         <Link className="primary-link" href="/disc">DISC 관계 교육</Link>
-        <Link className="primary-link" href="/bible-study/immanuel-way#study-content">임마누엘의 길 11과</Link>
+        <Link className="primary-link" href="/bible-study/immanuel-way#study-content">임마누엘의 길 12과</Link>
         <Link className="primary-link" href="/bible-study/discernment-to-love#study-content">분별에서 사랑으로</Link>
         <Link className="primary-link" href="/bible-study/immanuel-basic#study-content">1권 성경공부 시작</Link>
         <Link className="primary-link" href="/bible-study/immanuel-basic-2#study-content">2권 성경공부 시작</Link>
@@ -52,3 +52,4 @@ export default async function DiscipleshipPage() {
     <DiscipleshipPrograms canApply={activeMember} loggedIn={Boolean(member)} />
   </div></Layout>;
 }
+
