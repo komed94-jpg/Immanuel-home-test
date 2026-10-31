@@ -1,6 +1,6 @@
 export type WayIntroEmphasis = {
   phrases: string[];
-  circle: string;
+  mark: string;
 };
 
 // Display-only excerpts: the pastor's complete article text remains in data/immanuel.ts.
@@ -13,7 +13,7 @@ export const wayIntroEmphasis: Record<string, WayIntroEmphasis> = {
       "말씀과 성령 안에서 균형 잡힌 그리스도인",
       "마지막 한 사람까지 그리스도를 따르게 하는 공동체"
     ],
-    circle: "말씀과 성령 안에서 균형 잡힌 그리스도인"
+    mark: "균형 잡힌 그리스도인"
   },
   worship: {
     phrases: [
@@ -23,7 +23,7 @@ export const wayIntroEmphasis: Record<string, WayIntroEmphasis> = {
       "예배 가운데 하나님을 만나기 때문",
       "예배는 끝나는 자리가 아니라 시작되는 자리"
     ],
-    circle: "예배는 끝나는 자리가 아니라 시작되는 자리"
+    mark: "예배는 끝나는 자리가 아니라 시작되는 자리"
   },
   prayer: {
     phrases: [
@@ -33,7 +33,7 @@ export const wayIntroEmphasis: Record<string, WayIntroEmphasis> = {
       "하나님 앞에서 살아 있는 관계",
       "기도는 하나님과 동행하는 자리"
     ],
-    circle: "기도는 하나님과 동행하는 자리"
+    mark: "기도는 하나님과 동행하는 자리"
   },
   spirit: {
     phrases: [
@@ -43,7 +43,7 @@ export const wayIntroEmphasis: Record<string, WayIntroEmphasis> = {
       "말씀은 우리의 뿌리가 되고, 성령은 우리의 생명이 됩니다.",
       "삶 전체가 하나님께 붙들리고"
     ],
-    circle: "말씀은 우리의 뿌리가 되고, 성령은 우리의 생명이 됩니다."
+    mark: "말씀은 우리의 뿌리가 되고, 성령은 우리의 생명이 됩니다."
   },
   growth: {
     phrases: [
@@ -54,7 +54,7 @@ export const wayIntroEmphasis: Record<string, WayIntroEmphasis> = {
       "거룩함과 탁월함이 함께 자라는 사람",
       "함께 빚어지는 하나님 나라의 여정"
     ],
-    circle: "좋은 사람이 되어야 합니다. 동시에 유능한 사람이 되어야 합니다."
+    mark: "유능한 사람이 되어야 합니다."
   },
   community: {
     phrases: [
@@ -64,7 +64,7 @@ export const wayIntroEmphasis: Record<string, WayIntroEmphasis> = {
       "목장 중심 공동체",
       "사랑과 질서, 은혜와 진리, 따뜻함과 건강한 경계"
     ],
-    circle: "사랑과 질서, 은혜와 진리, 따뜻함과 건강한 경계"
+    mark: "따뜻함과 건강한 경계"
   },
   discernment: {
     phrases: [
@@ -74,7 +74,7 @@ export const wayIntroEmphasis: Record<string, WayIntroEmphasis> = {
       "정직한 양심",
       "임마누엘의 믿음 안에서 분별"
     ],
-    circle: "견딜 것은 믿음으로 견디고, 끊어낼 것은 단호하게 끊어냅니다."
+    mark: "견딜 것은 믿음으로 견디고, 끊어낼 것은 단호하게 끊어냅니다."
   },
   leadership: {
     phrases: [
@@ -85,7 +85,7 @@ export const wayIntroEmphasis: Record<string, WayIntroEmphasis> = {
       "먼저 섬기고, 먼저 낮아지며, 먼저 책임지는 자리",
       "다른 사람을 세워 함께 자라가게 만드는 사람"
     ],
-    circle: "먼저 섬기고, 먼저 낮아지며, 먼저 책임지는 자리"
+    mark: "먼저 섬기고, 먼저 낮아지며, 먼저 책임지는 자리"
   },
   giving: {
     phrases: [
@@ -96,7 +96,7 @@ export const wayIntroEmphasis: Record<string, WayIntroEmphasis> = {
       "하나님 나라에 심는 것",
       "우리는 기쁨으로 드립니다."
     ],
-    circle: "헌금은 결제가 아닙니다. 헌금은 예배입니다."
+    mark: "헌금은 예배입니다."
   },
   sending: {
     phrases: [
@@ -107,7 +107,7 @@ export const wayIntroEmphasis: Record<string, WayIntroEmphasis> = {
       "하나님께서 맡기신 소명",
       "마지막 한 사람까지 그리스도를 따르게 하는 것"
     ],
-    circle: "복음을 말로 전할 뿐 아니라 삶으로 증명하기를 원합니다."
+    mark: "복음을 말로 전할 뿐 아니라 삶으로 증명하기를 원합니다."
   },
   dream: {
     phrases: [
@@ -118,7 +118,7 @@ export const wayIntroEmphasis: Record<string, WayIntroEmphasis> = {
       "세상 속으로 들어가는 신앙",
       "마지막 한 사람까지 그리스도를 따르게 하는 교회"
     ],
-    circle: "신자가 제자가 되고, 제자가 다시 사람을 세우는 리더가 되는 교회"
+    mark: "사람을 세우는 리더가 되는 교회"
   },
   questions: {
     phrases: [
@@ -129,7 +129,8 @@ export const wayIntroEmphasis: Record<string, WayIntroEmphasis> = {
       "다음 세대가 자유롭게 질문할 수 있는 교회",
       "질문에 열려 있고, 말씀 위에 서 있으며, 사랑 안에서 함께 자라는 공동체"
     ],
-    circle: "우리가 질문에 담대한 이유는 진리를 신뢰하기 때문입니다."
+    mark: "진리를 신뢰하기 때문입니다."
   }
 };
+
 
