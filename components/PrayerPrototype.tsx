@@ -18,7 +18,7 @@ export function PrayerPrototype({ article, children, navigation, startStudy = fa
   const noteField = useRef<HTMLTextAreaElement>(null);
   const [note, setNote] = useState("");
   const [copyStatus, setCopyStatus] = useState("");
-  const [studyOpen, setStudyOpen] = useState(startStudy);
+  const [activeSection, setActiveSection] = useState<"study" | "prayer" | null>(startStudy ? "study" : null);
 
   useEffect(() => {
     const sections = root.current?.querySelectorAll<HTMLElement>("[data-prayer-reveal]");
@@ -36,18 +36,24 @@ export function PrayerPrototype({ article, children, navigation, startStudy = fa
   }, []);
 
   useEffect(() => {
-    function revealLinkedStudy() {
-      if (["#study-content", "#prayer-study"].includes(window.location.hash)) setStudyOpen(true);
+    function revealLinkedSection() {
+      const hash = window.location.hash;
+      if (["#study-content", "#prayer-study"].includes(hash)) setActiveSection("study");
+      else if (["#prayer-practice", "#prayer-moment"].includes(hash)) setActiveSection("prayer");
+      else if (!hash && !startStudy) setActiveSection(null);
     }
-    revealLinkedStudy();
-    window.addEventListener("hashchange", revealLinkedStudy);
-    return () => window.removeEventListener("hashchange", revealLinkedStudy);
-  }, []);
+    if (startStudy) setActiveSection("study");
+    revealLinkedSection();
+    window.addEventListener("hashchange", revealLinkedSection);
+    return () => window.removeEventListener("hashchange", revealLinkedSection);
+  }, [startStudy]);
 
   useEffect(() => {
-    if (!studyOpen || !["#study-content", "#prayer-study"].includes(window.location.hash)) return;
-    document.getElementById(window.location.hash.slice(1))?.scrollIntoView({ block: "start" });
-  }, [studyOpen]);
+    if (!activeSection) return;
+    const target = document.getElementById(window.location.hash.slice(1));
+    if (!target || target.closest("[hidden]")) return;
+    target.scrollIntoView({ block: "start" });
+  }, [activeSection]);
 
   async function copyPrayer() {
     if (!note.trim()) return;
@@ -64,12 +70,55 @@ export function PrayerPrototype({ article, children, navigation, startStudy = fa
   return (
     <article ref={root} className={styles.page}>
       <header className={styles.hero} style={{ backgroundImage: `url(${article.image.url})` }}>
-        <div className={styles.heroInner} data-prayer-reveal>
+        <div className={styles.heroInner}>
           <Link className={styles.back} href="/way">← 임마누엘의 길</Link>
-          <p className={styles.eyebrow}>03 · 우리가 기도하는 방식</p>
-          <h1>기도가 막막한 날에도,<br />{" "}<span className={styles.mark}>하나님께 나아갑니다.
+          <p className={styles.eyebrow}>임마누엘의 길 03 · 개론</p>
+          <h1>{article.title}</h1>
+          <p className={styles.heroLead}>{article.quote}</p>
+          <p className={styles.keywords}>{article.keywords.join(" · ")}</p>
+          <a className={styles.primary} href="#prayer-introduction">개론 읽기 <span aria-hidden="true">↓</span></a>
+        </div>
+      </header>
+
+      <div id="prayer-introduction" className={styles.introduction}>
+        <WayIntroduction article={article} />
+      </div>
+
+      <section id="prayer-next" className={styles.next} aria-labelledby="prayer-next-title">
+        <p className={styles.sectionLabel}>개론에서 한 걸음 더</p>
+        <h2 id="prayer-next-title">말씀으로 살피고,<br className={styles.mobileBreak} />{" "}기도로 응답합니다.</h2>
+        <div className={styles.choices}>
+          <a href="#prayer-study" onClick={() => setActiveSection("study")} aria-controls="prayer-study" aria-expanded={activeSection === "study"}>
+            <strong>성경공부 <span aria-hidden="true">→</span></strong>
+            <span>예수님이 가르쳐 주신 기도를 성경에서 살펴봅니다.</span>
+          </a>
+          <a href="#prayer-practice" onClick={() => setActiveSection("prayer")} aria-controls="prayer-practice" aria-expanded={activeSection === "prayer"}>
+            <strong>기도 <span aria-hidden="true">→</span></strong>
+            <span>읽은 내용을 마음에 담고, 나의 말로 기도합니다.</span>
+          </a>
+        </div>
+      </section>
+
+      <section id="prayer-study" className={styles.study} hidden={activeSection !== "study"} aria-labelledby="prayer-study-title">
+        <header className={styles.studyHeading}>
+          <p className={styles.sectionLabel}>성경공부 · 마태복음 6:5–13</p>
+          <h2 id="prayer-study-title">예수님이 가르쳐 주신 기도</h2>
+          <a className={styles.returnLink} href="#prayer-next">← 성경공부·기도 선택으로</a>
+        </header>
+        <div className={styles.studyContent}>{children}</div>
+        <div className={styles.studyEnd}>
+          <a className={styles.primary} href="#prayer-practice" onClick={() => setActiveSection("prayer")}>이제 기도로 응답하기 <span aria-hidden="true">→</span></a>
+        </div>
+      </section>
+
+      <section id="prayer-practice" className={styles.practice} hidden={activeSection !== "prayer"} aria-label="기도">
+      <header className={styles.practiceHero}>
+        <div className={styles.heroInner} data-prayer-reveal>
+          <a className={styles.back} href="#prayer-next">← 성경공부·기도 선택으로</a>
+          <p className={styles.eyebrow}>기도 · 이제 하나님께 나아갑니다</p>
+          <h2>기도가 막막한 날에도,<br />{" "}<span className={styles.mark}>하나님께 나아갑니다.
             <svg viewBox="0 0 600 22" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path pathLength="1" d="M4 15 C130 6 332 8 590 11 M42 20 C201 11 378 16 548 12" /></svg>
-          </span></h1>
+          </span></h2>
           <p className={styles.heroLead}>무슨 말을 해야 할지 모르겠는 날이 있습니다.<br />{" "}정리되지 않은 마음도 하나님께 가져가 보세요.</p>
           <a className={styles.primary} href="#prayer-moment">잠시 기도하기 <span aria-hidden="true">↓</span></a>
           <p className={styles.heroFoot}>먼저, 아래의 짧은 글을 천천히 읽어도 좋습니다.</p>
@@ -129,16 +178,10 @@ export function PrayerPrototype({ article, children, navigation, startStudy = fa
         </div>
       </section>
 
-      <section className={styles.more} aria-label="기도에 대해 더 읽기">
-        <p className={styles.sectionLabel}>조금 더 머물고 싶다면</p>
-        <details className={styles.original}>
-          <summary><span>교회의 기도에 대한 고백 읽기<small>우리가 기도하는 방식 · 원문</small></span></summary>
-          <WayIntroduction article={article} />
-        </details>
-        <details id="prayer-study" className={styles.study} open={studyOpen} onToggle={(event) => setStudyOpen(event.currentTarget.open)}>
-          <summary><span>기도 성경공부 이어가기<small>마태복음 6:5–13 · 임마누엘의 길 03과</small></span></summary>
-          <div className={styles.studyContent}>{children}</div>
-        </details>
+        <div className={styles.practiceEnd}>
+          <a className={styles.returnLink} href="#prayer-introduction">개론 다시 읽기</a>
+          <a className={styles.returnLink} href="#prayer-study" onClick={() => setActiveSection("study")}>성경공부로 이어가기 →</a>
+        </div>
       </section>
       <div className={styles.navigation}>{navigation}</div>
     </article>
