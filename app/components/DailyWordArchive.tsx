@@ -22,7 +22,8 @@ type Translation = { label: string; text: string | null; url: string | null };
 function koreanBibleUrl(scripture: string, version: "GAE" | "SAENEW") {
   const match = /^(.+?)\\s+(\\d+):\\d+/.exec(scripture);
   if (!match) return null;
-  const book = BIBLE_BOOKS.find((item) => item.name === match[1]);
+  const bookName = match[1] === "요한일서" ? "요한1서" : match[1];
+  const book = BIBLE_BOOKS.find((item) => item.name === bookName);
   const chapter = Number(match[2]);
   if (!book || chapter < 1 || chapter > book.chapters) return null;
   return `https://www.bskorea.or.kr/bible/korbibReadpage.php?book=${book.code}&chap=${chapter}&version=${version}`;
@@ -75,7 +76,7 @@ export function DailyWordArchive() {
               <section className="daily-word-translation" key={translation.label}>
                 <h3>{translation.label}</h3>
                 {translation.text ? <p>{translation.text}</p> : (
-                  <p>본문은 제공 기관에서 읽을 수 있습니다. {translation.url && <a href={translation.url} target="_blank" rel="noopener noreferrer" aria-label={`${item.scripture} ${translation.label} 본문 새 창에서 읽기`}>본문 열기 ↗</a>}</p>
+                  <p>본문은 제공 기관에서 읽을 수 있습니다. {translation.url && <a href={translation.url} target="_blank" rel="noopener noreferrer" aria-label={`${item.scripture} ${translation.label} 본문 새 창에서 읽기`}>{translation.label === "NIV" ? "NIV에서 구절 찾기 ↗" : "해당 장에서 본문 읽기 ↗"}</a>}</p>
                 )}
               </section>
             ))}
