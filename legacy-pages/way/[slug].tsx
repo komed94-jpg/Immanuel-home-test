@@ -6,6 +6,7 @@ import { immanuelWayCourse } from "@/lib/bible-study";
 import { StudyWorkbook } from "@/app/bible-study/immanuel-basic/StudyWorkbook";
 import { WayIntroduction } from "@/components/WayIntroduction";
 import { WayQuestionsGuide, WayQuestionsWelcome } from "@/components/WayQuestionsGuide";
+import { PrayerPrototype } from "@/components/PrayerPrototype";
 
 type ArticlePageProps = {
   article: WayArticle;
@@ -52,6 +53,32 @@ export default function ArticlePage({ article, startPageKey }: ArticlePageProps)
   };
   const previousArticle = articleIndex > 0 ? wayArticles[articleIndex - 1] : null;
   const nextArticle = articleIndex < wayArticles.length - 1 ? wayArticles[articleIndex + 1] : null;
+
+  if (article.slug === "prayer") {
+    return (
+      <Layout>
+        <PrayerPrototype
+          article={article}
+          startStudy={Boolean(startPageKey)}
+          navigation={
+            <nav className="way-topic-navigation" aria-label="이전·다음 임마누엘의 길">
+              {previousArticle ? <Link href={`/way/${previousArticle.slug}`}><small>이전 주제</small><strong>{previousArticle.title}</strong></Link> : <span />}
+              <Link href="/way" className="way-topic-list-link">{wayArticles.length}개 주제 전체 보기</Link>
+              {nextArticle ? <Link href={`/way/${nextArticle.slug}`}><small>다음 주제</small><strong>{nextArticle.title}</strong></Link> : <span />}
+            </nav>
+          }
+        >
+          <StudyWorkbook
+            key={startPageKey ?? `${article.slug}-scripture`}
+            course={lessonCourse}
+            startPageKey={startPageKey ?? `${article.slug}-scripture`}
+            returnPath={`/way/${article.slug}`}
+            hiddenSectionLabels={["임마누엘의 길 원문"]}
+          />
+        </PrayerPrototype>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
@@ -135,6 +162,7 @@ export const getStaticProps: GetStaticProps<ArticlePageProps> = async ({ params 
     }
   };
 };
+
 
 
 
