@@ -20,7 +20,7 @@ type DailyWord = {
 type Translation = { label: string; text: string | null; url: string | null };
 
 function koreanBibleUrl(scripture: string, version: "GAE" | "SAENEW") {
-  const match = /^(.+?)\\s+(\\d+):\\d+/.exec(scripture);
+  const match = /^(.+?)\s+(\d+):\d+/.exec(scripture);
   if (!match) return null;
   const bookName = match[1] === "요한일서" ? "요한1서" : match[1];
   const book = BIBLE_BOOKS.find((item) => item.name === bookName);
