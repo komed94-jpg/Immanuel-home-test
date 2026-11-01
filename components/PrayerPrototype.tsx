@@ -72,11 +72,11 @@ export function PrayerPrototype({ article, children, navigation, startStudy = fa
       <header className={styles.hero} style={{ backgroundImage: `url(${article.image.url})` }}>
         <div className={styles.heroInner}>
           <Link className={styles.back} href="/way">← 임마누엘의 길</Link>
-          <p className={styles.eyebrow}>임마누엘의 길 03 · 개론</p>
+          <p className={styles.eyebrow}>임마누엘의 길 03 · 기도</p>
           <h1>{article.title}</h1>
           <p className={styles.heroLead}>{article.quote}</p>
           <p className={styles.keywords}>{article.keywords.join(" · ")}</p>
-          <a className={styles.primary} href="#prayer-introduction">개론 읽기 <span aria-hidden="true">↓</span></a>
+          <a className={styles.primary} href="#prayer-introduction">먼저 읽어 보세요 <span aria-hidden="true">↓</span></a>
         </div>
       </header>
 
@@ -85,7 +85,7 @@ export function PrayerPrototype({ article, children, navigation, startStudy = fa
       </div>
 
       <section id="prayer-next" className={styles.next} aria-labelledby="prayer-next-title">
-        <p className={styles.sectionLabel}>개론에서 한 걸음 더</p>
+        <p className={styles.sectionLabel}>이제 함께 해 볼까요?</p>
         <h2 id="prayer-next-title">말씀으로 살피고,<br className={styles.mobileBreak} />{" "}기도로 응답합니다.</h2>
         <div className={styles.choices}>
           <a href="#prayer-study" onClick={() => setActiveSection("study")} aria-controls="prayer-study" aria-expanded={activeSection === "study"}>
@@ -179,7 +179,7 @@ export function PrayerPrototype({ article, children, navigation, startStudy = fa
       </section>
 
         <div className={styles.practiceEnd}>
-          <a className={styles.returnLink} href="#prayer-introduction">개론 다시 읽기</a>
+          <a className={styles.returnLink} href="#prayer-introduction">처음 글 다시 읽기</a>
           <a className={styles.returnLink} href="#prayer-study" onClick={() => setActiveSection("study")}>성경공부로 이어가기 →</a>
         </div>
       </section>
