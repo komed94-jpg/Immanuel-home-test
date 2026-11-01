@@ -1,16 +1,32 @@
 {
-  "name": "Immanuel Church",
-  "short_name": "Immanuel",
+  "id": "/",
+  "name": "임마누엘교회",
+  "short_name": "임마누엘",
+  "lang": "ko",
   "description": "IMMANUEL CHURCH 빛의자녀 공동체",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#fff9ef",
-  "theme_color": "#17233f",
+  "theme_color": "#071426",
   "icons": [
     {
-      "src": "/icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml"
+      "src": "/icons/immanuel-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/immanuel-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/immanuel-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
