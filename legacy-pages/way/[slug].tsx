@@ -7,6 +7,7 @@ import { StudyWorkbook } from "@/app/bible-study/immanuel-basic/StudyWorkbook";
 import { WayIntroduction } from "@/components/WayIntroduction";
 import { WayQuestionsGuide, WayQuestionsWelcome } from "@/components/WayQuestionsGuide";
 import { PrayerPrototype } from "@/components/PrayerPrototype";
+import { WorshipPrototype } from "@/components/WorshipPrototype";
 
 type ArticlePageProps = {
   article: WayArticle;
@@ -54,10 +55,11 @@ export default function ArticlePage({ article, startPageKey }: ArticlePageProps)
   const previousArticle = articleIndex > 0 ? wayArticles[articleIndex - 1] : null;
   const nextArticle = articleIndex < wayArticles.length - 1 ? wayArticles[articleIndex + 1] : null;
 
-  if (article.slug === "prayer") {
+  if (article.slug === "prayer" || article.slug === "worship") {
+    const Prototype = article.slug === "prayer" ? PrayerPrototype : WorshipPrototype;
     return (
       <Layout>
-        <PrayerPrototype
+        <Prototype
           article={article}
           startStudy={Boolean(startPageKey)}
           navigation={
@@ -75,7 +77,7 @@ export default function ArticlePage({ article, startPageKey }: ArticlePageProps)
             returnPath={`/way/${article.slug}`}
             hiddenSectionLabels={["임마누엘의 길 원문"]}
           />
-        </PrayerPrototype>
+        </Prototype>
       </Layout>
     );
   }

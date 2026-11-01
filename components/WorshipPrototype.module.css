@@ -1,0 +1,9 @@
+.page :where(h1, h2, p, strong) { word-break: keep-all; overflow-wrap: break-word; }
+.page [tabindex="-1"]:focus { outline: none; }
+.quote { white-space: pre-line; }
+.page .prepareHero h2 { font-size: clamp(30px, 4.2vw, 54px); line-height: 1.6; }
+.page .momentTitle { font-size: clamp(25px, 3.2vw, 36px); line-height: 1.65; }
+@media (max-width: 640px) {
+  .page .prepareHero h2 { font-size: clamp(25px, 6.5vw, 38px); }
+  .page .momentTitle { font-size: clamp(24px, 6.1vw, 30px); }
+}
