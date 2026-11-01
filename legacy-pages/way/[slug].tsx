@@ -5,6 +5,7 @@ import { WayArticle, wayArticles } from "@/data/immanuel";
 import { immanuelWayCourse } from "@/lib/bible-study";
 import { StudyWorkbook } from "@/app/bible-study/immanuel-basic/StudyWorkbook";
 import { WayIntroduction } from "@/components/WayIntroduction";
+import { WayQuestionsGuide, WayQuestionsWelcome } from "@/components/WayQuestionsGuide";
 
 type ArticlePageProps = {
   article: WayArticle;
@@ -73,7 +74,15 @@ export default function ArticlePage({ article, startPageKey }: ArticlePageProps)
           </div>
         </section>
 
-        <WayIntroduction key={article.slug} article={article} />
+        {article.slug === "questions" ? (
+          <>
+            <WayQuestionsWelcome />
+            <div id="questions-introduction" style={{ scrollMarginTop: 100 }}>
+              <WayIntroduction key={article.slug} article={article} />
+            </div>
+            <WayQuestionsGuide />
+          </>
+        ) : <WayIntroduction key={article.slug} article={article} />}
         <section className="way-lesson-study-area" aria-label={`${article.title} ${lessonNumber}과 성경공부`}>
           <header className="way-lesson-study-heading">
             <p className="section-kicker">IMMANUEL WAY · LESSON {lessonLabel}</p>
@@ -126,6 +135,7 @@ export const getStaticProps: GetStaticProps<ArticlePageProps> = async ({ params 
     }
   };
 };
+
 
 
 
