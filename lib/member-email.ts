@@ -1,5 +1,9 @@
 type ResetEmailResult = { configured: boolean; sent: boolean };
 
+export function passwordResetEmailConfigured() {
+  return Boolean(process.env.RESEND_API_KEY?.trim() && process.env.MEMBER_EMAIL_FROM?.trim());
+}
+
 export async function sendPasswordResetEmail(input: { email: string; name: string; resetUrl: string }): Promise<ResetEmailResult> {
   const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.MEMBER_EMAIL_FROM;
@@ -7,6 +11,7 @@ export async function sendPasswordResetEmail(input: { email: string; name: strin
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+    signal: AbortSignal.timeout(10_000),
     body: JSON.stringify({
       from, to: [input.email], subject: "임마누엘교회 비밀번호 재설정",
       text: `${input.name}님, 아래 주소에서 비밀번호를 다시 설정해 주세요. 이 주소는 30분 동안 한 번만 사용할 수 있습니다.\n\n${input.resetUrl}\n\n본인이 요청하지 않았다면 이 메일을 무시해 주세요.`,

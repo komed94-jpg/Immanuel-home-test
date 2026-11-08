@@ -3,7 +3,21 @@ import Link from "next/link";
 import { FormEvent, useState } from "react";
 export function PasswordResetRequestForm() {
   const [notice, setNotice] = useState(""); const [submitting, setSubmitting] = useState(false);
-  async function submit(event: FormEvent<HTMLFormElement>) { event.preventDefault(); setSubmitting(true); setNotice(""); const response = await fetch("/api/member/password-reset/request", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(Object.fromEntries(new FormData(event.currentTarget))) }); const result = (await response.json()) as { error?: string; message?: string; emailConfigured?: boolean }; setNotice(response.ok ? result.emailConfigured === false ? "재설정 기능은 준비됐지만 이메일 발송 연결이 아직 설정되지 않았습니다. 관리자에게 문의해 주세요." : result.message ?? "안내를 보냈습니다." : result.error ?? "요청하지 못했습니다."); setSubmitting(false); }
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setSubmitting(true);
+    setNotice("");
+    const body = Object.fromEntries(new FormData(event.currentTarget));
+    try {
+      const response = await fetch("/api/member/password-reset/request", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+      const result = (await response.json()) as { error?: string; message?: string };
+      setNotice(response.ok ? result.message ?? "안내를 보냈습니다." : result.error ?? "요청하지 못했습니다.");
+    } catch {
+      setNotice("연결이 끊겨 요청 결과를 확인하지 못했습니다. 다시 시도해 주세요.");
+    } finally {
+      setSubmitting(false);
+    }
+  }
   return <form className="request-form member-auth-form" onSubmit={submit}><label><span>가입한 이메일</span><input name="email" type="email" autoComplete="email" required /></label><p className="request-form-privacy">가입 여부가 외부에 드러나지 않도록 결과는 동일하게 안내합니다.</p><button className="primary-link request-submit" type="submit" disabled={submitting}>{submitting ? "확인 중…" : "재설정 안내 받기"}</button>{notice && <p className="member-auth-notice" role="status">{notice}</p>}<p className="member-auth-switch"><Link href="/login">로그인으로 돌아가기</Link></p></form>;
 }
 export function PasswordResetConfirmForm({ token }: { token: string }) {
