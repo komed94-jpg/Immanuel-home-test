@@ -3,7 +3,7 @@ export type BibleVideo = { slug: string; title: string; description: string; dur
 export const bibleVideos: BibleVideo[] = [
 {
   "slug": "ai-revival-episode-1",
-  "title": "부흥이 찾아온 마을 — 1편 마음이 향하는 곳",
+  "title": "부흥이 찾아온 마을 1편 마음이 향하는 곳",
   "description": "AI 시대의 교회 부흥과 조나단 에드워즈의 부흥신학을 다룬 논문에 바탕을 둔 이야기입니다. 노샘프턴의 회심 기록과 오늘의 한국 교회를 오가며, 그리스도의 은혜가 회개와 사랑, 용서와 감사의 열매로 이어지는 과정을 살핍니다.",
   "duration": "6분 49초",
   "src": "https://immanueldigital.com/videos/revival-episode-1-directors-cut-1ec90840d1.mp4",
@@ -93,7 +93,7 @@ export const bibleVideos: BibleVideo[] = [
 },
   {
     "slug": "ten-plagues-egypt",
-    "title": "애굽의 열 재앙 — 나는 여호와라",
+    "title": "애굽의 열 재앙 나는 여호와라",
     "description": "왕궁에 들어온 개구리부터 유월절의 밤까지, 바로의 선택과 무너지는 확신을 따라가는 성경 이야기입니다. 애굽의 신들이 상징하던 영역을 살피며 하나님의 주권과 구원, 오늘 우리의 순종을 묻습니다.",
     "duration": "7분 47초",
     "src": "https://d2ol7oe51mr4n9.cloudfront.net/user_3JcMIWGuRwiJAsHjPVjH1U9bosd/78140343-6ced-4867-b98c-7eda584bb7ad.mp4",
