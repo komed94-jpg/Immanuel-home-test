@@ -5,6 +5,7 @@ import { CounselingRequestForm } from "@/app/components/CounselingRequestForm";
 import { wayArticles } from "@/data/immanuel";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://immanuelway.church/services/counseling" },
   title: "상담 요청 | 임마누엘교회",
   description: "혼자 짊어지지 않고 함께 걸어가는 목회 상담 요청"
 };

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Layout } from "@/components/Layout";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://immanuelway.church/bible-study" },
   title: "성경공부 | 임마누엘교회",
   description: "임마누엘교회의 성경공부 교재와 말씀 도구"
 };

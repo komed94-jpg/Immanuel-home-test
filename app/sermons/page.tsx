@@ -4,7 +4,8 @@ import { Layout } from "@/components/Layout";
 import { wayArticles } from "@/data/immanuel";
 import { SermonArchive } from "@/app/components/SermonArchive";
 
-export const metadata: Metadata = { title: "설교 영상 아카이브 | 임마누엘교회" };
+export const metadata: Metadata = {
+  alternates: { canonical: "https://immanuelway.church/sermons" }, title: "설교 영상 아카이브 | 임마누엘교회" };
 const article = wayArticles.find((item) => item.slug === "belief");
 
 export default function SermonsPage() {

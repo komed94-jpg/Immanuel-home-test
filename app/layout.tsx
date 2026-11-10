@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, safeJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "임마누엘교회",
   description: "하나님은 사랑이십니다. 하나님은 우리와 함께하십니다.",
   manifest: "/manifest.json",
@@ -9,9 +11,6 @@ export const metadata: Metadata = {
     capable: true,
     title: "임마누엘교회",
     statusBarStyle: "default",
-  },
-  other: {
-    "codex-preview": "development",
   },
   icons: {
     icon: [
@@ -31,7 +30,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body>{children}</body>
+      <body>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd({
+          "@context": "https://schema.org", "@graph": [
+            { "@type": "Organization", "@id": `${SITE_URL}/#organization`, name: SITE_NAME, alternateName: "Immanuel Church", url: SITE_URL, description: SITE_DESCRIPTION },
+            { "@type": "WebSite", "@id": `${SITE_URL}/#website`, name: SITE_NAME, url: SITE_URL, inLanguage: "ko-KR", publisher: { "@id": `${SITE_URL}/#organization` } }
+          ] }) }} />
+        {children}
+      </body>
     </html>
   );
 }

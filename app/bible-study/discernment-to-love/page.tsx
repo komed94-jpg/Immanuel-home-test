@@ -13,6 +13,7 @@ import { DiscernmentLessonNineWorkbook } from "./DiscernmentLessonNineWorkbook";
 import { DiscernmentLessonTenWorkbook } from "./DiscernmentLessonTenWorkbook";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://immanuelway.church/bible-study/discernment-to-love" },
   title: "분별에서 사랑으로 | 임마누엘교회",
   description: "1과부터 10과까지 이어지는 영적 분별 웹 성경공부",
   robots: { index: false, follow: false }

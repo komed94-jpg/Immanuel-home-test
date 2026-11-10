@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Layout } from "@/components/Layout";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://immanuelway.church/empathy-bible" },
   title: "공감성경 | 임마누엘교회",
   description: "말씀을 오늘의 내 삶과 연결하는 공감성경",
 };
