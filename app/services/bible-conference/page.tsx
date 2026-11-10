@@ -4,7 +4,8 @@ import { Layout } from "@/components/Layout";
 import { BibleConferenceRequestForm } from "@/app/components/BibleConferenceRequestForm";
 import { wayArticles } from "@/data/immanuel";
 
-export const metadata: Metadata = { title: "사경회 요청 | 임마누엘교회" };
+export const metadata: Metadata = {
+  alternates: { canonical: "https://immanuelway.church/services/bible-conference" }, title: "사경회 요청 | 임마누엘교회" };
 const article = wayArticles.find((item) => item.slug === "belief");
 
 export default function BibleConferencePage() {

@@ -5,7 +5,8 @@ import { wayArticles } from "@/data/immanuel";
 import { EventCalendar } from "@/app/components/EventCalendar";
 import { getCurrentMember } from "@/lib/member-auth";
 
-export const metadata: Metadata = { title: "행사 및 캘린더 | 임마누엘교회" };
+export const metadata: Metadata = {
+  alternates: { canonical: "https://immanuelway.church/events" }, title: "행사 및 캘린더 | 임마누엘교회" };
 const article = wayArticles.find((item) => item.slug === "community");
 
 export default async function EventsPage() {

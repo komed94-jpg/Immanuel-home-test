@@ -4,6 +4,7 @@ import { BibleVideoCards } from "@/components/BibleVideoCards";
 import { bibleVideos } from "@/data/bible-videos";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://immanuelway.church/bible-world" },
   title: "영상으로 보는 성경 세계 | 임마누엘교회",
   description: "성막과 성전, 제사와 혼인잔치, 구약·신약의 지형과 바울의 선교여행과 AI 시대의 신앙을 한국어 해설 영상으로 공부하세요."
 };

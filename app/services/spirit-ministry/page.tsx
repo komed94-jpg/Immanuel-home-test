@@ -4,7 +4,8 @@ import { Layout } from "@/components/Layout";
 import { SpiritMinistryRequestForm } from "@/app/components/SpiritMinistryRequestForm";
 import { wayArticles } from "@/data/immanuel";
 
-export const metadata: Metadata = { title: "성령사역 요청 | 임마누엘교회" };
+export const metadata: Metadata = {
+  alternates: { canonical: "https://immanuelway.church/services/spirit-ministry" }, title: "성령사역 요청 | 임마누엘교회" };
 const article = wayArticles.find((item) => item.slug === "spirit");
 
 export default function SpiritMinistryPage() {

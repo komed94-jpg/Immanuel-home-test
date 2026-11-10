@@ -4,6 +4,7 @@ import { wayArticles } from "@/data/immanuel";
 import { immanuelWayCourse } from "@/lib/bible-study";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://immanuelway.church/bible-study/immanuel-way" },
   title: "임마누엘의 길 12과 웹 성경공부 | 임마누엘교회",
   description: "성경으로 배우고 삶으로 걷는 임마누엘의 길 12과 핵심과정",
   robots: { index: false, follow: false }
