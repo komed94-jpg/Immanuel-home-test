@@ -5,8 +5,8 @@ export const bibleVideos: BibleVideo[] = [
   "slug": "ai-revival-episode-1",
   "title": "부흥이 찾아온 마을 — 1편 마음이 향하는 곳",
   "description": "AI 시대의 교회 부흥과 조나단 에드워즈의 부흥신학을 다룬 논문에 바탕을 둔 이야기입니다. 노샘프턴의 회심 기록과 오늘의 한국 교회를 오가며, 그리스도의 은혜가 회개와 사랑, 용서와 감사의 열매로 이어지는 과정을 살핍니다.",
-  "duration": "6분 20초",
-  "src": "https://immanueldigital.com/videos/revival-episode-1-20261110.mp4",
+  "duration": "6분 49초",
+  "src": "https://immanueldigital.com/videos/revival-episode-1-voice-cuts-764947a262.mp4",
   "poster": "/images/ai-revival-episode-1-20261015.webp",
   "resolution": "1080p",
   "category": "AI 시대와 교회 · 1편",
@@ -15,73 +15,73 @@ export const bibleVideos: BibleVideo[] = [
     {
       "title": "연구의 질문과 오늘의 교회",
       "start": 0,
-      "duration": 34.7,
+      "duration": 29.37,
       "ref": "AI 시대 교회 부흥과 에드워즈의 부흥신학 연구"
     },
     {
       "title": "1734–1735년, 노샘프턴의 변화",
-      "start": 34.7,
+      "start": 29.37,
       "duration": 32.8,
       "ref": "에드워즈의 회심 기록을 토대로 한 재연"
     },
     {
       "title": "자신의 죄를 마주하다",
-      "start": 67.5,
-      "duration": 40.6,
+      "start": 62.17,
+      "duration": 48.13,
       "ref": "애비게일 허친슨의 회심 기록"
     },
     {
       "title": "그리스도의 은혜를 의지하다",
-      "start": 108.1,
-      "duration": 36.3,
+      "start": 110.3,
+      "duration": 45.2,
       "ref": "그리스도의 구속과 성령의 깨닫게 하심"
     },
     {
       "title": "애통과 기쁨, 사랑의 변화",
-      "start": 144.4,
-      "duration": 44.0,
+      "start": 155.5,
+      "duration": 46.83,
       "ref": "거룩한 애정과 이웃 사랑"
     },
     {
       "title": "아는 것을 넘어 사랑하게 되는 마음",
-      "start": 188.4,
-      "duration": 30.3,
+      "start": 202.33,
+      "duration": 37.2,
       "ref": "에드워즈의 부흥신학과 영적 감각"
     },
     {
       "title": "가족과 회중에 번지는 변화",
-      "start": 218.7,
-      "duration": 30.8,
+      "start": 239.53,
+      "duration": 39.23,
       "ref": "1735년 노샘프턴의 예배와 공동체"
     },
     {
       "title": "잘못을 고백하고 책임을 지다",
-      "start": 249.5,
+      "start": 278.77,
       "duration": 52.5,
       "ref": "현대 교회의 가상 이야기"
     },
     {
       "title": "기도하며 기다리는 시간",
-      "start": 302,
+      "start": 331.27,
       "duration": 12.4,
       "ref": "회개와 기다림"
     },
     {
       "title": "용서와 감사의 만남",
-      "start": 314.4,
+      "start": 343.67,
       "duration": 24.5,
       "ref": "자발적인 화해와 감사"
     },
     {
       "title": "함께 웃고 섬기는 삶",
-      "start": 338.9,
+      "start": 368.17,
       "duration": 19.3,
       "ref": "공동체의 돌봄과 기쁨"
     },
     {
       "title": "오늘 우리에게 남는 질문",
-      "start": 358.2,
-      "duration": 22.0,
+      "start": 387.47,
+      "duration": 22,
       "ref": "함께 드리는 예배와 삶의 응답"
     }
   ],
@@ -959,5 +959,3 @@ export const bibleVideos: BibleVideo[] = [
     ]
   }
 ];
-
-
