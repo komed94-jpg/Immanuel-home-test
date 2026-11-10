@@ -6,7 +6,7 @@ export const bibleVideos: BibleVideo[] = [
   "title": "부흥이 찾아온 마을 — 1편 마음이 향하는 곳",
   "description": "AI 시대의 교회 부흥과 조나단 에드워즈의 부흥신학을 다룬 논문에 바탕을 둔 이야기입니다. 노샘프턴의 회심 기록과 오늘의 한국 교회를 오가며, 그리스도의 은혜가 회개와 사랑, 용서와 감사의 열매로 이어지는 과정을 살핍니다.",
   "duration": "6분 49초",
-  "src": "https://immanueldigital.com/videos/revival-episode-1-voice-cuts-764947a262.mp4",
+  "src": "https://immanueldigital.com/videos/revival-episode-1-directors-cut-1ec90840d1.mp4",
   "poster": "/images/ai-revival-episode-1-20261015.webp",
   "resolution": "1080p",
   "category": "AI 시대와 교회 · 1편",
