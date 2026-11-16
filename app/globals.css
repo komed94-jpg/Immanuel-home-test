@@ -2313,14 +2313,14 @@ p {
   .home-hero {
     min-height: 88svh;
     padding-bottom: 110px;
-    background-position: 85% center;
+    background-position: 68% center;
   }
 
   .home-hero::before {
     background: linear-gradient(90deg, rgba(4, 11, 23, .9), rgba(4, 11, 23, .52));
   }
 
-  .home-hero-video { object-position: 85% center; }
+  .home-hero-video { object-position: 68% center; }
   .home-hero-motion-toggle { right: 20px; bottom: 58px; }
 
   .home-hero-inner {
