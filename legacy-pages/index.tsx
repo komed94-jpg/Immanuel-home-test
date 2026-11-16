@@ -1,3 +1,4 @@
+import { HomeHeroVideo } from "@/components/HomeHeroVideo";
 import { BibleVideoLibraryLink } from "@/components/BibleVideoLibraryLink";
 import Link from "next/link";
 import { Layout } from "@/components/Layout";
@@ -42,6 +43,7 @@ export default function Home() {
   return (
     <Layout>
       <section className="home-hero">
+        <HomeHeroVideo />
         <div className="home-hero-inner">
           <p className="eyebrow">WORD · WORSHIP · GROWTH · SENDING</p>
           <h1>
@@ -110,6 +112,21 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="bible-video-section" id="bible-videos" aria-labelledby="bible-video-heading">
+        <div className="home-wrap">
+          <BibleVideoLibraryLink />
+        </div>
+      </section>
+
+      <section className="home-study-preview" aria-labelledby="home-study-title">
+        <div className="home-wrap">
+          <p className="section-kicker">BIBLE STUDY</p>
+          <h2 id="home-study-title">성경공부</h2>
+          <p className="bible-section-intro">말씀을 배우고 삶으로 살아냅니다. 개인 묵상부터 목장 나눔과 제자훈련까지, 함께 말씀을 읽고 질문하며 실천해 보세요.</p>
+          <Link className="primary-link" href="/bible-study">성경공부 시작하기 →</Link>
+        </div>
+      </section>
+
       <section className="home-disc-preview" aria-labelledby="home-disc-title">
         <div className="home-disc-copy">
           <p className="section-kicker">DISC · RELATIONSHIP FORMATION</p>
@@ -125,12 +142,6 @@ export default function Home() {
           <span className="is-i"><b>I</b><strong>관계</strong><small>소통과 활력</small></span>
           <span className="is-s"><b>S</b><strong>안정</strong><small>배려와 협력</small></span>
           <span className="is-c"><b>C</b><strong>신중</strong><small>분석과 정확성</small></span>
-        </div>
-      </section>
-
-      <section className="bible-video-section" id="bible-videos" aria-labelledby="bible-video-heading">
-        <div className="home-wrap">
-          <BibleVideoLibraryLink />
         </div>
       </section>
 

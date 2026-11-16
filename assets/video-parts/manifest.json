@@ -197,5 +197,19 @@
       "high-priest-garments/028.bin",
       "high-priest-garments/029.bin"
     ]
+  },
+  {
+    "filename": "hero-city-cross-loop.mp4",
+    "bytes": 1746965,
+    "sha256": "ab1a648f4305fa0c33707637853c819b5cf2f52d96c342593eff623b8fa68d5b",
+    "parts": [
+      "hero-city-cross-loop/000.bin",
+      "hero-city-cross-loop/001.bin",
+      "hero-city-cross-loop/002.bin",
+      "hero-city-cross-loop/003.bin",
+      "hero-city-cross-loop/004.bin",
+      "hero-city-cross-loop/005.bin",
+      "hero-city-cross-loop/006.bin"
+    ]
   }
 ]
