@@ -5,7 +5,8 @@ import { NewFamilyRequestForm } from "@/app/components/NewFamilyRequestForm";
 import { wayArticles } from "@/data/immanuel";
 import { getCurrentMember } from "@/lib/member-auth";
 
-export const metadata: Metadata = { title: "새가족 등록 | 임마누엘교회" };
+export const metadata: Metadata = {
+  alternates: { canonical: "https://immanuelway.church/services/new-family" }, title: "새가족 등록 | 임마누엘교회" };
 const article = wayArticles.find((item) => item.slug === "community");
 
 export default async function NewFamilyPage() {

@@ -6,6 +6,7 @@ import { StudyWorkbook } from "../immanuel-basic/StudyWorkbook";
 import { lovingJesusCourse, lovingJesusLessons, lovingJesusSeries } from "@/lib/loving-jesus-course";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://immanuelway.church/bible-study/loving-jesus" },
   title: "예수님을 사랑한다고 말했다 | 임마누엘교회",
   description: "말씀으로 예수님과 교제하는 8주 습관 프로젝트",
 };

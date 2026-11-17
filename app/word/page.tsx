@@ -5,6 +5,7 @@ import { wayArticles } from "@/data/immanuel";
 import { DailyWordArchive } from "@/app/components/DailyWordArchive";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://immanuelway.church/word" },
   title: "오늘의 말씀 | 임마누엘교회",
   description: "하루를 말씀으로 시작하고 삶의 방향을 하나님 앞에서 다시 세웁니다."
 };

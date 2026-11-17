@@ -4,7 +4,8 @@ import { Layout } from "@/components/Layout";
 import { wayArticles } from "@/data/immanuel";
 import { GivingInformation } from "@/app/components/GivingInformation";
 
-export const metadata: Metadata = { title: "온라인 헌금 안내 | 임마누엘교회" };
+export const metadata: Metadata = {
+  alternates: { canonical: "https://immanuelway.church/giving" }, title: "온라인 헌금 안내 | 임마누엘교회" };
 const article = wayArticles.find((item) => item.slug === "giving");
 
 export default function GivingPage() {

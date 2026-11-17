@@ -5,6 +5,7 @@ import { immanuelBasicBookTwoCourse } from "@/lib/bible-study";
 import { StudyWorkbook } from "../immanuel-basic/StudyWorkbook";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://immanuelway.church/bible-study/immanuel-basic-2" },
   title: "그럼에도 불구하고, 여전히 하나님은 나를 사랑하신다 Ⅱ | 임마누엘교회",
   description: "부끄러움이 아니라 아버지의 시선으로 나를 보는 법 · 임마누엘의 길 02 웹 성경공부",
   robots: { index: false, follow: false }

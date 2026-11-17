@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Layout } from "@/components/Layout";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://immanuelway.church/shepherd-bible" },
   title: "목자성경 | 임마누엘교회",
   description: "목장 말씀 나눔을 준비하는 목자성경",
 };

@@ -4,6 +4,7 @@ import { Layout } from "@/components/Layout";
 import { wayArticles } from "@/data/immanuel";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://immanuelway.church/services/worship" },
   title: "예배 안내 | 임마누엘교회",
   description: "임마누엘교회 주일예배는 주일 오전 11시에 드립니다."
 };

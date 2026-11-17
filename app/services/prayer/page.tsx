@@ -5,6 +5,7 @@ import { PrayerRequestForm } from "@/app/components/PrayerRequestForm";
 import { wayArticles } from "@/data/immanuel";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://immanuelway.church/services/prayer" },
   title: "기도 요청 | 임마누엘교회",
   description: "숨김없이 하나님께 나아가는 정직한 기도 요청"
 };

@@ -5,6 +5,7 @@ import { CommunityRequestForm } from "@/app/components/CommunityRequestForm";
 import { wayArticles } from "@/data/immanuel";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://immanuelway.church/services/community" },
   title: "공동체 연결 | 임마누엘교회",
   description: "목장과 소그룹 공동체 연결 요청"
 };

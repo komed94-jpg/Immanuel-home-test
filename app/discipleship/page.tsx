@@ -6,6 +6,7 @@ import { DiscipleshipPrograms } from "@/app/components/DiscipleshipPrograms";
 import { getCurrentMember } from "@/lib/member-auth";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://immanuelway.church/discipleship" },
   title: "사람이 어떻게 변화되는가 I | 임마누엘교회",
   description: "임마누엘 운동 핵심 문서"
 };

@@ -4,6 +4,7 @@ import { Layout } from "@/components/Layout";
 import { DiscAssessment } from "@/app/disc/DiscAssessment";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://immanuelway.church/disc" },
   title: "서로를 세우는 DISC | 임마누엘교회",
   description: "내 행동을 알고 타인을 이해하며 사랑으로 섬기는 DISC 관계 교육"
 };

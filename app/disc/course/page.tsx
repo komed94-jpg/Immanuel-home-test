@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Layout } from "@/components/Layout";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://immanuelway.church/disc/course" },
   title: "DISC 3과 관계 교육 | 임마누엘교회",
   description: "자기이해에서 사랑의 섬김으로 이어지는 90분 3과 DISC 교육"
 };
