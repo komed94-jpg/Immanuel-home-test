@@ -211,5 +211,21 @@
       "hero-city-cross-loop/005.bin",
       "hero-city-cross-loop/006.bin"
     ]
+  },
+  {
+    "filename": "belief-canyon-pan-loop.mp4",
+    "bytes": 2149587,
+    "sha256": "02fbbda76522f5bcefc2ef0b0943eabf7f540be9c8dab8f41aa49edf939a1231",
+    "parts": [
+      "belief-canyon-pan-loop/000.bin",
+      "belief-canyon-pan-loop/001.bin",
+      "belief-canyon-pan-loop/002.bin",
+      "belief-canyon-pan-loop/003.bin",
+      "belief-canyon-pan-loop/004.bin",
+      "belief-canyon-pan-loop/005.bin",
+      "belief-canyon-pan-loop/006.bin",
+      "belief-canyon-pan-loop/007.bin",
+      "belief-canyon-pan-loop/008.bin"
+    ]
   }
 ]
