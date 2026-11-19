@@ -143,7 +143,11 @@ export function StudyWorkbook({ course, startPageKey, returnPath, hiddenSectionL
         <p className="web-study-section-label">{section.label}</p><h3>{section.title}</h3>{section.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>)}</div>}
       {needsLogin && <div className="web-study-login-callout"><strong>읽기는 누구나 할 수 있습니다.</strong><p>답변 저장, 공부 날짜 기록, 진도와 수료 관리는 로그인한 교인에게 열립니다.</p><a className="primary-link" href={`/login?returnTo=${encodeURIComponent(returnPath ? `${returnPath}?page=${page.key}#study-content` : `/bible-study/${course.slug}?page=${page.key}#study-content`)}`}>로그인하여 이 페이지부터 기록하기</a></div>}
       {page.blocks ? <div className="web-study-source">{page.blocks.map((block, index) => {
-        if (block.type === "heading") return <h3 key={index}>{block.text}</h3>;
+        if (block.type === "heading") {
+          const next = page.blocks?.[index + 1];
+          if (next?.type === "question" && page.questions.some((question) => question.key === next.questionKey && question.label === block.text)) return null;
+          return <h3 key={index}>{block.text}</h3>;
+        }
         if (block.type === "paragraph") return <p key={index}>{block.text}</p>;
         if (block.type === "image") return <Image key={index} src={block.src} alt={block.alt} width={block.width} height={block.height} sizes="(max-width: 820px) 100vw, 800px" className="web-study-source-image" />;
         if (block.type === "table") return <div key={index} className="web-study-table-scroll" tabIndex={0} role="region" aria-label={`${page.title} 비교표`}><table><thead><tr>{block.headers.map((header, cell) => <th key={cell} scope="col">{header}</th>)}</tr></thead><tbody>{block.rows.map((row, r) => <tr key={r}>{row.map((cell, c) => <td key={c}>{cell}</td>)}</tr>)}</tbody></table></div>;
