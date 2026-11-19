@@ -24,7 +24,7 @@ export default async function SundayStudyPage({ searchParams }: { searchParams: 
         <h1>{sundayCourse.title}</h1>
         <p>{sundayCourse.subtitle}</p>
         <div className="loving-jesus-loop"><span>말씀</span><span>교제</span><span>섬김</span><span>한 주의 실천</span></div>
-        <p><Link href="/bible-study/sunday?page=introduction#study-content" className="primary-link">처음부터 공부하기</Link></p>
+        <div className="hero-actions"><Link href="/bible-study/sunday?page=introduction#study-content" className="primary-link">처음부터 공부하기</Link></div>
       </div>
     </section>
     <section className="study-section" aria-labelledby="sunday-lessons-title">
@@ -33,7 +33,7 @@ export default async function SundayStudyPage({ searchParams }: { searchParams: 
         <h2 id="sunday-lessons-title">다섯 과의 길</h2>
         <p>{sundayCourse.overview}</p>
         <p>본문은 누구나 읽을 수 있습니다. 로그인하면 답변·공부 날짜·진도를 저장하고 이어서 공부할 수 있습니다. 개인 기록은 본인에게만 보입니다.</p>
-        <Link href="/bible-study/sunday?page=guide#study-content" className="text-action">교재 사용 안내 →</Link>
+        <div className="hero-actions"><Link href="/bible-study/sunday?page=guide#study-content" className="text-action">교재 사용 안내 →</Link></div>
       </div>
       <div className="loving-lesson-grid">
         {sundayLessons.map((lesson) => <Link href={`/bible-study/sunday?page=${lesson.pageKey}#study-content`} className="loving-lesson-card" key={lesson.number}>

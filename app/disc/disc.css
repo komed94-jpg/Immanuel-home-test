@@ -124,7 +124,7 @@
 .disc-hero-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: var(--action-row-gap) 12px;
   margin-top: 38px;
 }
 
@@ -484,7 +484,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 12px;
+  gap: var(--action-row-gap) 12px;
   margin-top: 30px;
 }
 

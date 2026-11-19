@@ -8,6 +8,8 @@
   --ink: #162033;
   --muted: #64748b;
   --line: rgba(248, 243, 232, 0.16);
+  --action-row-gap: 16px;
+  --action-block-space: 24px;
 }
 
 /* 성경읽기: 홈페이지의 남색·금색 체계에 맞춘 독립 작업 화면 */
@@ -291,8 +293,13 @@ p {
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
+  gap: var(--action-row-gap) 14px;
   margin-top: 34px;
+}
+
+.loving-jesus-hero-copy > .hero-actions,
+.study-section-heading > .hero-actions {
+  margin-top: var(--action-block-space);
 }
 
 .primary-link,
@@ -797,7 +804,7 @@ p {
 .study-material-card { display: flex; min-height: 285px; flex-direction: column; align-items: flex-start; border: 1px solid var(--line); border-radius: 24px; background: #fff; padding: 28px; box-shadow: 0 18px 52px rgba(7, 20, 38, .07); }
 .study-material-card small, .study-tool-grid span { color: var(--gold-deep); font-size: .78rem; font-weight: 950; letter-spacing: .12em; text-transform: uppercase; }
 .study-material-card h3, .study-tool-grid h3 { margin: 14px 0 12px; font-size: 1.48rem; }
-.study-material-card p { margin: 0 0 22px; color: var(--muted); line-height: 1.75; }
+.study-material-card p { margin: 0 0 var(--action-block-space); color: var(--muted); line-height: 1.75; }
 .study-material-card .text-action, .study-coming { margin-top: auto; color: var(--gold-deep); font-size: .87rem; font-weight: 900; }
 .study-tools { width: 100%; max-width: none; background: var(--navy); color: var(--ivory); padding-left: max(48px, calc((100vw - 1120px) / 2)); padding-right: max(48px, calc((100vw - 1120px) / 2)); }
 .study-tools .study-section-heading { margin-left: auto; margin-right: auto; width: min(1120px, 100%); }
@@ -806,12 +813,12 @@ p {
 .study-tool-grid article { border: 1px solid rgba(248, 243, 232, .16); border-radius: 26px; background: rgba(255, 255, 255, .06); padding: 34px; }
 .study-tool-grid span { color: var(--gold-soft); }
 .study-tool-grid h3 { font-family: Georgia, "Times New Roman", serif; font-size: 2rem; font-weight: 500; }
-.study-tool-grid p { min-height: 58px; margin: 0 0 26px; color: rgba(248, 243, 232, .72); line-height: 1.8; }
+.study-tool-grid p { min-height: 58px; margin: 0 0 var(--action-block-space); color: rgba(248, 243, 232, .72); line-height: 1.8; }
 .discipleship-study-bridge { display: flex; width: min(1120px, calc(100% - 96px)); align-items: end; justify-content: space-between; gap: 36px; margin: 0 auto; padding: 82px 0; }
 .discipleship-study-bridge > div:first-child { max-width: 660px; }
 .discipleship-study-bridge h2 { margin: 0 0 14px; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2rem, 3.5vw, 3.2rem); font-weight: 500; }
 .discipleship-study-bridge p:last-child { margin: 0; color: var(--muted); line-height: 1.75; }
-.discipleship-study-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: end; }
+.discipleship-study-actions { display: flex; flex-wrap: wrap; gap: var(--action-row-gap) 12px; align-items: center; justify-content: end; }
 .growth-study-bridge { width: min(760px, calc(100% - 96px)); margin: -46px auto 96px; border-top: 1px solid rgba(216, 170, 69, .38); padding-top: 46px; text-align: center; }
 .growth-study-bridge h2 { margin: 0 0 14px; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2rem, 3.4vw, 3.1rem); font-weight: 500; }
 .growth-study-bridge p:not(.section-kicker) { margin: 0 auto 28px; color: var(--muted); line-height: 1.75; }
@@ -909,7 +916,7 @@ p {
 .web-study-section p:last-child { margin-bottom: 0; }
 .web-study-login-callout { margin: 26px 0; border-radius: 18px; background: rgba(216, 170, 69, .12); padding: 22px; }
 .web-study-login-callout strong { color: var(--gold-deep); }
-.web-study-login-callout p { margin: 8px 0 16px; color: var(--muted); line-height: 1.7; }
+.web-study-login-callout p { margin: 8px 0 var(--action-block-space); color: var(--muted); line-height: 1.7; }
 .web-study-sidebar button em { display: grid; gap: 3px; }
 .web-study-sidebar button em small { color: var(--muted); font-size: .66rem; font-weight: 750; letter-spacing: .03em; }
 .web-study-questions { display: grid; gap: 18px; }
@@ -928,7 +935,7 @@ p {
 .web-study-table-scroll table { width: 100%; min-width: 460px; border-collapse: collapse; font-size: .94rem; line-height: 1.8; }
 .web-study-table-scroll th, .web-study-table-scroll td { padding: 14px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); white-space: pre-line; }
 .web-study-table-scroll th { background: rgba(216, 170, 69, .1); }
-.web-study-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 24px; }
+.web-study-actions { display: flex; flex-wrap: wrap; gap: var(--action-row-gap) 12px; align-items: center; margin-top: var(--action-block-space); }
 .web-study-actions button:disabled { opacity: .45; cursor: not-allowed; }
 .web-study-completion { margin: 22px 0 0; border-left: 4px solid var(--gold); padding-left: 14px; color: var(--muted); font-weight: 850; }
 .web-study-hero-way { background: linear-gradient(115deg, rgba(3, 11, 22, .96), rgba(31, 55, 68, .76)), url("/images/belief.jpg") center / cover; }
@@ -938,7 +945,7 @@ p {
 .loving-jesus-hero-copy { width: min(810px, 100%); }
 .loving-jesus-hero h1 { max-width: 760px; margin: 16px 0 20px; font-family: Georgia, "Times New Roman", serif; font-size: clamp(3.5rem, 7vw, 6.7rem); font-weight: 500; letter-spacing: -.055em; line-height: .98; }
 .loving-jesus-hero-copy > p:not(.section-kicker) { max-width: 680px; margin: 0; color: rgba(255, 250, 240, .87); font-size: 1.13rem; line-height: 1.85; }
-.loving-jesus-loop { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+.loving-jesus-loop { display: flex; flex-wrap: wrap; gap: var(--action-row-gap) 8px; margin-top: 28px; }
 .loving-jesus-loop span { border: 1px solid rgba(255, 250, 240, .35); border-radius: 999px; padding: 9px 14px; background: rgba(255,255,255,.1); color: #fffaf0; font-size: .88rem; font-weight: 900; }
 .loving-jesus-intro { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(260px, .9fr); gap: 78px; width: min(1120px, calc(100% - 96px)); margin: 0 auto; padding: 104px 0 78px; }
 .loving-jesus-intro h2, .loving-history h2 { margin: 12px 0 0; color: var(--navy); font-family: Georgia, "Times New Roman", serif; font-size: clamp(2.25rem, 4.6vw, 4.7rem); font-weight: 500; letter-spacing: -.045em; line-height: 1.08; }
@@ -2590,7 +2597,7 @@ p {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
-  gap: 12px;
+  gap: var(--action-row-gap) 12px;
 }
 
 .way-study-actions .primary-link {
