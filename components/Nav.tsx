@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { MemberNavLink } from "@/app/components/MemberNavLink";
 
@@ -32,7 +34,11 @@ export function Nav() {
         ))}
         <MemberNavLink />
       </nav>
-      <details className="mobile-menu">
+      <details className="mobile-menu" onClick={(event) => {
+        if (event.target instanceof Element && event.target.closest("a[href]")) {
+          event.currentTarget.open = false;
+        }
+      }}>
         <summary>메뉴</summary>
         <nav aria-label="모바일 주요 메뉴">
           {navItems.map((item) => (

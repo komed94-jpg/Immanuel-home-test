@@ -23,7 +23,7 @@ export default function BibleStudyVideo({ video }: { video: BibleVideo }) {
     <Layout>
       <article className="bible-study-page home-wrap">
         <Link className="bible-back" href="/bible-world">← 영상으로 보는 성경 세계</Link>
-        <p className="section-kicker">Bible Study</p>
+        <p className="section-kicker">BIBLE WORLD</p>
         <h1>{video.title}</h1>
         <p className="bible-study-intro">{video.description}</p>
         <p className="bible-study-meta">{video.duration} · 한국어 해설 · {video.resolution ?? "1080p"}</p>

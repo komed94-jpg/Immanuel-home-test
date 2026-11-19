@@ -11,7 +11,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const video = bibleVideos.find((item) => item.slug === slug);
-  return video ? { title: `${video.title} | 임마누엘교회 성경공부`, description: video.description } : {};
+  return video ? { title: `${video.title} | 임마누엘교회 영상으로 보는 성경 세계`, description: video.description } : {};
 }
 export default async function Page({ params }: Props) {
   const { slug } = await params;

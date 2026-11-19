@@ -217,7 +217,7 @@ p {
 }
 
 .home-hero-motion-toggle:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
-.home-study-preview { padding: 64px 0; background: var(--ivory); }
+.home-study-preview { padding: 64px 28px; background: var(--ivory); }
 .home-study-preview h2 { margin: 0 0 22px; font-size: clamp(1.8rem, 3vw, 2.8rem); }
 
 .home-hero::after,
@@ -2683,7 +2683,7 @@ p {
 .bible-questions ol { padding-left: 24px; line-height: 1.9; }
 .bible-questions li { padding-bottom: 10px; }
 .bible-video-card:focus-visible, .bible-chapters button:focus-visible { outline: 3px solid #9a7946; outline-offset: 4px; }
-@media(max-width:700px) { .bible-video-grid,.bible-chapters ol { grid-template-columns: 1fr; } .bible-video-section { padding: 56px 22px; } .bible-video-copy { padding: 22px; } .bible-study-page { padding-top: 112px; } }
+@media(max-width:700px) { .bible-video-grid,.bible-chapters ol { grid-template-columns: 1fr; } .bible-video-section { padding: 56px 22px; } .home-study-preview { padding-inline: 22px; } .bible-video-copy { padding: 22px; } .bible-study-page { padding-top: 112px; } }
 
 /* Bible video library and navigation on smaller screens. */
 .nav-links { flex-wrap: wrap; justify-content: flex-end; padding-block: 12px; row-gap: 12px; }
