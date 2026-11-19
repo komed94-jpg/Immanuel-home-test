@@ -1,5 +1,6 @@
 import type { GetStaticPaths, GetStaticProps } from "next";
 import Link from "next/link";
+import { BeliefHeroVideo } from "@/components/BeliefHeroVideo";
 import { Layout } from "@/components/Layout";
 import { WayArticle, wayArticles } from "@/data/immanuel";
 import { immanuelWayCourse } from "@/lib/bible-study";
@@ -86,9 +87,10 @@ export default function ArticlePage({ article, startPageKey }: ArticlePageProps)
     <Layout>
       <article className="way-detail-page way-article-page">
         <section
-          className="article-hero"
-          style={{ backgroundImage: `url(${article.image.url})` }}
+          className={`article-hero${article.slug === "belief" ? " belief-hero" : ""}`}
+          style={{ backgroundImage: `url(${article.slug === "belief" ? "/images/belief-canyon-video-poster.jpg" : article.image.url})` }}
         >
+          {article.slug === "belief" && <BeliefHeroVideo />}
           <div className="article-hero-overlay" />
           <div className="article-hero-content">
             <Link href="/way" className="back-link">
