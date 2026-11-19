@@ -9,6 +9,7 @@ export const metadata: Metadata = {
 };
 
 const materials = [
+  { category: "주일의 의미 · 5주", title: "주일은 무엇을 하는 날인가", description: "말씀과 교제와 섬김을 배우는 학생용 성경공부입니다. 5과의 본문과 질문, 한 주의 순종과 7일 실천을 웹에서 읽고 기록합니다.", href: "/bible-study/sunday", status: "5주 성경공부 시작" },
   { category: "365일 · 66권", title: "성경읽기", description: "하루 3~4장씩 성경 전체를 읽고 진도를 기록합니다. 각 장은 대한성서공회 개역개정 본문으로 연결됩니다.", href: "/bible-reading", status: "성경읽기 시작" },
   { category: "말씀 습관 · 8주", title: "예수님을 사랑한다고 말했다", description: "예수님을 사랑한다는 고백을 말씀을 읽고·묻고·기록하고·순종하는 생활로 옮기는 8주 습관 프로젝트입니다.", href: "/bible-study/loving-jesus", status: "8주 성경공부 시작" },
   { category: "핵심과정 · 12과", title: "임마누엘의 길", description: "12개 신앙고백을 핵심 본문과 참조 말씀으로 확인하고, 본문 관찰·해설·분별·실천·기도로 이어 가는 웹 성경공부입니다.", href: "/way", status: "12개 개론과 성경공부 보기" },

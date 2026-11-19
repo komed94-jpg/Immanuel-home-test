@@ -1,6 +1,7 @@
 import { immanuelBasicBookTwoCourse } from "@/lib/bible-study-book-two";
 import { immanuelWayCourse } from "@/lib/bible-study-immanuel-way";
 import { lovingJesusCourse } from "@/lib/loving-jesus-course";
+import { sundayCourse } from "@/lib/sunday-course";
 
 export type BibleStudyQuestion = {
   key: string;
@@ -25,7 +26,15 @@ export type BibleStudyPage = {
   body?: string[];
   sections?: BibleStudySection[];
   questions: BibleStudyQuestion[];
+  blocks?: BibleStudyBlock[];
 };
+
+// Ordered source content: keep questions beside the passage they refer to.
+export type BibleStudyBlock =
+  | { type: "paragraph" | "heading"; text: string }
+  | { type: "question"; questionKey: string }
+  | { type: "table"; headers: string[]; rows: string[][] }
+  | { type: "image"; src: string; alt: string; width: number; height: number };
 
 export type BibleStudyCourse = {
   slug: string;
@@ -263,7 +272,7 @@ export const immanuelBasicCourse: BibleStudyCourse = {
 
 export { immanuelBasicBookTwoCourse, immanuelWayCourse };
 
-export const bibleStudyCourses = [immanuelWayCourse, immanuelBasicCourse, immanuelBasicBookTwoCourse, lovingJesusCourse];
+export const bibleStudyCourses = [immanuelWayCourse, immanuelBasicCourse, immanuelBasicBookTwoCourse, lovingJesusCourse, sundayCourse];
 
 export function getBibleStudyCourse(slug: string) {
   return bibleStudyCourses.find((course) => course.slug === slug) ?? null;

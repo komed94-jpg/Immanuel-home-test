@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { BibleStudyCourse } from "@/lib/bible-study";
+import Image from "next/image";
+import type { BibleStudyCourse, BibleStudyQuestion } from "@/lib/bible-study";
 
 type SavedResponse = { pageKey: string; questionKey: string; answer: string; studiedOn: string; updatedAt: string };
 type SavedProgress = { pageKey: string; studiedOn: string; completedAt: string };
@@ -115,6 +116,11 @@ export function StudyWorkbook({ course, startPageKey, returnPath, hiddenSectionL
     if (response.ok) await load();
   }
 
+  function renderQuestion(question: BibleStudyQuestion) {
+    const key = `${page.key}:${question.key}`;
+    return <label key={question.key}><span>{question.label}</span><strong>{question.prompt}</strong>{question.visibility === "private" && <small className="web-study-private-note">이 답변은 관리자 화면에 표시되지 않고 본인에게만 보입니다.</small>}<textarea rows={question.key.startsWith("day-") ? 3 : 5} value={answers[key] ?? ""} disabled={needsLogin} onChange={(event) => setAnswers((current) => ({ ...current, [key]: event.target.value }))} onBlur={(event) => void saveAnswer(question.key, event.target.value)} placeholder={needsLogin ? "로그인하면 이곳에 답을 기록할 수 있습니다." : "여기에 답을 적으면 자동 저장됩니다."} /></label>;
+  }
+
   return <section className="web-study-shell">
     <aside className="web-study-sidebar" aria-label="교재 목차">
       <p className="section-kicker">WEB WORKBOOK</p>
@@ -136,10 +142,17 @@ export function StudyWorkbook({ course, startPageKey, returnPath, hiddenSectionL
       {page.sections && <div className="web-study-sections">{page.sections.filter((section) => !hiddenSectionLabels.includes(section.label)).map((section) => <section className="web-study-section" key={`${section.label}:${section.title}`}>
         <p className="web-study-section-label">{section.label}</p><h3>{section.title}</h3>{section.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>)}</div>}
       {needsLogin && <div className="web-study-login-callout"><strong>읽기는 누구나 할 수 있습니다.</strong><p>답변 저장, 공부 날짜 기록, 진도와 수료 관리는 로그인한 교인에게 열립니다.</p><a className="primary-link" href={`/login?returnTo=${encodeURIComponent(returnPath ? `${returnPath}?page=${page.key}#study-content` : `/bible-study/${course.slug}?page=${page.key}#study-content`)}`}>로그인하여 이 페이지부터 기록하기</a></div>}
-      <div className="web-study-questions">{page.questions.map((question) => {
-        const key = `${page.key}:${question.key}`;
-        return <label key={question.key}><span>{question.label}</span><strong>{question.prompt}</strong>{question.visibility === "private" && <small className="web-study-private-note">이 답변은 관리자 화면에 표시되지 않고 본인에게만 보입니다.</small>}<textarea rows={5} value={answers[key] ?? ""} disabled={needsLogin} onChange={(event) => setAnswers((current) => ({ ...current, [key]: event.target.value }))} onBlur={(event) => void saveAnswer(question.key, event.target.value)} placeholder={needsLogin ? "로그인하면 이곳에 답을 기록할 수 있습니다." : "여기에 답을 적으면 자동 저장됩니다."} /></label>;
-      })}</div>
+      {page.blocks ? <div className="web-study-source">{page.blocks.map((block, index) => {
+        if (block.type === "heading") return <h3 key={index}>{block.text}</h3>;
+        if (block.type === "paragraph") return <p key={index}>{block.text}</p>;
+        if (block.type === "image") return <Image key={index} src={block.src} alt={block.alt} width={block.width} height={block.height} sizes="(max-width: 820px) 100vw, 800px" className="web-study-source-image" />;
+        if (block.type === "table") return <div key={index} className="web-study-table-scroll" tabIndex={0} role="region" aria-label={`${page.title} 비교표`}><table><thead><tr>{block.headers.map((header, cell) => <th key={cell} scope="col">{header}</th>)}</tr></thead><tbody>{block.rows.map((row, r) => <tr key={r}>{row.map((cell, c) => <td key={c}>{cell}</td>)}</tr>)}</tbody></table></div>;
+        if (block.type === "question") {
+          const question = page.questions.find((item) => item.key === block.questionKey);
+          return question ? <div className="web-study-questions" key={index}>{renderQuestion(question)}</div> : null;
+        }
+        return null;
+      })}</div> : <div className="web-study-questions">{page.questions.map(renderQuestion)}</div>}
       {notice && <p className="content-manager-notice" role="status">{notice}</p>}
       <div className="web-study-actions">
         <button type="button" className="text-action" disabled={pageIndex === 0} onClick={() => selectPage(pageIndex - 1)}>이전</button>

@@ -918,6 +918,16 @@ p {
 .web-study-questions strong { font-size: 1.02rem; }
 .web-study-private-note { color: var(--muted); font-size: .8rem; line-height: 1.55; }
 .web-study-questions textarea { width: 100%; border: 1px solid rgba(7, 20, 38, .16); border-radius: 14px; padding: 14px; resize: vertical; color: var(--ink); font: inherit; line-height: 1.7; }
+.web-study-source { min-width: 0; margin: 28px 0; overflow-wrap: anywhere; }
+.web-study-source > p { margin: 0 0 20px; line-height: 1.95; white-space: pre-line; }
+.web-study-source > h3 { margin: 32px 0 16px; font-size: 1.25rem; line-height: 1.55; }
+.web-study-source .web-study-questions { margin: 24px 0; }
+.web-study-source .web-study-questions strong { white-space: pre-line; line-height: 1.8; }
+.web-study-source-image { display: block; width: 100%; height: auto; border-radius: 18px; margin: 24px 0; }
+.web-study-table-scroll { max-width: 100%; overflow-x: auto; margin: 24px 0; border: 1px solid var(--line); border-radius: 14px; }
+.web-study-table-scroll table { width: 100%; min-width: 460px; border-collapse: collapse; font-size: .94rem; line-height: 1.8; }
+.web-study-table-scroll th, .web-study-table-scroll td { padding: 14px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); white-space: pre-line; }
+.web-study-table-scroll th { background: rgba(216, 170, 69, .1); }
 .web-study-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 24px; }
 .web-study-actions button:disabled { opacity: .45; cursor: not-allowed; }
 .web-study-completion { margin: 22px 0 0; border-left: 4px solid var(--gold); padding-left: 14px; color: var(--muted); font-weight: 850; }
