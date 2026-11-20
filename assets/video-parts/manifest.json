@@ -199,9 +199,9 @@
     ]
   },
   {
-    "filename": "hero-city-cross-orbit-360.mp4",
-    "bytes": 1840452,
-    "sha256": "0d3427cdb49dd21a3a1aa4430aaa9a510418cb4297a0927e5eaae5bd89f69dd8",
+    "filename": "hero-city-cross-orbit-smooth.mp4",
+    "bytes": 6260092,
+    "sha256": "6cecbce1e3b91731e7405c440714e0bf6a025277e329dfec8bea0bdff7cf61c3",
     "parts": [
       "hero-city-cross-loop/000.bin",
       "hero-city-cross-loop/001.bin",
@@ -210,7 +210,23 @@
       "hero-city-cross-loop/004.bin",
       "hero-city-cross-loop/005.bin",
       "hero-city-cross-loop/006.bin",
-      "hero-city-cross-loop/007.bin"
+      "hero-city-cross-loop/007.bin",
+      "hero-city-cross-loop/008.bin",
+      "hero-city-cross-loop/009.bin",
+      "hero-city-cross-loop/010.bin",
+      "hero-city-cross-loop/011.bin",
+      "hero-city-cross-loop/012.bin",
+      "hero-city-cross-loop/013.bin",
+      "hero-city-cross-loop/014.bin",
+      "hero-city-cross-loop/015.bin",
+      "hero-city-cross-loop/016.bin",
+      "hero-city-cross-loop/017.bin",
+      "hero-city-cross-loop/018.bin",
+      "hero-city-cross-loop/019.bin",
+      "hero-city-cross-loop/020.bin",
+      "hero-city-cross-loop/021.bin",
+      "hero-city-cross-loop/022.bin",
+      "hero-city-cross-loop/023.bin"
     ]
   }
 ]
