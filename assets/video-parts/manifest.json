@@ -199,9 +199,9 @@
     ]
   },
   {
-    "filename": "hero-city-cross-loop.mp4",
-    "bytes": 1746965,
-    "sha256": "ab1a648f4305fa0c33707637853c819b5cf2f52d96c342593eff623b8fa68d5b",
+    "filename": "hero-city-cross-orbit.mp4",
+    "bytes": 2018036,
+    "sha256": "063d9a59222800c8ef3dba90876e2d0c06fac92733d1fcbeba871e9a63a67a0b",
     "parts": [
       "hero-city-cross-loop/000.bin",
       "hero-city-cross-loop/001.bin",
@@ -209,7 +209,8 @@
       "hero-city-cross-loop/003.bin",
       "hero-city-cross-loop/004.bin",
       "hero-city-cross-loop/005.bin",
-      "hero-city-cross-loop/006.bin"
+      "hero-city-cross-loop/006.bin",
+      "hero-city-cross-loop/007.bin"
     ]
   }
 ]
