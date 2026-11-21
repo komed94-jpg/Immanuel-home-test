@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const source = "/videos/hero-city-cross-orbit-refined.mp4";
+const source = "/videos/hero-city-cross-orbit-paced.mp4";
 
 export function HomeHeroVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
