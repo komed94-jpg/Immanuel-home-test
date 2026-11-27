@@ -1,0 +1,161 @@
+.header {
+  --forest: #173f37;
+  --bronze: #806440;
+  --rule: #dcded3;
+  --gutter: clamp(20px, 5vw, 80px);
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  border-bottom: 1px solid var(--rule);
+  background: #fbfaf5;
+  color: var(--forest);
+}
+
+.inner {
+  position: relative;
+  width: min(1240px, calc(100% - var(--gutter) * 2));
+  min-height: 71px;
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.brand {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  color: var(--forest);
+}
+
+.monogram {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 40px;
+  border-radius: 2px 10px 2px 2px;
+  background: var(--forest);
+  color: #f8f4e5;
+  font: italic 500 28px/1 Georgia, "Times New Roman", serif;
+  letter-spacing: -2px;
+  padding-right: 3px;
+}
+
+.wordmark {
+  display: grid;
+  gap: 4px;
+  font: 650 14px/1 Georgia, "Times New Roman", serif;
+  letter-spacing: 0.08em;
+}
+
+.wordmark small {
+  color: var(--bronze);
+  font: 650 8px/1 system-ui, sans-serif;
+  letter-spacing: 0.25em;
+}
+
+.desktop { display: none; }
+.mobile { margin-left: auto; }
+
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 44px;
+  padding: 0 13px;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--forest);
+  font-family: inherit;
+  font-size: .9rem;
+  font-weight: 650;
+  line-height: 1.2;
+  cursor: pointer;
+  list-style: none;
+}
+
+.toggle::-webkit-details-marker { display: none; }
+.menuIcon { position: relative; width: 15px; height: 12px; }
+.menuIcon::before, .menuIcon::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 0;
+  width: 15px;
+  height: 1.5px;
+  background: currentColor;
+}
+.menuIcon::after { top: 8px; }
+.mobile[open] .menuIcon::before { top: 5px; transform: rotate(45deg); }
+.mobile[open] .menuIcon::after { top: 5px; transform: rotate(-45deg); }
+
+.panel {
+  position: absolute;
+  top: calc(100% + 1px);
+  right: 0;
+  width: min(420px, 100%);
+  max-height: calc(100vh - 96px);
+  max-height: calc(100dvh - 96px - env(safe-area-inset-bottom, 0px));
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 13px;
+  border: 1px solid var(--rule);
+  border-top: 0;
+  border-radius: 0 0 8px 8px;
+  background: #fbfaf5;
+  box-shadow: 0 16px 30px #152b2229;
+}
+
+.destinations { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.account { display: flex; align-items: center; flex-wrap: wrap; }
+.panel .account { gap: 2px; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--rule); }
+
+.destinations a, .account a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 6px 9px;
+  border-radius: 3px;
+  color: #293e34;
+  font-size: .91rem;
+  font-weight: 550;
+  line-height: 1.45;
+  word-break: keep-all;
+}
+
+.account a { color: var(--forest); font-weight: 700; }
+.destinations a:hover, .account a:hover, .toggle:hover { background: #eef0e8; }
+.panel .destinations a[aria-current] { background: #e6ede3; color: var(--forest); font-weight: 750; }
+.header a:focus-visible, .toggle:focus-visible { outline: 2px solid var(--bronze); outline-offset: 2px; }
+
+@media (min-width: 80rem) {
+  .desktop { display: flex; align-items: center; justify-content: flex-end; gap: 13px; }
+  .desktop .destinations, .desktop .account { display: flex; flex-wrap: nowrap; gap: clamp(2px, .35vw, 8px); }
+  .desktop .account { padding-left: 12px; border-left: 1px solid var(--rule); }
+  .desktop .destinations a, .desktop .account a { padding-inline: 5px; white-space: nowrap; font-size: .875rem; }
+  .desktop a[aria-current] { position: relative; color: var(--forest); font-weight: 750; }
+  .desktop a[aria-current]::after {
+    content: "";
+    position: absolute;
+    inset: auto 5px 4px;
+    height: 2px;
+    background: var(--bronze);
+  }
+  .mobile { display: none; }
+}
+
+@media (min-width: 80rem) and (max-width: 86rem) {
+  .inner:has(:global(.admin-nav-links)) .desktop { display: none; }
+  .inner:has(:global(.admin-nav-links)) .mobile { display: block; }
+}
+
+@media (max-width: 42rem) {
+  .inner { min-height: 63px; }
+  .monogram { width: 34px; height: 36px; font-size: 25px; }
+  .wordmark { font-size: 12px; }
+}

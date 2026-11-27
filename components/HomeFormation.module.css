@@ -1,0 +1,210 @@
+.formation {
+  background: #fdfcf8;
+  color: #213e35;
+  padding-block: clamp(48px, 7vw, 100px);
+}
+
+.inner {
+  width: min(1240px, calc(100% - 2 * clamp(20px, 5vw, 80px)));
+  margin-inline: auto;
+}
+
+.studyPair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(28px, 4vw, 64px);
+}
+
+.feature {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  scroll-margin-top: 90px;
+}
+
+.image {
+  position: relative;
+  aspect-ratio: 2.5;
+  overflow: hidden;
+  margin: 0;
+  background: #d9d5c7;
+}
+
+.image img {
+  object-fit: cover;
+  object-position: center 49%;
+}
+
+.featureBody {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-block: clamp(21px, 2.3vw, 32px) 10px;
+}
+
+.featureBody .kicker,
+.featureBody :global(.section-kicker),
+.discKicker {
+  margin: 0 0 10px;
+  color: #725b35;
+  font-size: .75rem;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.featureBody h2,
+.discCopy h2 {
+  margin: 0;
+  font-family: "Noto Serif KR", "AppleMyungjo", "Batang", serif;
+  font-weight: 600;
+  letter-spacing: -.055em;
+  line-height: 1.35;
+}
+
+.featureBody h2 {
+  font-size: clamp(1.65rem, 2.8vw, 2.65rem);
+}
+
+.featureBody .description,
+.featureBody :global(.bible-section-intro),
+.discDescription {
+  max-width: 42em;
+  margin: 12px 0 15px;
+  color: #485b51;
+  font-size: 1rem;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.featureBody .studyLink,
+.featureBody :global(.primary-link),
+.courseLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: .55em;
+  min-height: 44px;
+  margin-top: auto;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+  color: #1b4238;
+  font-size: .95rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: #939f92;
+  text-underline-offset: .38em;
+}
+
+.featureBody a::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+}
+
+.featureBody a:focus-visible::after {
+  outline: 3px solid #896632;
+  outline-offset: 4px;
+}
+
+.feature:hover .studyLink,
+.feature:hover :global(.primary-link) {
+  text-decoration-color: currentColor;
+}
+
+.disc {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  align-items: center;
+  gap: clamp(30px, 6vw, 90px);
+  margin-top: clamp(36px, 5vw, 70px);
+  padding: clamp(25px, 4.2vw, 60px);
+  color: #f8f4e7;
+  background: #1c4037;
+}
+
+.discKicker { color: #e0c792; }
+.discCopy h2 { font-size: clamp(1.55rem, 2.65vw, 2.6rem); }
+.discDescription { color: #d8e1d9; margin-top: 16px; }
+
+.discActions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  margin-top: 20px;
+}
+
+.testLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .7em;
+  min-height: 44px;
+  padding: 10px 17px;
+  background: #f4eddb;
+  color: #1c4037;
+  font-size: .95rem;
+  font-weight: 700;
+}
+
+.testLink:hover { background: #fffaf0; }
+.courseLink { margin-top: 0; color: #f3f1e6; text-decoration-color: #afbcad; }
+.courseLink:hover { text-decoration-color: currentColor; }
+.discActions a:focus-visible { outline: 3px solid #edca84; outline-offset: 4px; }
+
+.types {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.types li {
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 1.5vw, 22px);
+  min-width: 0;
+  padding: clamp(15px, 1.9vw, 28px) 0;
+  border-top: 1px solid #688174;
+}
+
+.types li:nth-child(even) { padding-left: clamp(8px, 1.5vw, 22px); }
+.types li:nth-last-child(-n + 2) { border-bottom: 1px solid #688174; }
+.drive { color: #f0a98e; }
+.influence { color: #ecd086; }
+.steadiness { color: #a2d6b6; }
+.care { color: #bdcce9; }
+
+.letter {
+  min-width: .73em;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.35rem, 4vw, 4.5rem);
+  font-weight: normal;
+  line-height: .95;
+}
+
+.types strong,
+.types small { display: block; color: #faf6e9; }
+.types strong { font-size: 1rem; }
+.types small { margin-top: 3px; color: #d8e1d9; font-size: .8rem; }
+
+@media (max-width: 900px) {
+  .disc { grid-template-columns: 1fr; gap: 24px; }
+  .types { max-width: 540px; width: 100%; }
+}
+
+@media (max-width: 700px) {
+  .studyPair { grid-template-columns: 1fr; gap: 32px; }
+  .image { aspect-ratio: 2.25; }
+  .featureBody { padding-bottom: 0; }
+}
+
+@media (forced-colors: active) {
+  .testLink { border: 1px solid ButtonText; }
+}
