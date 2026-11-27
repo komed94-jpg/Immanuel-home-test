@@ -1,165 +1,81 @@
-import { HomeHeroVideo } from "@/components/HomeHeroVideo";
-import { BibleVideoLibraryLink } from "@/components/BibleVideoLibraryLink";
 import Link from "next/link";
 import { Layout } from "@/components/Layout";
-import { services, wayArticles } from "@/data/immanuel";
+import { HomeFormation } from "@/components/HomeFormation";
+import { HomeHeroVideo } from "@/components/HomeHeroVideo";
+import { HomeWayCollection } from "@/components/HomeWayCollection";
+import { services } from "@/data/immanuel";
+import styles from "./Home.module.css";
 
-const serviceIcons = [
-  <svg key="word" viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M5 5.5A3.5 3.5 0 0 1 8.5 2H20v17H8.5A3.5 3.5 0 0 0 5 22V5.5Z" />
-    <path d="M5 5.5A3.5 3.5 0 0 0 1.5 2H1v17h.5A3.5 3.5 0 0 1 5 22V5.5Z" />
-  </svg>,
-  <svg key="study" viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M5 4.5A3.5 3.5 0 0 1 8.5 2H20v17H8.5A3.5 3.5 0 0 0 5 22V4.5Z" />
-    <path d="M8 7h8" />
-    <path d="M8 11h8" />
-    <path d="M8 15h5" />
-  </svg>,
-  <svg key="worship" viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M12 2v20" />
-    <path d="M7 7h10" />
-    <path d="M5 22h14" />
-    <path d="M8 22c0-4 1.5-7 4-7s4 3 4 7" />
-  </svg>,
-  <svg key="prayer" viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M8.5 3.5 12 11l3.5-7.5" />
-    <path d="M12 11v10" />
-    <path d="M7 21h10" />
-    <path d="M4 12c2.5 0 5 1.8 8 9" />
-    <path d="M20 12c-2.5 0-5 1.8-8 9" />
-  </svg>,
-  <svg key="spirit" viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M12 3c4 3 6 6 6 10a6 6 0 0 1-12 0c0-4 2-7 6-10Z" />
-    <path d="M9 14c1.6 1.6 4.4 1.6 6 0" />
-  </svg>,
-  <svg key="growth" viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M4 19c6-1 10-5 12-13" />
-    <path d="M8 18c0-4 2-7 6-9" />
-    <path d="M15 6h5v5" />
-  </svg>
+// Keep the quick links tied to the directory, including their public labels.
+const quickLinks = [
+  { href: "/word", icon: "M4 5c3-1 5-.8 8 1 3-1.8 5-2 8-1v14c-3-1-5-.8-8 1-3-1.8-5-2-8-1z M12 6v14" },
+  { href: "/bible-study", icon: "M6 4h13v16H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2 M5 17c.5-.7 1.2-1 2-1h12 M9 8h6 M9 11h5" },
+  { href: "/services/worship", icon: "M12 2v9 M8 6h8 M4 20v-6l8-5 8 5v6z M10 20v-5h4v5" },
+  { href: "/services/prayer", icon: "M3 16l4-3 3-8c.6-1.5 2.4-.8 2 .7L11 15l-5 6 M21 16l-4-3-3-8c-.6-1.5-2.4-.8-2 .7L13 15l5 6" },
+  { href: "/services/counseling", icon: "M20 11a7 7 0 0 1-7 7H9l-5 3 1.3-5A7 7 0 0 1 4 11a8 8 0 0 1 16 0z M8 10h8 M8 13h5" },
+  { href: "/services/new-family", icon: "M3 11l9-8 9 8 M5 10v10h14V10 M10 20v-6h4v6" },
 ];
 
 export default function Home() {
   return (
     <Layout>
-      <section className="home-hero">
-        <HomeHeroVideo />
-        <div className="home-hero-inner">
-          <p className="eyebrow">WORD · WORSHIP · GROWTH · SENDING</p>
-          <h1>
-            <span>하나님은 사랑이십니다.</span>
-            <span>하나님은 우리와</span>
-            <span className="gold-line">함께하십니다.</span>
-          </h1>
-          <p className="home-hero-copy">
-            말씀 위에 세워지고, 예배로 충만해지며, 성장으로 성숙해지고,
-            세상으로 파송되는 공동체입니다.
-          </p>
-          <div className="hero-actions">
-            <Link className="primary-link" href="/way">
-              임마누엘의 길
-            </Link>
-            <Link className="secondary-link" href="/disc">
-              DISC 행동 알아보기
-            </Link>
-            <Link className="secondary-link" href="/bible-study">
-              성경공부 시작하기
-            </Link>
-            <Link className="secondary-link" href="/services">
-              교회 서비스
-            </Link>
+      <div className={styles.page}>
+        <section className={styles.hero} aria-labelledby="home-greeting">
+          <div className={styles.media}><HomeHeroVideo /></div>
+          <div className={styles.heroInner}>
+            <p className={styles.kicker} lang="en">Word · Worship · Growth · Sending</p>
+            <h1 id="home-greeting">
+              <span>하나님은 사랑이십니다.</span>{" "}
+              <span>하나님은 우리와</span>{" "}
+              <span>함께하십니다.</span>
+            </h1>
+            <p className={styles.intro}>말씀 위에 세워지고, 예배로 충만해지며, 성장으로 성숙해지고, 세상으로 파송되는 공동체입니다.</p>
+            <div className={styles.heroActions}>
+              <Link className={styles.primary} href="/way">임마누엘의 길 <span aria-hidden="true">→</span></Link>
+              <Link className={styles.secondary} href="/services/worship">예배 안내 <span aria-hidden="true">→</span></Link>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="home-service-dock" aria-label="주요 교회 서비스">
-        <div className="home-service-card">
-          {services.slice(0, 5).map((service, index) => (
-            <Link href={service.href} className="home-service-item" key={service.title}>
-              <span className="home-service-icon">{serviceIcons[index]}</span>
-              <strong>{service.title}</strong>
-              <em>{service.description}</em>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <section className="home-way-preview">
-        <div className="home-wrap">
-          <h2>임마누엘의 길</h2>
-          <p>
-            {wayArticles.length}개의 길은 단순한 메뉴가 아니라, 임마누엘교회가 믿고 예배하고
-            기도하고 성장하며 세상으로 나아가는 신앙의 고백입니다.
-          </p>
-          <div className="poster-grid">
-            {wayArticles.map((article, index) => (
-              <Link
-                className="poster-card"
-                href={`/way/${article.slug}`}
-                key={article.slug}
-                style={{ backgroundImage: `url(${article.image.url})` }}
-              >
-                <span className="poster-overlay" />
-                <span className="poster-content">
-                  <small>{String(index + 1).padStart(2, "0")}</small>
-                  <strong>{article.title}</strong>
-                  <em>{article.quote}</em>
-                  <span>{article.keywords.join(" · ")}</span>
-                </span>
-              </Link>
-            ))}
+        <nav className={styles.services} aria-labelledby="home-services-heading">
+          <div className={styles.shell}>
+            <div className={styles.dockHead}>
+              <h2 id="home-services-heading">교회 서비스</h2>
+              <Link href="/services">전체 보기 <span aria-hidden="true">→</span></Link>
+            </div>
+            <ul className={styles.dock}>
+              {quickLinks.map(({ href, icon }) => {
+                const service = services.find((item) => item.href === href);
+                if (!service) return null;
+                return (
+                  <li key={href}>
+                    <Link href={href}>
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d={icon} /></svg>
+                      <span>{service.title}</span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
-        </div>
-      </section>
+        </nav>
 
-      <section className="bible-video-section" id="bible-videos" aria-labelledby="bible-video-heading">
-        <div className="home-wrap">
-          <BibleVideoLibraryLink />
-        </div>
-      </section>
+        <HomeWayCollection />
+        <HomeFormation />
 
-      <section className="home-study-preview" aria-labelledby="home-study-title">
-        <div className="home-wrap">
-          <p className="section-kicker">BIBLE STUDY</p>
-          <h2 id="home-study-title">성경공부</h2>
-          <p className="bible-section-intro">말씀을 배우고 삶으로 살아냅니다. 개인 묵상부터 목장 나눔과 제자훈련까지, 함께 말씀을 읽고 질문하며 실천해 보세요.</p>
-          <Link className="primary-link" href="/bible-study">성경공부 시작하기 →</Link>
-        </div>
-      </section>
-
-      <section className="home-disc-preview" aria-labelledby="home-disc-title">
-        <div className="home-disc-copy">
-          <p className="section-kicker">DISC · RELATIONSHIP FORMATION</p>
-          <h2 id="home-disc-title">상대를 파악하는 것을 넘어,<br />사랑하는 방식을 배웁니다.</h2>
-          <p>24문항으로 내 행동을 살피고, 타인을 이해하고 존중하며, 사랑으로 섬기는 3과 관계 교육으로 이어집니다.</p>
-          <div>
-            <Link className="primary-link" href="/disc#disc-check">내 행동 알아보기</Link>
-            <Link className="home-disc-text-link" href="/disc/course">3과 강의 보기 →</Link>
+        <section className={styles.impact} aria-labelledby="home-impact-title">
+          <div className={styles.shell}>
+            <h2 id="home-impact-title">세상을 이롭게 하는 사람</h2>
+            <p>우리는 자기 삶의 자리에서 가정과 조직과 교회와 사회를 이롭게 하는 제자를 세웁니다.</p>
           </div>
-        </div>
-        <div className="home-disc-types" aria-label="DISC 네 행동 경향">
-          <span className="is-d"><b>D</b><strong>주도</strong><small>결단과 추진</small></span>
-          <span className="is-i"><b>I</b><strong>관계</strong><small>소통과 활력</small></span>
-          <span className="is-s"><b>S</b><strong>안정</strong><small>배려와 협력</small></span>
-          <span className="is-c"><b>C</b><strong>신중</strong><small>분석과 정확성</small></span>
-        </div>
-      </section>
-
-      <section className="home-impact">
-        <div className="home-wrap">
-          <h2>세상을 이롭게 하는 사람</h2>
-          <p>
-            우리는 자기 삶의 자리에서 가정과 조직과 교회와 사회를 이롭게 하는
-            제자를 세웁니다.
-          </p>
-        </div>
-      </section>
-
-      <footer className="home-footer">
-        <strong>IMMANUEL CHURCH</strong>
-        <p>God is love. God is with us.</p>
-      </footer>
+        </section>
+        <footer className={styles.footer}>
+          <div className={styles.shell}>
+            <strong lang="en">Immanuel Church</strong>
+            <span lang="en">God is love. God is with us.</span>
+          </div>
+        </footer>
+      </div>
     </Layout>
   );
 }
-

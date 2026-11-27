@@ -1,0 +1,161 @@
+@font-face {
+  font-family: "Immanuel Hero";
+  src: url("/fonts/immanuel-hero.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
+.page {
+  --forest: #183b34;
+  --paper: #f7f5ee;
+  --gutter: clamp(20px, 5vw, 80px);
+  --heading-font: "Noto Serif KR", "Noto Serif CJK KR", "AppleMyungjo", "Batang", "바탕", serif;
+  background: var(--paper);
+  color: var(--forest);
+}
+
+.shell,
+.heroInner {
+  width: min(1240px, calc(100% - 2 * var(--gutter)));
+  margin-inline: auto;
+}
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  align-items: center;
+  margin-top: 72px;
+  min-height: clamp(480px, 46vw, 635px);
+  background: #12332d;
+  color: #fffdf5;
+}
+
+.media {
+  position: absolute;
+  inset: 0;
+  background: url("/images/hero-city-cross-video-poster.jpg") center 57% / cover;
+}
+
+.media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, #0c2926f5, #102d2bdd 28%, #142b28a8 43%, #182d272b 66%, transparent 81%);
+}
+
+.media :global(.home-hero-video) { object-position: center 57%; }
+.media :global(.home-hero-motion-toggle) {
+  right: max(var(--gutter), calc((100% - 1240px) / 2));
+  bottom: 22px;
+  z-index: 3;
+  min-height: 42px;
+  padding-inline: 14px;
+  border-color: #ffffff80;
+  background: #132925d9;
+  color: #fffdf5;
+  font-size: .78rem;
+  font-weight: 600;
+}
+
+.heroInner {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+  padding-block: clamp(44px, 5.6vw, 80px);
+}
+
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 26px;
+  color: #efdbb6;
+  font-size: clamp(.65rem, .8vw, .78rem);
+  font-weight: 650;
+  line-height: 1.5;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+
+.kicker::before { content: ""; width: 34px; height: 1px; background: currentColor; }
+.hero h1 {
+  margin: 0;
+  color: #fffdf5;
+  font-family: "Immanuel Hero", var(--heading-font);
+  font-size: clamp(3rem, 4.65vw, 4.8rem);
+  font-weight: 500;
+  letter-spacing: -.06em;
+  line-height: 1.19;
+}
+
+.hero h1 span { display: block; }
+.hero h1 span:last-child { color: #f4d6a3; }
+.intro {
+  max-width: 30em;
+  margin: 22px 0 0;
+  color: #f3f1e9;
+  font-size: clamp(.98rem, 1.2vw, 1.09rem);
+  line-height: 1.8;
+}
+
+.heroActions { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 24px; margin-top: 26px; }
+.heroActions a { display: inline-flex; align-items: center; gap: 16px; min-height: 46px; font-weight: 700; pointer-events: auto; }
+.primary { padding: 0 21px; background: #f8f4e9; border-radius: 4px; color: #17382f; }
+.primary:hover { background: #ffe4b8; }
+.secondary { color: #fffdf6; }
+.secondary:hover, .dockHead a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.heroActions a:focus-visible, .media button:focus-visible { outline: 3px solid white; outline-offset: 4px; }
+
+.services { padding-block: 16px 20px; background: #fffef9; border-bottom: 1px solid #d8d9ce; }
+.dockHead, .footer .shell { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+.dockHead h2 { margin: 0; font-size: 1rem; font-weight: 750; letter-spacing: -.035em; }
+.dockHead a { display: inline-flex; align-items: center; min-height: 36px; gap: 8px; font-size: .85rem; color: #41574e; }
+.dock { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); list-style: none; padding: 0; margin: 6px 0 0; }
+.dock li + li { border-inline-start: 1px solid #dbded3; }
+.dock a { display: flex; align-items: center; justify-content: center; gap: clamp(8px, 1.2vw, 16px); min-height: 52px; color: var(--forest); font-weight: 700; }
+.dock a:hover { background: #edf0e6; }
+.dock svg { width: 25px; height: 25px; fill: none; stroke: #526b5c; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.5; }
+.services a:focus-visible { outline: 2px solid var(--forest); outline-offset: -2px; }
+
+.impact { background: #e8eadd; padding-block: clamp(52px, 6.5vw, 100px); }
+.impact .shell { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: clamp(32px, 6vw, 96px); }
+.impact h2 { margin: 0; font-family: var(--heading-font); font-size: clamp(1.85rem, 3.3vw, 3.2rem); font-weight: 550; letter-spacing: -.055em; line-height: 1.3; }
+.impact p { margin: 0; max-width: 35em; color: #3a5044; line-height: 1.85; }
+.footer { padding-block: 31px; background: #15332c; color: #f1eee3; }
+.footer strong { font-family: Georgia, serif; font-weight: 500; font-size: 1.55rem; letter-spacing: -.03em; }
+.footer span { color: #d0d6c8; font-family: Georgia, serif; }
+
+@media (max-width: 56rem) {
+  .dock { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .dock li:nth-child(4) { border-inline-start: 0; }
+  .dock li:nth-child(n + 4) { border-top: 1px solid #e1e4d9; }
+  .dock a { justify-content: flex-start; padding-inline: 18px; }
+}
+
+@media (max-width: 42rem) {
+  .hero { margin-top: 64px; min-height: 0; align-items: end; }
+  .media { height: clamp(230px, 64vw, 360px); background-position: 69% 53%; }
+  .media :global(.home-hero-video) { object-position: 69% 53%; }
+  .media::after { background: linear-gradient(0deg, #12332d 0%, #12332de6 9%, #12332d50 36%, transparent 65%); }
+  .media :global(.home-hero-motion-toggle) { top: 10px; right: var(--gutter); bottom: auto; }
+  .heroInner { padding-top: clamp(175px, 49vw, 270px); padding-bottom: 30px; }
+  .kicker { gap: 8px; margin-bottom: 13px; font-size: .63rem; }
+  .kicker::before { width: 23px; }
+  .hero h1 { font-size: clamp(2rem, 7.8vw, 3.1rem); line-height: 1.28; }
+  .hero h1 span:nth-child(n + 2) { display: inline; }
+  .intro { margin-top: 15px; font-size: .95rem; line-height: 1.7; }
+  .heroActions { margin-top: 17px; }
+  .heroActions a { min-height: 44px; }
+  .services { padding-block: 10px 15px; }
+  .dock a { min-height: 51px; padding-inline: 3px; justify-content: center; gap: 6px; font-size: .88rem; }
+  .dock svg { width: 19px; height: 19px; flex: 0 0 auto; }
+  .impact .shell { grid-template-columns: 1fr; gap: 15px; }
+  .footer .shell { flex-wrap: wrap; gap: 6px 20px; }
+}
+
+@media (max-width: 24rem) {
+  .dock a { flex-direction: column; padding-block: 7px; gap: 3px; }
+}
